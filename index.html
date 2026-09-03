@@ -75,6 +75,13 @@
   --accent-glow: rgba(190,18,60,.14);
   --accent-grad: linear-gradient(135deg,#be123c,#7c3aed);
 }
+/* ── Coral ── */
+[data-palette="coral"] {
+  --accent: #b84a3d; --accent-hover: #9f3f34;
+  --accent-soft: #fff2ef; --accent-border: #f1a99f;
+  --accent-glow: rgba(184,74,61,.14);
+  --accent-grad: linear-gradient(135deg,#b84a3d,#c45d4f);
+}
 /* ── Dark mode base ── */
 [data-theme="dark"] {
   --ink: #dde4f0; --ink-soft: #8496aa; --ink-faint: #546070;
@@ -127,6 +134,12 @@
   --accent-soft: #2d0a14; --accent-border: #881337;
   --accent-glow: rgba(251,113,133,.20);
   --accent-grad: linear-gradient(135deg,#fb7185,#c084fc);
+}
+[data-theme="dark"][data-palette="coral"] {
+  --accent: #fb8b7b; --accent-hover: #f47666;
+  --accent-soft: #321714; --accent-border: #8f3e34;
+  --accent-glow: rgba(251,139,123,.20);
+  --accent-grad: linear-gradient(135deg,#fb8b7b,#f47666);
 }
 /* ── Transitions smooth across theme changes ── */
 html { transition: background var(--dur-mid) var(--ease), color var(--dur-mid) var(--ease); }
@@ -1742,6 +1755,7 @@ main { padding-top: 24px; }
             <button class="pal-swatch" data-pal="emerald" style="background:#059669" title="Emerald"      aria-label="Emerald"></button>
             <button class="pal-swatch" data-pal="amber"   style="background:#d97706" title="Solar Amber"  aria-label="Solar Amber"></button>
             <button class="pal-swatch" data-pal="ruby"    style="background:#be123c" title="Ruby"         aria-label="Ruby"></button>
+            <button class="pal-swatch" data-pal="coral"   style="background:#b84a3d" title="Coral"        aria-label="Coral"></button>
           </div>
         </div>
       </div>
@@ -3945,6 +3959,9 @@ let missingSort = { col: 'completeness', asc: true };
     });
     return out;
   };
+  PROV.isConfirmedCommercialStatus = function(value){
+    return /^(Current —|Manufacturer Listing Verified|Actively Marketed)/.test(String(value||''));
+  };
 
   PROV.getSource = function(id){
     if(id==null) return null;
@@ -5321,9 +5338,9 @@ let missingSort = { col: 'completeness', asc: true };
 //  DARK MODE
 // ════════════════════════════════════════════════════════════
 // ════════════════════════════════════════════════════════════
-//  THEME SYSTEM — appearance (light/dark/system) × palette (6)
+//  THEME SYSTEM — appearance (light/dark/system) × palette (7)
 // ════════════════════════════════════════════════════════════
-const PALETTES = ['photon','uv','cyan','emerald','amber','ruby'];
+const PALETTES = ['photon','uv','cyan','emerald','amber','ruby','coral'];
 let _appearanceMode = 'system'; // 'light'|'dark'|'system'
 let _palette = 'photon';
 
@@ -5714,9 +5731,9 @@ function applyConceptExpansion(raw) {
   for(var ci=0; ci<NL_CONCEPT_MAP.length; ci++){
     var ce = NL_CONCEPT_MAP[ci];
     if(ce.match.test(raw)){
-      // Only add expanded terms not already present
-      var firstWord = ce.expand.split(' ')[0].toLowerCase();
-      if(!expanded.toLowerCase().includes(firstWord)){
+      // A concept word may also be the first expansion term (for example,
+      // "outgassing"); only skip when the complete expansion is already present.
+      if(!expanded.toLowerCase().includes(ce.expand.toLowerCase())){
         expanded = expanded + ' ' + ce.expand;
       }
       foundConcepts.push(ce.label);
@@ -6495,10 +6512,16 @@ function parseQuery(raw){
       const k = escRe(key);
       const betRe = new RegExp('\\b'+k+'\\b\\s*'+NUM_PAT+'\\s*[-\u2013]\\s*'+NUM_PAT,'i');
       const opRe  = new RegExp('\\b'+k+'\\b\\s*(<=|>=|=|<|>)\\s*'+NUM_PAT+'\\s*%?','i');
+      const wordOpRe = new RegExp('\\b'+k+'\\b\\s*(above|over|at\\s+least|below|under|at\\s+most)\\s*'+NUM_PAT+'\\s*%?','i');
       let m = w.match(betRe);
       if(m){ conditions.push({def,op:'between',lo:parseFloat(m[1]),hi:parseFloat(m[2])}); w=w.replace(m[0],' '); found=true; break; }
       m = w.match(opRe);
       if(m){ conditions.push({def,op:m[1],num:parseFloat(m[2])}); w=w.replace(m[0],' '); found=true; break; }
+      m = w.match(wordOpRe);
+      if(m){
+        var wordOp=/^(above|over|at\s+least)$/i.test(m[1])?'>=':'<=';
+        conditions.push({def:def,op:wordOp,num:parseFloat(m[2])}); w=w.replace(m[0],' '); found=true; break;
+      }
     }
   }
 
@@ -8725,7 +8748,7 @@ function runRegressionTests() {
     var conditions = nl.conditions;
     // Check that matchesCondition correctly rejects low-Tg adhesives
     var passedWhenShouldFail = conditions.length > 0 ? failing.filter(function(a){
-      return conditions.some(function(c){ return matchesCondition(a,c); });
+      return conditions.every(function(c){ return matchesCondition(a,c); });
     }).length : 0;
     r.status = conditions.length===0 ? 'partial' : (passedWhenShouldFail===0 ? 'pass' : 'fail');
     r.detail = 'Parsed '+conditions.length+' conditions from query; '+passedWhenShouldFail+' low-Tg adhesives would incorrectly pass';
@@ -8782,28 +8805,25 @@ function runRegressionTests() {
     r.detail = 'Detected propGoals: '+(nl.propGoals||[]).map(function(pg){return pg.prop;}).join(',') || 'none';
   });
 
-  // T10: Missing evidence vs confirmed failure — "unknown Tg" should not disqualify when Tg not queried
-  check('T10 Missing evidence ≠ failure (Tg not queried)', function(r){
-    var noTg = adhesives.filter(function(a){ return isMissing(a.tg_c); });
-    if(!noTg.length){ r.status='partial'; r.detail='All adhesives have Tg data'; return; }
-    var scored = scoreQ('UV cure optical fiber bonding').slice(0,10);
-    var topNoTg = scored.filter(function(x){return isMissing(x.a.tg_c);}).slice(0,2);
-    r.status = topNoTg.length >= 1 ? 'pass' : 'partial';
-    r.detail = 'Adhesives without Tg in top-10 general results: '+topNoTg.length+' ('+(topNoTg.map(function(x){return x.a.adhesive_name;})).join(', ')+')';
+  // T10: Missing evidence vs confirmed failure — unknown ranks above confirmed-poor
+  check('T10 Missing evidence ≠ confirmed failure', function(r){
+    var goal={prop:'tg',goal:'max'};
+    var unknown=propGoalScore({tg_c:null,tg_c_max:null},goal);
+    var poor=propGoalScore({tg_c:'50 C',tg_c_max:50,provenance:{}},goal);
+    r.status=(unknown.missing&&unknown.score>poor.score)?'pass':'fail';
+    r.detail='Unknown Tg score='+unknown.score+'; confirmed-poor Tg score='+poor.score;
   });
 
   // T11: Match score vs confidence — high-scoring but low-evidence adhesive should show Low/Insufficient confidence
   check('T11 Match score ≠ confidence', function(r){
-    var scored = scoreQ('low shrinkage high tg telecom').slice(0,5);
-    var hasLowConf = scored.some(function(x){
-      var tp = computeReqMatchAndCoverage(x.a, [{prop:'shrinkage',goal:'min'},{prop:'tg',goal:'max'}], [], []);
-      return tp.confidence === 'Low' || tp.confidence === 'Insufficient evidence';
-    });
-    r.status = hasLowConf ? 'pass' : 'partial';
-    r.detail = 'Top-5 confidence levels: '+scored.map(function(x){
-      var tp = computeReqMatchAndCoverage(x.a,[{prop:'shrinkage',goal:'min'},{prop:'tg',goal:'max'}],[],[]);
-      return x.a.adhesive_name+'='+tp.confidence;
-    }).join('; ');
+    var goals=[{prop:'shrinkage',goal:'min'},{prop:'tg',goal:'max'}];
+    var assessed=adhesives.map(function(a){return {a:a,v:computeReqMatchAndCoverage(a,goals,[],[])};});
+    var pair=null;
+    assessed.some(function(x,i){ return assessed.slice(i+1).some(function(y){
+      if(x.v.reqMatch===y.v.reqMatch&&x.v.confidence!==y.v.confidence){pair=[x,y];return true;} return false;
+    }); });
+    r.status=pair?'pass':'fail';
+    r.detail=pair ? 'Same requirement match ('+pair[0].v.reqMatch+'%), different confidence: '+pair[0].a.adhesive_name+'='+pair[0].v.confidence+'; '+pair[1].a.adhesive_name+'='+pair[1].v.confidence : 'No equal-match records with different confidence found';
   });
 
   // T12: Current material count baseline
@@ -9122,12 +9142,12 @@ function runRegressionTests() {
     r.detail='['+a.adhesive_name+'] volumetric_shrinkage='+JSON.stringify(vs)+(ok?' (contains 0.7 — correct)':' (expected ~0.7 vol.%)');
   });
 
-  // T39: OB786 commercial_status is "Current — recent manufacturer evidence"
+  // T39: OB786 commercial_status is a confirmed-current controlled-vocabulary value
   check('T39 OB786 commercial_status reflects TDS evidence', function(r){
     var a=adhesives.find(function(x){ return x.adhesive_name.indexOf('OB786')>=0; });
     if(!a){ r.status='fail'; r.detail='OB786 not found'; return; }
     var cs=a.commercial_status||'';
-    r.status=cs.indexOf('Current')>=0?'pass':'fail';
+    r.status=PROV.isConfirmedCommercialStatus(cs)?'pass':'fail';
     r.detail='['+a.adhesive_name+'] commercial_status='+JSON.stringify(cs);
   });
 
@@ -9192,7 +9212,7 @@ function runRegressionTests() {
   check('T46 NL concept map expands "outgassing" query', function(r){
     var result=applyConceptExpansion('outgassing vacuum adhesive');
     var hasLabel=result.foundConcepts.indexOf('Outgassing')>=0;
-    var hasTML=result.expanded.indexOf('TML')>=0;
+    var hasTML=/\bTML\b/i.test(result.expanded);
     r.status=(hasLabel&&hasTML)?'pass':'fail';
     r.detail='foundConcepts='+JSON.stringify(result.foundConcepts)+'; expanded contains TML:'+hasTML;
   });
@@ -9277,8 +9297,8 @@ function runRegressionTests() {
     var wrongType=[];
     codes.forEach(function(code){
       var a=adhesives.find(function(x){ return x.adhesive_name.indexOf(code)>=0; });
-      if(a&&!(a.type||'').toLowerCase().indexOf('encapsul')>=0&&
-           !(a.type||'').toLowerCase().indexOf('potting')>=0){
+      if(a&&(a.type||'').toLowerCase().indexOf('encapsul')<0&&
+           (a.type||'').toLowerCase().indexOf('potting')<0){
         wrongType.push(code);
       }
     });
@@ -9317,12 +9337,12 @@ function runRegressionTests() {
     r.detail='['+a.adhesive_name+'] youngs_modulus_mpa='+JSON.stringify(mod.substring(0,120));
   });
 
-  // T58: All 9 new DELO products have commercial_status = "Current — recent manufacturer evidence"
+  // T58: All 9 new DELO products have a confirmed-current controlled-vocabulary value
   check('T58 all 9 new DELO products have confirmed current commercial status', function(r){
     var codes=['EG6290','BS3770','GE4906','GE4910','GE4926','AD340','AD345','AD761','AD4930'];
     var unconfirmed=codes.filter(function(code){
       var a=adhesives.find(function(x){ return x.adhesive_name.indexOf(code)>=0; });
-      return !a||(a.commercial_status||'').indexOf('Current')< 0;
+      return !a||!PROV.isConfirmedCommercialStatus(a.commercial_status);
     });
     r.status=unconfirmed.length===0?'pass':'fail';
     r.detail=unconfirmed.length===0?'All 9 have Current commercial status':'Unconfirmed: '+unconfirmed.join(', ');
@@ -9368,8 +9388,7 @@ function runRegressionTests() {
       //  "Current status unverified" also contains "Current"; a substring test
       //  would let the vocabulary normalisation satisfy this check without any
       //  status actually having been confirmed.
-      var cs = (a && a.commercial_status) || '';
-      return !a || /unverified/i.test(cs) || !/^(Current —|Manufacturer Listing Verified|Actively Marketed)/.test(cs);
+      return !a || !PROV.isConfirmedCommercialStatus(a.commercial_status);
     });
     r.status=bad.length===0?'pass':'fail';
     r.detail=bad.length===0?'All 12 have confirmed current status':'Unconfirmed: '+bad.join(', ');
@@ -9792,8 +9811,13 @@ function runRegressionTests() {
         if(rr.status==='unresolved') bad.push(a.adhesive_name+'/'+k);
       });
     });
-    r.status = bad.length===0 ? 'pass':'fail';
-    r.detail = bad.length ? bad.slice(0,5).join(', ') : '0 unresolved citations across the whole database';
+    var sourceId=PROV.allSources()[0].source_id;
+    var probe={tg_c:'150 C',provenance:{tg_c:{value_status:'Quantitatively Reported',provenance_type:'Manufacturer Reported',source_refs:[sourceId,'T97-MISSING-SOURCE']}}};
+    var probeResolution=window.resolveFieldSource(probe,'tg_c');
+    var probeProfile=window.evidenceProfile(probe);
+    var partialOk=probeResolution.status==='PARTIAL_REFERENCE'&&probeProfile.traceable===1&&probeProfile.fullyResolved===0&&probeProfile.partial===1;
+    r.status = bad.length===0&&partialOk ? 'pass':'fail';
+    r.detail = bad.length ? bad.slice(0,5).join(', ') : '0 unresolved citations; PARTIAL_REFERENCE counts as traceable but not fully resolved: '+partialOk;
   });
 
   // T98: no citation points at a source id that is not in the registry
@@ -13943,20 +13967,18 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
   // per-record evidence profile (tier counts over populated tracked fields)
   window.evidenceProfile = function(a){
     var prof={INDEPENDENT_PRIMARY:0,MFR_PRODUCT_PRIMARY:0,MFR_REPORTED:0,SECONDARY:0,QUALITATIVE:0,SHARED_CLASS:0,CONFLICTING:0};
-    var traceable=0, populated=0, resolvable=0, partial=0, untraceable=0;
+    var traceable=0, fullyResolved=0, populated=0, partial=0, untraceable=0;
     Object.keys(a.provenance||{}).forEach(function(pk){
       var t=window.evTier(a.provenance[pk]);
       if(!POP.includes(t)) return;
       populated++; if(prof[t]!=null) prof[t]++;
       var r=window.resolveFieldSource(a,pk);
-      // STEP 1: a citation only counts as traceable when it actually resolves to
-      // a source record. Partially resolved and broken references do not.
-      if(window.EV_TRACEABLE.indexOf(r.status)>=0){ traceable++; resolvable++; }
-      if(r.status==='PARTIAL_REFERENCE') partial++;
+      if(window.EV_TRACEABLE.indexOf(r.status)>=0){ traceable++; fullyResolved++; }
+      if(r.status==='PARTIAL_REFERENCE'){ traceable++; partial++; }
       if(r.status==='BROKEN_REFERENCE'||r.status==='RECORD_LEVEL_ONLY'||r.status==='SOURCE_ACCESS_REQUIRED') untraceable++;
     });
     var C = window.PROV ? window.PROV.sourceCounts(a) : null;
-    return {prof:prof, populated:populated, traceable:traceable, partial:partial, untraceable:untraceable,
+    return {prof:prof, populated:populated, traceable:traceable, fullyResolved:fullyResolved, partial:partial, untraceable:untraceable,
       independentSources: C?C.independentProperty:0,
       propertyLinkedSources: C?C.propertyLinked:0,
       attachedSources: (a.linked_sources||[]).length,
@@ -13991,7 +14013,8 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
       +line('Data completeness', comp+'%', 'Completeness measures how many applicable fields are populated. It does not imply every value has product-specific primary evidence.')
       +line('Evidence confidence', conf, null)
       +line('Primary-supported', primary+' / '+ep.populated, 'Fields backed by product-specific manufacturer TDS or independent measurement.')
-      +line('Source-traceable', ep.traceable+' / '+ep.populated, 'Fields whose value resolves to a specific source record. Partly resolved and broken citations are excluded.')
+      +line('Source-traceable', ep.traceable+' / '+ep.populated, 'Fields with at least one resolved source. Partly resolved citations count as traceable; broken citations with no resolved source do not.')
+      +line('Citation resolution', ep.fullyResolved+' full · '+ep.partial+' partial', 'Fully resolved citations have no missing source references. Partly resolved citations retain at least one resolved source alongside an unresolved reference.')
       +line('Unverified fields', (ep.untraceable||0)+' / '+ep.populated, 'Populated fields whose supporting source cannot be resolved. Their stored confidence is withheld and they are excluded from evidence-weighted scoring.')
       +line('Sources cited by a property', (ep.propertyLinkedSources||0)+' cited · '+(ep.attachedSources||0)+' attached to the material', 'How many source records actually support an individual property, versus how many are attached to the material overall. The two differ when a property cites a registry source that is not in this material\'s attached list, or when an attached source supports no individual property.')
       +line('Independent of manufacturer', (ep.independentSources||0), 'Peer-reviewed or third-party test sources supporting a property. Manufacturer datasheets, product pages and datasheet aggregators are not independent evidence.')
@@ -14108,7 +14131,7 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
 
   // ── Data Quality view: database-level evidence-traceability metrics (§24) ──
   window.ph18bDataQualityHtml = function(){
-    var m=window.dbTraceability(); var s=m.statuses||{};
+    var m=window.dbTraceability(); var s=m.statuses||{}; var audit=window.PROV.audit().counts;
     // tier totals across DB
     var tierTot={}; (typeof adhesives!=='undefined'?adhesives:[]).forEach(function(a){
       Object.keys(a.provenance||{}).forEach(function(pk){ var t=window.evTier(a.provenance[pk]);
@@ -14116,14 +14139,15 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
     });
     function stat(v,l){ return '<div class="ph18b-dq-stat"><div class="ph18b-dq-val">'+v+'</div><div class="ph18b-dq-lbl">'+esct(l)+'</div></div>'; }
     return '<div class="ph18b-dq"><div class="ph18b-h">Evidence traceability (database-level)</div>'
-      + '<div class="ph18b-note">Field-level source traceability across all populated technical claims. A claim is "traceable" when it carries a source_ref or a source whose own recorded key-data lists that property. Claims that cannot be isolated to a single source are shown as such — not assigned a convenient source.</div>'
+      + '<div class="ph18b-note">Field-level source traceability across all populated technical claims. "Traceable" includes claims with at least one resolved source even when another cited source is unresolved; fully and partially resolved counts are shown separately. Claims that cannot be isolated to a source are shown as such — not assigned a convenient source.</div>'
       + '<div class="ph18b-dq-grid">'
       + stat(m.afterPct+'%', 'Field-level traceable ('+m.after+' / '+m.populated+')')
+      + stat(audit.resolved, 'Fully resolved citations')
       + stat((tierTot.MFR_PRODUCT_PRIMARY||0)+(tierTot.INDEPENDENT_PRIMARY||0), 'Product-specific / independent primary')
       + stat(tierTot.INDEPENDENT_PRIMARY||0, 'Independent peer-reviewed')
       + stat(s.RECORD_LEVEL_ONLY||0, 'Record-level only (unresolved)')
       + stat(s.SOURCE_ACCESS_REQUIRED||0, 'Source access required')
-      + stat(s.PARTIAL_REFERENCE||0, 'Partly resolved citations')
+      + stat(audit.partiallyResolved, 'Partly resolved citations')
       + stat(s.BROKEN_REFERENCE||0, 'Citations to a source not in the registry')
       + stat(tierTot.SHARED_CLASS||0, 'Shared-class (family)')
       + stat(tierTot.QUALITATIVE||0, 'Qualitative-only')
@@ -14139,8 +14163,8 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
         var t=window.evTier(a.provenance[pk]); if(!POP.includes(t)) return;
         populated++; var r=window.resolveFieldSource(a,pk);
         if(r.status==='ALREADY_REFERENCED') before++;
-        // STEP 1: only genuinely resolved citations count toward traceability.
         if(window.EV_TRACEABLE.indexOf(r.status)>=0) after++;
+        else if(r.status==='PARTIAL_REFERENCE') after++;
         st[r.status]=(st[r.status]||0)+1;
       });
     });

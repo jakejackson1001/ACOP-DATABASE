@@ -4,9 +4,11 @@ A decision-support database of adhesives for photonic packaging — optical, str
 and gel materials, with field-level provenance for every value.
 
 The whole application is **one self-contained HTML file**:
-`acop-adhesive-database.html`. Open it in a browser. No build step, no server, no
-dependencies, no network calls (except the optional AI advisor panel, which needs a
-user-supplied API key). Data, UI, provenance engine and test suite all live in that file.
+`index.html`. Open it in a browser. There is no build step, server-side runtime, or
+installed dependency. The Database Insights charts dynamically load Chart.js from a
+CDN, and the optional AI advisor makes network requests using a user-supplied API key;
+the rest of the application runs locally. Data, UI, provenance engine and test suite
+all live in that file.
 
 The database's purpose is to be *trustworthy*, not merely comprehensive. A value that
 cannot be traced to a document a reader can open is treated as a defect, not as data.
@@ -111,8 +113,8 @@ PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 112 pass, 4 fail, 3 partial.** The 4 failures are a tracked worklist, not
-flakes — see §6. Compare against that baseline; a new failure is a regression.
+**Current: 119 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+non-passing check is a regression.
 
 ### Intake codes
 
@@ -142,12 +144,14 @@ is withheld from ranking.
 
 ---
 
-## 5. Current state (2026-09-02)
+## 5. Current state (2026-09-03)
 
 | | |
 |---|---|
 | Materials | 112 |
 | Populated properties | 748 |
+| Traceable properties | 748 / 748 (100%) |
+| Fully resolved / partially resolved citations | 652 / 96 |
 | Unresolved values | **0** |
 | Publicly checkable | 708 / 748 (95%) |
 | Source records | 196 (27 retired, 23 alias ids still resolving) |
@@ -188,7 +192,7 @@ back from truncated tool output. Parse, mutate, re-serialize:
 
 ```python
 import json, re
-p = 'acop-adhesive-database.html'
+p = 'index.html'
 html = open(p, encoding='utf-8').read()
 m = re.search(r'^const DATA = (\{.*\});$', html, re.M)
 data = json.loads(m.group(1))

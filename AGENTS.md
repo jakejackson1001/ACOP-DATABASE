@@ -55,3 +55,31 @@ Before making a significant change:
 3. Make the smallest coherent change.
 4. Run targeted validation/tests.
 5. Report what changed and any remaining concerns concisely.
+
+## Deployment
+
+This repository is connected to Netlify and deploys automatically from the GitHub `main` branch.
+
+Production URL:
+`https://acop-database.netlify.app`
+
+The production entry point is:
+`index.html`
+
+Deployment flow:
+
+1. Modify the existing project files in place.
+2. Validate the application.
+3. Commit changes to Git.
+4. Push to `main`.
+5. Netlify automatically redeploys the same production URL.
+
+Do not:
+
+- rename `index.html`
+- create alternate production HTML files
+- create versioned deployment copies
+- change the Netlify deployment structure unless explicitly requested
+- assume a new URL should be created for a new version
+
+The production URL should remain stable across updates.
