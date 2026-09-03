@@ -1763,7 +1763,7 @@ main { padding-top: 24px; }
   </div>
   <div class="search-row">
     <div class="search-bar-wrap">
-      <input id="q" type="text" placeholder='Search adhesives in natural language&hellip;' autofocus aria-label="Search adhesives">
+      <input id="q" type="text" placeholder='Search materials in natural language&hellip;' autofocus aria-label="Search materials">
       <button class="filters-btn" id="filtersBtn" aria-label="Open filters panel" aria-expanded="false" aria-controls="filterDrawer">Filters</button>
     </div>
     <div id="acDropdown" class="ac-dropdown"></div>
@@ -1850,7 +1850,7 @@ main { padding-top: 24px; }
           <option value="tg_desc">Tg high&rarr;low</option>
           <option value="modulus_asc">Modulus low&rarr;high</option>
           <option value="ri">Refractive Index</option>
-          <option value="transmission">Transmission</option>
+          <option value="transmission">Apparent attenuation @1550 nm</option>
           <option value="shrinkage_asc">Shrinkage low&rarr;high</option>
           <option value="visc_asc">Viscosity low&rarr;high</option>
           <option value="visc_desc">Viscosity high&rarr;low</option>
@@ -3412,7 +3412,7 @@ body.on-home .site-header{ padding-bottom:12px; }
       +'<div class="v15-sub">Every technical source supporting the ACOP Materials Database — datasheets, peer-reviewed papers, conference papers, patents and technical reports.</div></div>'
       +dash(R)
       +'<div class="v15-controls">'
-        +'<input class="v15-search" id="v15q" placeholder="Search title, DOI, manufacturer, adhesive, topic…" value="'+esct(STATE.q)+'">'
+        +'<input class="v15-search" id="v15q" placeholder="Search title, DOI, manufacturer, material, topic…" value="'+esct(STATE.q)+'">'
         +'<select id="v15type"><optgroup label="Source type">'+opts(types)+'</optgroup></select>'
         +'<select id="v15mfr">'+opts(mfrs)+'</select>'
         +'<select id="v15year">'+opts(years)+'</select>'
@@ -4485,6 +4485,16 @@ let missingSort = { col: 'completeness', asc: true };
       var r = PROV.resolvePropertySources(a, field);
       return !r.hasValue || !!t.attenuation;
     });
+  };
+  PROV.attenuationValue = function(a, field){
+    var t=PROV.transmission(a,field), x=t.attenuation;
+    return x ? x.max_db_cm : null;
+  };
+  PROV.attenuationText = function(a, field){
+    var t=PROV.transmission(a,field), x=t.attenuation;
+    if(!x) return t.note;
+    var value=x.min_db_cm!==x.max_db_cm ? x.min_db_cm.toFixed(2)+'–'+x.max_db_cm.toFixed(2) : x.max_db_cm.toFixed(2);
+    return x.label+' '+x.operator+' '+value+' dB/cm';
   };
 
   // ── 11. SCORING SAFEGUARDS ─────────────────────────────────────────────────
@@ -5687,7 +5697,6 @@ function getAppBadges(a){
 const PROP_THRESH = {
   tg_c_max:              {ok:150, warn:80,  better:'high'},
   shrinkage_pct_max:     {ok:1,   warn:3,   better:'low'},
-  transmission_1550nm_num:{ok:97, warn:90,  better:'high'},
   bond_strength_mpa_min: {ok:20,  warn:5,   better:'high'},
 };
 function threshCls(numField, val){
@@ -5776,11 +5785,10 @@ function matchesTermGroups(idx, termGroups){
   return termGroups.every(group => group.some(g => fuzzyInIdx(g, idx)));
 }
 
-// Qualitative-to-numeric expansion — converts phrases like "high transmission"
-// into parseable conditions like "transmission >90" before parseQuery runs.
+// Qualitative expansion never invents a percentage or attenuation threshold.
 const QUALITATIVE_MAP = [
-  [/\bhigh[- ]?transm\w*/i, 'transmission >90'],
-  [/\boptically[- ]?clear\b/i, 'transmission >90'],
+  [/\bhigh[- ]?transm\w*/i, 'low apparent attenuation'],
+  [/\boptically[- ]?clear\b/i, 'low apparent attenuation'],
   [/\bhigh[- ]?tg\b/i, 'tg >100'],
   [/\bhigh[- ]?glass[- ]?transition\b/i, 'tg >100'],
   [/\bhigh[- ]?bond[- ]?strength\b/i, 'bond strength >20'],
@@ -5793,8 +5801,8 @@ const QUALITATIVE_MAP = [
   [/\blow[- ]?ri\b/i, 'ri <1.47'],
   [/\bhigh[- ]?ri\b/i, 'ri >1.54'],
   // Extended synonyms (Phase C)
-  [/\bclear\s+(?:adhesive|epoxy|optical|glue|bond)\b/i, 'transmission >90'],
-  [/\boptically\s+transparent\b/i, 'transmission >90'],
+  [/\bclear\s+(?:adhesive|epoxy|optical|glue|bond)\b/i, 'low apparent attenuation'],
+  [/\boptically\s+transparent\b/i, 'low apparent attenuation'],
   [/\bvery\s+flexible\b|\bsoft\s+adhesive\b|\bsoft\s+epoxy\b/i, 'modulus <200'],
   [/\bstiff\s+adhesive\b|\brigid\s+adhesive\b|\bhard\s+adhesive\b/i, 'modulus >3000'],
   [/\bhigh[- ]?temp(?:erature)?\s+(?:adhesive|epoxy|bond|resist|stable)\b/i, 'tg >120'],
@@ -5886,10 +5894,8 @@ function applyConceptExpansion(raw) {
 const PROPERTY_GOAL_PATTERNS = [
   {re:/\blow[- ]?shrinkage\b|\bminimal?\s+shrinkage\b|\bdimens.*stable\b|\bshrinkage\s*(?:under|below|<|less)|\bdoesn.{0,5}t\s+(?:shrink|move)\b|\bno\s+shrink/i,
    prop:'shrinkage', goal:'min', label:'Low shrinkage'},
-  {re:/\bhigh\s+transm|\boptically\s+clear\b|\btransparent\b|\blow\s+(?:optical\s+)?loss\b|\bgood\s+optic/i,
-   prop:'transmission', goal:'max', label:'High transmission'},
-  {re:/\btransm.{0,10}(?:above|over|>|\u2265|at\s+least)/i,
-   prop:'transmission', goal:'max', label:'High transmission'},
+  {re:/\bhigh\s+transm|\boptically\s+clear\b|\btransparent\b|\blow\s+(?:optical\s+)?loss\b|\blow\s+apparent\s+attenuation\b|\bgood\s+optic/i,
+   prop:'transmission', goal:'min', label:'Low apparent attenuation'},
   {re:/\bhigh\s+tg\b|\bhigh\s+glass\s+trans|\bheat.?res|\btherm.*stab|\bhigh[- ]?temp.*(?:adhesive|bond|cure|resist)|\btg\s*(?:above|>|\u2265)/i,
    prop:'tg', goal:'max', label:'High Tg'},
   {re:/\blow\s+modulus\b|\bflexible\b|\bsoft\b|\bcompliant\b|\belastom|\brubber/i,
@@ -5913,7 +5919,7 @@ const PROPERTY_GOAL_PATTERNS = [
 // Maps property goal → database fields + scoring direction
 const PROP_GOAL_FIELDS = {
   shrinkage:      {numF:'shrinkage_pct_max',         textF:'linear_shrinkage',       minimize:true,  unit:'%',     label:'Shrinkage'},
-  transmission:   {numF:'transmission_1550nm_num',    textF:'transmission_1550nm',    minimize:false, unit:'%',     label:'Trans@1550nm'},
+  transmission:   {numF:'_attenuation_1550_db_cm',    textF:'transmission_1550nm',    minimize:true,  unit:' dB/cm',label:'Apparent attenuation @1550 nm'},
   tg:             {numF:'tg_c_max',                   textF:'tg_c',                   minimize:false, unit:'\u00b0C', label:'Tg'},
   modulus:        {numF:'youngs_modulus_mpa_max',     textF:'youngs_modulus_mpa',     minimize:true,  unit:' MPa',  label:'Modulus'},
   bond:           {numF:'bond_strength_mpa_min',      textF:'bond_strength',          minimize:false, unit:' MPa',  label:'Bond Str.'},
@@ -6145,6 +6151,10 @@ function propGoalScore(a, propGoal){
   var hasText = !isMissing(a[pf.textF]);
   var numVal  = (pf.numF && a[pf.numF]!=null) ? a[pf.numF] : null;
 
+  if(prop==='transmission' && numVal==null){
+    return {score:-10,hit:null,warn:PROV.attenuationText(a,'transmission_1550nm'),missing:true};
+  }
+
   // ── Tier 4: Missing/Unknown ── (−10; ranks above confirmed-poor at −15)
   if(goal === 'present'){
     if(hasText) return {score:35, hit:pf.label+': reported', warn:null, missing:false};
@@ -6167,15 +6177,10 @@ function propGoalScore(a, propGoal){
       else if(numVal <= 2.0)  s = 25;
       else if(numVal <= 3.0)  s = 8;
       else                    s = -15;  // Tier 5: confirmed poor (below unknown −10)
-    } else if(prop === 'transmission' && goal === 'max'){
-      if(numVal >= 99)        s = 65;
-      else if(numVal >= 97)   s = 60;
-      else if(numVal >= 95)   s = 55;
-      else if(numVal >= 92)   s = 48;
-      else if(numVal >= 88)   s = 38;
-      else if(numVal >= 85)   s = 28;
-      else if(numVal >= 80)   s = 8;
-      else                    s = -15;
+    } else if(prop === 'transmission' && goal === 'min'){
+      var losses=adhesives.map(function(x){return x._attenuation_1550_db_cm;}).filter(function(x){return x!=null;}).sort(function(x,y){return x-y;});
+      var rank=losses.indexOf(numVal);
+      s=losses.length<2?50:Math.round(65-(47*rank/(losses.length-1)));
     } else if(prop === 'tg' && goal === 'max'){
       if(numVal >= 200)       s = 65;
       else if(numVal >= 180)  s = 60;
@@ -6294,7 +6299,7 @@ const SORT_DIRECTIVES = [
   {re:/\bhighest?\s+modulus\b|\bstiffest?\b|\bmost\s+rigid\b|\bhardest?\s+adhes/i,
    sort:'modulus_desc',   label:'sorted by Modulus ↓ (highest first)'},
   {re:/\bhighest?\s+trans|\bmost\s+transpar|\bclearest?\b|\bbest\s+trans/i,
-   sort:'transmission',   label:'sorted by Transmission ↓ (highest first)'},
+   sort:'transmission',   label:'sorted by apparent attenuation ↑ (lowest first)'},
   {re:/\blowest?\s+shrink|\bleast\s+shrink|\bmost\s+dimens/i,
    sort:'shrinkage_asc',  label:'sorted by Shrinkage ↑ (lowest first)'},
   {re:/\bhighest?\s+shrink/i,
@@ -6349,7 +6354,7 @@ const SIM_FIELDS = [
   {f:'tg_c_max',                w:2, range:[-50,  300]},
   {f:'youngs_modulus_mpa_min',  w:1, range:[0,  15000]},
   {f:'shrinkage_pct_max',       w:3, range:[0,     15]},
-  {f:'transmission_1550nm_num', w:3, range:[80,   100]},
+  {f:'_attenuation_1550_db_cm', w:3, range:[0,    100]},
   {f:'bond_strength_mpa_min',   w:1, range:[0,     60]},
 ];
 function propSimilarity(a, b) {
@@ -6595,9 +6600,11 @@ adhesives.forEach(a => {
   a._idx = buildSearchIndex(a);
   a._completeness = computeCompleteness(a);
   a._appBadges = getAppBadges(a);
+  a._attenuation_1550_db_cm = PROV.attenuationValue(a,'transmission_1550nm');
+  a._attenuation_1310_db_cm = PROV.attenuationValue(a,'transmission_1310nm');
 });
 document.getElementById('headerSub').textContent =
-  adhesives.length + ' adhesives · ' + pairings.length + ' use cases · last built from master spreadsheet';
+  adhesives.length + ' materials · ' + pairings.length + ' use cases · last built from master spreadsheet';
 
 // ════════════════════════════════════════════════════════════
 //  ATTRIBUTE-AWARE QUERY PARSING  (carries over from v1, extended)
@@ -6610,9 +6617,8 @@ const ATTRIBUTE_ALIASES = [
   {keys:['glass transition temperature','glass transition temp','glass transition','tg'], type:'precise', min:'tg_c_min', max:'tg_c_max'},
   {keys:["young's modulus","youngs modulus","elastic modulus","young modulus","modulus"], type:'precise', min:'youngs_modulus_mpa_min', max:'youngs_modulus_mpa_max'},
   {keys:['tensile strength','adhesion strength','bond strength','shear strength'], type:'precise', min:'bond_strength_mpa_min', max:'bond_strength_mpa_max'},
-  {keys:['transmission 1310','transmission at 1310','trans 1310'], type:'precise-single', field:'transmission_1310nm_num'},
-  {keys:['transmission 1550','transmission at 1550','trans 1550'], type:'precise-single', field:'transmission_1550nm_num'},
-  {keys:['transmission','trans'], type:'precise-either', fields:['transmission_1310nm_num','transmission_1550nm_num']},
+  {keys:['apparent attenuation 1310','attenuation at 1310','loss at 1310'], type:'precise-single', field:'_attenuation_1310_db_cm', unit:' dB/cm'},
+  {keys:['apparent attenuation 1550','attenuation at 1550','loss at 1550','attenuation','optical loss'], type:'precise-single', field:'_attenuation_1550_db_cm', unit:' dB/cm'},
   {keys:['cte','coefficient of thermal expansion','thermal expansion'], type:'fallback', field:'cte_ppm_k'},
   {keys:['cure time'], type:'fallback', field:'cure_time'},
   {keys:['bondline thickness','bondline','bond line'], type:'fallback', field:'max_bondline_thickness'},
@@ -6844,7 +6850,7 @@ function genExplanations(a, conditions, nearConditions, termGroups, rawActive, p
     if(isMissing(a.tg_c) && !allText.includes('tg'))
       items.push({cls:'me-miss',text:'Tg: unknown'});
     if(isMissing(a.transmission_1550nm)&&isMissing(a.transmission_1310nm)&&!allText.includes('trans'))
-      items.push({cls:'me-miss',text:'Transmission: unknown'});
+      items.push({cls:'me-miss',text:'Apparent attenuation: cannot normalize'});
     if(isMissing(a.refractive_index)&&!allText.includes('ri:'))
       items.push({cls:'me-miss',text:'RI: unknown'});
   }
@@ -6928,8 +6934,8 @@ const SLIDER_DEFS = [
   {id:'sl_mod', label:'Mod (MPa)',   dLabel:"Young's Modulus",           unit:'MPa',   lo_f:'youngs_modulus_mpa_min', hi_f:'youngs_modulus_mpa_max', lo_col:'youngs_modulus_mpa_min',hi_col:'youngs_modulus_mpa_max',step:'10',    dec:0},
   {id:'sl_shr', label:'Shr (%)',     dLabel:'Linear Shrinkage',          unit:'%',     lo_f:'shrinkage_pct_min',      hi_f:'shrinkage_pct_max',      lo_col:'shrinkage_pct_min',     hi_col:'shrinkage_pct_max',     step:'0.1',   dec:1},
   {id:'sl_bs',  label:'Bond (MPa)',  dLabel:'Bond Strength',             unit:'MPa',   lo_f:'bond_strength_mpa_min',  hi_f:'bond_strength_mpa_max',  lo_col:'bond_strength_mpa_min', hi_col:'bond_strength_mpa_max', step:'0.5',   dec:1},
-  {id:'sl_tr',  label:'Trans@1550 (%)', dLabel:'Min Transmission @ 1550 nm', unit:'%', lo_f:'transmission_1550nm_num',hi_f:'transmission_1550nm_num',lo_col:'transmission_1550nm_num',hi_col:'transmission_1550nm_num',step:'0.5', dec:1},
-  {id:'sl_tr13',label:'Trans@1310 (%)', dLabel:'Min Transmission @ 1310 nm', unit:'%', lo_f:'transmission_1310nm_num',hi_f:'transmission_1310nm_num',lo_col:'transmission_1310nm_num',hi_col:'transmission_1310nm_num',step:'0.5', dec:1},
+  {id:'sl_att',  label:'Loss@1550', dLabel:'Apparent attenuation @ 1550 nm', unit:'dB/cm', lo_f:'_attenuation_1550_db_cm',hi_f:'_attenuation_1550_db_cm',lo_col:'_attenuation_1550_db_cm',hi_col:'_attenuation_1550_db_cm',step:'0.1', dec:2},
+  {id:'sl_att13',label:'Loss@1310', dLabel:'Apparent attenuation @ 1310 nm', unit:'dB/cm', lo_f:'_attenuation_1310_db_cm',hi_f:'_attenuation_1310_db_cm',lo_col:'_attenuation_1310_db_cm',hi_col:'_attenuation_1310_db_cm',step:'0.1', dec:2},
   {id:'sl_visc',label:'Viscosity',    dLabel:'Viscosity (source-extracted)', unit:'mPa·s / cP', lo_f:'_viscMin', hi_f:'_viscMax', lo_col:'_viscMin', hi_col:'_viscMax', step:'50', dec:0},
   {id:'sl_tml', label:'Max TML',      dLabel:'NASA Outgassing — Max TML (ASTM E595)',  unit:'%', lo_f:'_nasaTml', hi_f:'_nasaTml', lo_col:'_nasaTml', hi_col:'_nasaTml', step:'0.01', dec:2},
   {id:'sl_cvcm',label:'Max CVCM',     dLabel:'NASA Outgassing — Max CVCM (ASTM E595)', unit:'%', lo_f:'_nasaCvcm',hi_f:'_nasaCvcm',lo_col:'_nasaCvcm',hi_col:'_nasaCvcm',step:'0.01', dec:2},
@@ -6938,7 +6944,7 @@ const SLIDER_DEFS = [
 // these sliders are subordinated and excluded from filtering (see activeSliders), so a
 // missing transmission value never hides a material and is never turned into PASS/FAIL.
 // Reuses the existing Phase-16 optical filters; no new transmission model is introduced.
-const TRANS_SLIDER_IDS = ['sl_tr','sl_tr13'];
+const TRANS_SLIDER_IDS = ['sl_att','sl_att13'];
 const sliderRow = document.getElementById('sliderRow');
 SLIDER_DEFS.forEach(sd=>{
   const wrap = document.createElement('div');
@@ -7060,7 +7066,7 @@ function renderDashboard(active){
   // Live stats
   var mfrSet = new Set(adhesives.map(function(a){return a.manufacturer_canonical||a.manufacturer;}).filter(Boolean));
   var STATS = [
-    {num:adhesives.length,     lbl:'Total adhesives'},
+    {num:adhesives.length,     lbl:'Total materials'},
     {num:mfrSet.size,          lbl:'Manufacturers'},
     {num:UNIQUE_SOURCE_COUNT,  lbl:'Documented sources'},
   ];
@@ -7072,7 +7078,7 @@ function renderDashboard(active){
   // Intro paragraph and the "Explore by engineering goal" grid removed per request —
   // the landing now shows just the live stat tiles and the Browse-all action.
   el.innerHTML = statsHtml
-    + '<div class="dash-cta-row"><button class="browse-all-btn" id="browseAllBtn">Browse all '+adhesives.length+' adhesives &#8594;</button></div>';
+    + '<div class="dash-cta-row"><button class="browse-all-btn" id="browseAllBtn">Browse all '+adhesives.length+' materials &#8594;</button></div>';
   var bab = document.getElementById('browseAllBtn');
   if(bab) bab.addEventListener('click', function(){
     browseAllMode = true;
@@ -7202,7 +7208,7 @@ function render(){
   if(simResult && simResult.target){
     var resultsEl2=document.getElementById('results');
     document.getElementById('resultCount').textContent=
-      simResult.similar.length+' adhesives similar to '+simResult.target.adhesive_name;
+      simResult.similar.length+' materials similar to '+simResult.target.adhesive_name;
     resultsEl2.innerHTML=simResult.similar.map(function(r){
       var pct=Math.round(r.sim*100);
       var explain={
@@ -7256,18 +7262,18 @@ function render(){
       list = allScored.map(function(x){return x.a;});
       list.forEach(function(a){scores[a.id]=scoreAdhesive(a,raw,conditions,remainingText,propGoals,nearConditions);});
       isPartialMatch = true;
-      partialMsg = 'No adhesive exactly matches every requirement. Showing '+list.length+' closest results:';
+      partialMsg = 'No material exactly matches every requirement. Showing '+list.length+' closest results:';
     }
   }
 
   var strictNotice = (strictModeOn && propGoals.length && !list.length)
-    ? '<div class=”partial-notice”>Strict mode: no adhesives have all requested property values reported. '
+    ? '<div class=”partial-notice”>Strict mode: no materials have all requested property values reported. '
       +'<a href=”#” onclick=”strictModeOn=false;render();return false;” style=”color:inherit;font-weight:700”>Switch to Explore mode</a> to see closest matches.</div>'
     : '';
 
   var rcEl = document.getElementById('resultCount');
   if(rcEl){
-    var rcText = list.length+' adhesive'+(list.length===1?'':'s');
+    var rcText = list.length+' material'+(list.length===1?'':'s');
     if(browseAllMode && !raw && !hasFilters) rcText += ' — full catalog';
     else if(!searchActive) rcText += ' — showing all';
     if(strictModeOn && propGoals.length) rcText += ' (strict)';
@@ -7423,7 +7429,7 @@ function cardHtml(a, explain){
       ${dotHtml(a,'refractive_index','refractive_index_num','RI','')}
       ${dotHtml(a,'youngs_modulus_mpa','youngs_modulus_mpa_max','Mod',' MPa')}
       ${dotHtml(a,'linear_shrinkage','shrinkage_pct_max','Shr','%')}
-      ${dotHtml(a,'transmission_1550nm','transmission_1550nm_num','T@1550','%')}
+      ${dotHtml(a,'transmission_1550nm','_attenuation_1550_db_cm','Att@1550',' dB/cm')}
       ${dotHtml(a,'bond_strength','bond_strength_mpa_min','Bond',' MPa')}
     </div>
     <div class="card-tags">
@@ -7488,8 +7494,8 @@ const PROPERTY_FIELDS = [
   {f:'linear_shrinkage',label:'Linear Shrinkage',unit:'%',num:'shrinkage_pct_max'},
   {f:'volumetric_shrinkage',label:'Volumetric Shrinkage',unit:'%'},
   {f:'bond_strength',label:'Bond Strength',unit:'MPa',num:'bond_strength_mpa_min'},
-  {f:'transmission_1310nm',label:'Transmission @1310 nm',unit:'%',num:'transmission_1310nm_num'},
-  {f:'transmission_1550nm',label:'Transmission @1550 nm',unit:'%',num:'transmission_1550nm_num'},
+  {f:'transmission_1310nm',label:'Apparent Attenuation @1310 nm',unit:'dB/cm',num:'_attenuation_1310_db_cm'},
+  {f:'transmission_1550nm',label:'Apparent Attenuation @1550 nm',unit:'dB/cm',num:'_attenuation_1550_db_cm'},
   {f:'optical_transmission_measurements',label:'Optical Transmission Measurements',unit:''},
   {f:'haze_scattering',label:'Haze / Scattering',unit:''},
   {f:'coupling_loss_db',label:'Coupling Loss',unit:'dB'},
@@ -7550,7 +7556,8 @@ function propRow(a, pf){
   // A value withdrawn as unsupported is never shown as a number.
   const valueHtml = suppressed
     ? `<span style="color:var(--missing)">Not reported</span>`
-    : pf.f==='optical_transmission_measurements' ? opticalTransmissionHtml(a) : val(rawValue);
+    : pf.f==='optical_transmission_measurements' ? opticalTransmissionHtml(a)
+    : /^transmission_(?:1310|1550)nm$/.test(pf.f) ? esc(PROV.attenuationText(a,pf.f)) : val(rawValue);
   const evHtml = window.PROV ? PROV.evidenceBlockHtml(a, pf.f) : '';
   return `<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)">
     <span class="dot ${dotCls}" style="margin-top:3px" aria-hidden="true"></span>
@@ -7811,8 +7818,8 @@ const CMP_DEFS = [
   {f:'tg_c',l:'Tg',num:'tg_c_max',better:'high',unit:'°C'},
   {f:'youngs_modulus_mpa',l:'Modulus',num:'youngs_modulus_mpa_max',better:'low',unit:'MPa'},
   {f:'refractive_index',l:'Refractive Index',num:'refractive_index_num',better:'neutral'},
-  {f:'transmission_1550nm',l:'Trans @1550nm',num:'transmission_1550nm_num',better:'high',unit:'%'},
-  {f:'transmission_1310nm',l:'Trans @1310nm',num:'transmission_1310nm_num',better:'high',unit:'%'},
+  {f:'transmission_1550nm',l:'Apparent attenuation @1550 nm',num:'_attenuation_1550_db_cm',better:'low',unit:'dB/cm'},
+  {f:'transmission_1310nm',l:'Apparent attenuation @1310 nm',num:'_attenuation_1310_db_cm',better:'low',unit:'dB/cm'},
   {f:'cte_ppm_k',l:'CTE',unit:'ppm/K'},
   {f:'linear_shrinkage',l:'Shrinkage',num:'shrinkage_pct_max',better:'low',unit:'%'},
   {f:'bond_strength',l:'Bond Strength',num:'bond_strength_mpa_min',better:'high',unit:'MPa'},
@@ -7823,7 +7830,7 @@ const CMP_DEFS = [
 ];
 function openCompare(){
   const items = adhesives.filter(a=>compareSet.has(a.id)).slice(0,5);
-  if(items.length<2){ alert('Select at least 2 adhesives to compare.'); return; }
+  if(items.length<2){ alert('Select at least 2 materials to compare.'); return; }
   const colConf = items.map(()=>({best:null,worst:null}));
   // pre-compute best/worst per numeric row
   const rowHighlights = CMP_DEFS.map(cd=>{
@@ -7850,7 +7857,7 @@ function openCompare(){
     let rowNote = '';
     if(isTrans && !transComparable){
       hint = `<span class="better-hint pv-cell-warn">not directly comparable</span>`;
-      rowNote = `<div class="pv-note">Bulk transmission values are only comparable at a common wavelength and sample thickness. Sample thickness is not recorded for one or more of these products, so no "higher is better" ranking is applied and no dB/cm conversion is derived.</div>`;
+      rowNote = `<div class="pv-note">Apparent attenuation is comparable only when a numeric transmission percentage, wavelength, and sample path length are documented. Unnormalized observations are not ranked.</div>`;
     }
     const cells = items.map(a=>{
       const R = window.PROV ? PROV.resolvePropertySources(a, cd.f) : null;
@@ -7882,7 +7889,7 @@ function openCompare(){
            + (isTrans && window.PROV ? (function(){ const T=PROV.transmission(a,cd.f); return T.attenuation?` · ${esc(T.wavelength)} · ${esc(T.thickness)}`:` · ${esc(T.wavelength||'')} · <span class="pv-cell-warn">${esc(T.note)}</span>`; })() : '')
            + `</span>`;
       }
-      return `<td ${cls}>${esc(a[cd.f])}${ev}</td>`;
+      return `<td ${cls}>${isTrans?esc(PROV.attenuationText(a,cd.f)):esc(a[cd.f])}${ev}</td>`;
     }).join('');
     return `<tr><td><b>${esc(cd.l)}</b>${cd.unit?`<span style="font-size:10.5px;color:var(--ink-faint)"> (${cd.unit})</span>`:''} ${hint}${rowNote}</td>${cells}</tr>`;
   }).join('');
@@ -7890,7 +7897,7 @@ function openCompare(){
   modal.innerHTML = `
     <div class="modal-header">
       <button class="close-btn" id="modalClose">&times;</button>
-      <h2>Comparing ${items.length} Adhesives</h2>
+      <h2>Comparing ${items.length} Materials</h2>
       <div class="msub"><span style="background:var(--good-bg);color:var(--good);padding:2px 7px;border-radius:4px;font-size:11.5px">&#9632; best</span> &nbsp; <span style="background:var(--bad-bg);color:var(--bad);padding:2px 7px;border-radius:4px;font-size:11.5px">&#9632; lowest</span></div>
     </div>
     <div class="modal-body" style="max-height:75vh">
@@ -7912,7 +7919,7 @@ function exportCompareCSV(){
     const vals = items.map(a=>{
       const R = window.PROV ? PROV.resolvePropertySources(a, cd.f) : null;
       if(R && R.evidence_status==='removed') return '(withdrawn as unsupported)';
-      return a[cd.f]??'';
+      return /^transmission_(?:1310|1550)nm$/.test(cd.f) ? PROV.attenuationText(a,cd.f) : (a[cd.f]??'');
     });
     const evs = items.map(a=>{
       const R = window.PROV ? PROV.resolvePropertySources(a, cd.f) : null;
@@ -7941,11 +7948,8 @@ function scoreCandidate(a){
     else if(a.shrinkage_pct_max<=4) str.push('Moderate shrinkage ('+a.shrinkage_pct_max.toFixed(1)+'%)');
     else weak.push('High shrinkage ('+a.shrinkage_pct_max.toFixed(1)+'%)');
   } else weak.push('Shrinkage not specified');
-  if(a.transmission_1550nm_num!=null){
-    if(a.transmission_1550nm_num>=97) str.push('Excellent trans @1550nm ('+a.transmission_1550nm_num+'%)');
-    else if(a.transmission_1550nm_num>=90) str.push('Good trans @1550nm');
-    else weak.push('Low transmission @1550nm');
-  } else weak.push('Transmission not specified');
+  if(a._attenuation_1550_db_cm!=null) str.push(PROV.attenuationText(a,'transmission_1550nm'));
+  else weak.push(PROV.attenuationText(a,'transmission_1550nm'));
   if(!isMissing(a.refractive_index)) str.push('RI = '+a.refractive_index);
   else weak.push('RI not specified');
   if(!isMissing(a.reliability_85_85)) str.push('85°C/85% RH data available');
@@ -8014,36 +8018,13 @@ function _evalRI(a,rLow,rHigh){
   if(dist<=0.20) return {fit:0.15,value:'n='+v,missing:false,conflict:false,interpretation:'Significantly outside target RI range'};
   return {fit:0,value:'n='+v,missing:false,conflict:false,interpretation:'RI far outside required range'};
 }
-// STEP 1: transmission comparisons stay honest — the caller's interpretation
-// text now carries the wavelength/thickness normalization caveat, and no
-// percentage is converted to dB/cm anywhere.
-function _transCaveat(a, field){
-  if(!window.PROV) return '';
-  var T = PROV.transmission(a, field);
-  return T.thickness ? (' [' + T.wavelength + ', ' + T.thickness + ']')
-                     : (' [' + (T.wavelength||'') + '; not normalized — sample thickness unavailable]');
-}
-function _evalTrans(a,minTh,goodTh){
-  var t1550=a.transmission_1550nm_num, txt=a.transmission_1550nm;
-  if(isMissing(txt)){
-    var t1310=a.transmission_1310nm_num, txt13=a.transmission_1310nm;
-    if(!isMissing(txt13)){
-      if(t1310!=null){var f=t1310>=goodTh?0.80:t1310>=(goodTh-5)?0.60:t1310>=minTh?0.35:0;return {fit:f,value:t1310+'% @1310nm (1550nm proxy)',missing:false,conflict:t1310<minTh,interpretation:'1310nm used as proxy — 1550nm data preferred'+_transCaveat(a,'transmission_1310nm')};}
-      return {fit:0.35,value:txt13,missing:false,conflict:false,interpretation:'1310nm only — 1550nm not reported'};
-    }
-    return {fit:0,value:'Not reported',missing:true,conflict:false,interpretation:'No telecom-wavelength transmission data'};
-  }
-  if(t1550==null){
-    var tl=(txt||'').toLowerCase();
-    if(tl.indexOf('>97')>=0||tl.indexOf('>98')>=0||tl.indexOf('>95')>=0||tl.indexOf('excellent')>=0) return {fit:0.80,value:txt,missing:false,conflict:false,interpretation:'High transmission reported qualitatively'};
-    if(tl.indexOf('>90')>=0||tl.indexOf('good')>=0) return {fit:0.60,value:txt,missing:false,conflict:false,interpretation:'Good transmission reported qualitatively'};
-    return {fit:0.45,value:txt,missing:false,conflict:false,interpretation:'Transmission noted — numeric not extracted'};
-  }
-  if(t1550>=goodTh+2) return {fit:1.0,value:t1550+'% @1550nm',missing:false,conflict:false,interpretation:'Excellent transmission'+_transCaveat(a,'transmission_1550nm')};
-  if(t1550>=goodTh) return {fit:0.88,value:t1550+'% @1550nm',missing:false,conflict:false,interpretation:'Good — meets target'+_transCaveat(a,'transmission_1550nm')};
-  if(t1550>=90) return {fit:0.55,value:t1550+'% @1550nm',missing:false,conflict:false,interpretation:'Adequate but below target'+_transCaveat(a,'transmission_1550nm')};
-  if(t1550>=minTh) return {fit:0.25,value:t1550+'% @1550nm',missing:false,conflict:false,interpretation:'Low — significant optical loss risk'+_transCaveat(a,'transmission_1550nm')};
-  return {fit:0,value:t1550+'% @1550nm',missing:false,conflict:true,interpretation:'Very low transmission — confirmed conflict'};
+function _evalTrans(a){
+  var loss=PROV.attenuationValue(a,'transmission_1550nm');
+  if(loss==null){ var why=PROV.attenuationText(a,'transmission_1550nm'); return {fit:0,value:why,missing:true,conflict:false,interpretation:why}; }
+  var losses=adhesives.map(function(x){return PROV.attenuationValue(x,'transmission_1550nm');}).filter(function(x){return x!=null;}).sort(function(x,y){return x-y;});
+  var rank=losses.indexOf(loss), fit=losses.length<2?0.5:1-(rank/(losses.length-1));
+  var text=PROV.attenuationText(a,'transmission_1550nm');
+  return {fit:fit,value:text,missing:false,conflict:false,interpretation:'Lower apparent attenuation ranks better among normalized 1550 nm observations'};
 }
 function _evalTg(a,minGood,minOk,minConflict){
   if(isMissing(a.tg_c)) return {fit:0,value:'Not reported',missing:true,conflict:false,interpretation:'Tg not reported'};
@@ -8175,7 +8156,7 @@ const USE_CASE_SCORING_MODELS = {
     criteria:[
       {key:'shrink', label:'Cure Shrinkage',         role:'critical',  weight:22, provKey:'linear_shrinkage',   eval:a=>_evalShrink(a,{excellent:0.5,low:1.5,moderate:3.0,highConflict:4.0})},
       {key:'ri',     label:'Refractive Index',        role:'critical',  weight:20, provKey:'refractive_index',   eval:a=>_evalRI(a,1.44,1.47)},
-      {key:'trans',  label:'Transmission @1550nm',    role:'critical',  weight:18, provKey:'transmission_1550nm',eval:a=>_evalTrans(a,85,95)},
+      {key:'trans',  label:'Apparent attenuation @1550 nm', role:'critical', weight:18, provKey:'transmission_1550nm',eval:a=>_evalTrans(a)},
       {key:'cte',    label:'CTE',                     role:'important', weight:14, provKey:'cte_ppm_k',          eval:a=>_evalCTE(a,'precision')},
       {key:'tg',     label:'Tg (glass transition)',   role:'important', weight:12, provKey:'tg_c',               eval:a=>_evalTg(a,120,85,60)},
       {key:'therm',  label:'Thermal cycling evidence',role:'important', weight:8,  provKey:'thermal_cycling',    eval:a=>_evalReliab(a,'thermal')},
@@ -8188,7 +8169,7 @@ const USE_CASE_SCORING_MODELS = {
     criteria:[
       {key:'speed', label:'Cure speed',                     role:'critical',  weight:30, provKey:'cure_time',         eval:a=>_evalCureSpeed(a)},
       {key:'mech',  label:'Cure mechanism (UV preferred)',   role:'critical',  weight:22, provKey:'cure_mechanism',    eval:a=>_evalCureMech(a,'uv')},
-      {key:'trans', label:'Optical transmission',           role:'important', weight:18, provKey:'transmission_1550nm',eval:a=>_evalTrans(a,80,90)},
+      {key:'trans', label:'Apparent attenuation @1550 nm', role:'important', weight:18, provKey:'transmission_1550nm',eval:a=>_evalTrans(a)},
       {key:'shrink',label:'Cure shrinkage',                 role:'important', weight:16, provKey:'linear_shrinkage',  eval:a=>_evalShrink(a,{excellent:1.0,low:2.5,moderate:4.5,highConflict:7.0})},
       {key:'tg',    label:'Tg (process tolerance)',         role:'secondary', weight:8,  provKey:'tg_c',              eval:a=>_evalTg(a,80,60,40)},
       {key:'reliab',label:'Reliability evidence',           role:'secondary', weight:6,  provKey:'reliability_85_85', eval:a=>_evalReliab(a,'any')},
@@ -8198,7 +8179,7 @@ const USE_CASE_SCORING_MODELS = {
     name:'Low-Loss Optical Path',
     objective:'Minimise optical insertion loss, scattering, and coupling inefficiency for adhesives in the direct optical path.',
     criteria:[
-      {key:'trans',  label:'Transmission @1550nm',             role:'critical',  weight:28, provKey:'transmission_1550nm',eval:a=>_evalTrans(a,90,97)},
+      {key:'trans',  label:'Apparent attenuation @1550 nm', role:'critical', weight:28, provKey:'transmission_1550nm',eval:a=>_evalTrans(a)},
       {key:'haze',   label:'Haze / scattering',                role:'critical',  weight:22, provKey:'haze_scattering',    eval:a=>_evalHaze(a)},
       {key:'ri',     label:'Refractive index',                 role:'critical',  weight:18, provKey:'refractive_index',   eval:a=>_evalRI(a,1.44,1.56)},
       {key:'shrink', label:'Cure shrinkage',                   role:'important', weight:16, provKey:'linear_shrinkage',   eval:a=>_evalShrink(a,{excellent:0.5,low:2.0,moderate:3.5,highConflict:5.0})},
@@ -8223,7 +8204,7 @@ const USE_CASE_SCORING_MODELS = {
     objective:'Splice or couple fibers with matched refractive index and minimal insertion loss.',
     criteria:[
       {key:'ri',     label:'Refractive index match', role:'critical',  weight:26, provKey:'refractive_index',   eval:a=>_evalRI(a,1.45,1.56)},
-      {key:'trans',  label:'Transmission @1550nm',   role:'critical',  weight:22, provKey:'transmission_1550nm',eval:a=>_evalTrans(a,90,97)},
+      {key:'trans',  label:'Apparent attenuation @1550 nm', role:'critical', weight:22, provKey:'transmission_1550nm',eval:a=>_evalTrans(a)},
       {key:'haze',   label:'Haze / scattering',      role:'critical',  weight:18, provKey:'haze_scattering',    eval:a=>_evalHaze(a)},
       {key:'shrink', label:'Cure shrinkage',          role:'important', weight:16, provKey:'linear_shrinkage',   eval:a=>_evalShrink(a,{excellent:0.5,low:2.0,moderate:3.5,highConflict:5.0})},
       {key:'tg',     label:'Tg',                     role:'secondary', weight:10, provKey:'tg_c',               eval:a=>_evalTg(a,80,60,40)},
@@ -8248,7 +8229,7 @@ const USE_CASE_SCORING_MODELS = {
     criteria:[
       {key:'shrink', label:'Cure shrinkage (ultra-low)', role:'critical',  weight:26, provKey:'linear_shrinkage',       eval:a=>_evalShrink(a,{excellent:0.2,low:0.8,moderate:1.5,highConflict:2.5})},
       {key:'tg',     label:'Tg (>=120°C target)',  role:'critical',  weight:20, provKey:'tg_c',                    eval:a=>_evalTg(a,140,120,80)},
-      {key:'trans',  label:'Transmission @1550nm',      role:'critical',  weight:18, provKey:'transmission_1550nm',     eval:a=>_evalTrans(a,90,95)},
+      {key:'trans',  label:'Apparent attenuation @1550 nm', role:'critical', weight:18, provKey:'transmission_1550nm', eval:a=>_evalTrans(a)},
       {key:'cte',    label:'CTE',                       role:'important', weight:16, provKey:'cte_ppm_k',               eval:a=>_evalCTE(a,'precision')},
       {key:'bline',  label:'Bondline control',          role:'important', weight:12, provKey:'max_bondline_thickness',  eval:a=>_evalBondline(a)},
       {key:'cure',   label:'Cure method',               role:'secondary', weight:8,  provKey:'cure_mechanism',          eval:a=>_evalCureMech(a,'thermal')},
@@ -8258,7 +8239,7 @@ const USE_CASE_SCORING_MODELS = {
     name:'Lens/Prism bonding',
     objective:'Bond optical elements (lenses, prisms) requiring high transmission, matched refractive index, and low optical stress.',
     criteria:[
-      {key:'trans',  label:'Transmission @1550nm',                role:'critical',  weight:28, provKey:'transmission_1550nm',eval:a=>_evalTrans(a,90,97)},
+      {key:'trans',  label:'Apparent attenuation @1550 nm', role:'critical', weight:28, provKey:'transmission_1550nm',eval:a=>_evalTrans(a)},
       {key:'ri',     label:'Refractive index (1.50–1.56)',   role:'critical',  weight:24, provKey:'refractive_index',   eval:a=>_evalRI(a,1.50,1.56)},
       {key:'haze',   label:'Haze / scattering',                  role:'critical',  weight:18, provKey:'haze_scattering',    eval:a=>_evalHaze(a)},
       {key:'shrink', label:'Cure shrinkage (optical stress)',     role:'important', weight:16, provKey:'linear_shrinkage',   eval:a=>_evalShrink(a,{excellent:0.5,low:2.0,moderate:3.5,highConflict:5.0})},
@@ -9233,14 +9214,12 @@ function runRegressionTests() {
     r.detail=found+'/'+total+' pairings matched a scoring model';
   });
 
-  // T30: _evalTrans 1310nm fallback returns lower fit than direct 1550nm report
-  check('T30 _evalTrans 1310nm proxy yields lower fit than 1550nm direct', function(r){
-    var a1550={transmission_1550nm:'97',transmission_1550nm_num:97,transmission_1310nm:null,transmission_1310nm_num:null,provenance:{}};
-    var a1310={transmission_1550nm:null,transmission_1550nm_num:null,transmission_1310nm:'97',transmission_1310nm_num:97,provenance:{}};
-    var r1550=_evalTrans(a1550,85,95);
-    var r1310=_evalTrans(a1310,85,95);
-    r.status=r1550.fit>r1310.fit?'pass':'fail';
-    r.detail='1550nm direct fit='+r1550.fit+', 1310nm proxy fit='+r1310.fit;
+  // T30: a different wavelength is not a comparable attenuation proxy.
+  check('T30 attenuation scoring does not use a 1310nm proxy for 1550nm', function(r){
+    var a1310={transmission_1550nm:null,transmission_1310nm:'97% at 1310 nm through a 1 mm specimen',provenance:{}};
+    var res=_evalTrans(a1310);
+    r.status=res.missing&&res.fit===0?'pass':'fail';
+    r.detail='1310-only observation: missing='+res.missing+', fit='+res.fit;
   });
 
   // T31: _evalRI returns conflict=false when within range, fit=1.0
@@ -10515,6 +10494,22 @@ function runRegressionTests() {
     r.detail=ok?'115 materials have unique IDs and names; polymer IDs 115/116/117 route to their own cards and records':'missing/duplicate identity or polymer routing collision';
   });
 
+  check('T127 Attenuation UI, ordering and adhesive boundary', function(r){
+    var low={transmission_1550nm:'99% at 1550 nm through a 1 mm specimen',provenance:{}}, high={transmission_1550nm:'90% at 1550 nm through a 1 mm specimen',provenance:{}};
+    var raw={transmission_1550nm:'99% at 1550 nm; path length not reported',provenance:{}};
+    [low,high,raw].forEach(function(a){a._attenuation_1550_db_cm=PROV.attenuationValue(a,'transmission_1550nm');});
+    var sorted=applySort([raw,high,low],'transmission',{}), sd=SLIDER_DEFS.find(function(x){return x.id==='sl_att';});
+    var labels=SLIDER_DEFS.concat(CMP_DEFS).filter(function(x){return /trans|atten/i.test(x.label||x.l||'');}).map(function(x){return (x.label||x.l||'')+' '+(x.unit||'');}).join(' ');
+    var original=PROV.transmission(low,'transmission_1550nm').attenuation.original;
+    var poly=adhesives.filter(function(a){return a.material_class!=='Adhesive';});
+    var ok=sorted[0]===low&&sorted[1]===high&&sorted[2]===raw&&sd&&sd.unit==='dB/cm'
+      &&!matchesSliders(raw,[{sd:sd,lo:'0',hi:'10'}])&&_evalTrans(raw).missing
+      &&original===low.transmission_1550nm&&!/%/.test(labels)&&document.getElementById('headerSub').textContent.indexOf('115 materials')>=0
+      &&poly.length===3&&poly.every(function(a){return !isAdhesiveRecommendationEligible(a);});
+    r.status=ok?'pass':'fail';
+    r.detail=ok?'dB/cm controls sort low-first; unnormalized values are unfiltered/unscored; source wording and adhesive-only boundary preserved':'attenuation UI or material terminology invariant failed';
+  });
+
   return results;
 }
 
@@ -10922,7 +10917,7 @@ function renderMissing(){
     ${(window.ph18bDataQualityHtml?window.ph18bDataQualityHtml():'')}
     <p style="font-size:13px;color:var(--ink-soft);margin-bottom:12px">
       Green &#9632; = data present &nbsp;&nbsp; Grey &#9632; = data missing. Click a column header to sort.
-      ${adhesives.filter(a=>dispCompleteness(a)>=70).length} of ${adhesives.length} adhesives have &ge;70% applicable core fields characterized.
+      ${adhesives.filter(a=>dispCompleteness(a)>=70).length} of ${adhesives.length} materials have &ge;70% applicable core fields characterized.
     </p>
     <div style="overflow-x:auto"><table class="missing-table"><thead>${thead}</thead><tbody>${tbody}</tbody></table></div>
     ${intakeReportHtml()}
@@ -11111,7 +11106,7 @@ function runQualPlanner(){
     {cat:'Optical',     name:'Refractive index (at operating wavelength)',
      fn:(a,ctx)=>{ if(ctx.optical!=='yes') return {ind:'NCI',note:'Non-optical bond — RI measurement not required'}; const v=a.refractive_index_num; return v!=null?{ind:'SI',note:'Reported RI '+v+' — confirm at operating wavelength and temperature'}:{ind:'SI',note:'RI not reported — measurement required before optical deployment'}; }},
     {cat:'Optical',     name:'Optical transmission / insertion loss',
-     fn:(a,ctx)=>{ if(ctx.optical!=='yes') return {ind:'NCI',note:'Non-optical bond — transmission not required'}; const v=a.transmission_1550nm_num; return v!=null?{ind:'SI',note:'Reported trans. '+v+'% @1550 nm — verify at all operating wavelengths'}:{ind:'SI',note:'Transmission not reported — insertion loss measurement required'}; }},
+     fn:(a,ctx)=>{ if(ctx.optical!=='yes') return {ind:'NCI',note:'Non-optical bond — material attenuation not required'}; const v=PROV.attenuationValue(a,'transmission_1550nm'); return v!=null?{ind:'SI',note:PROV.attenuationText(a,'transmission_1550nm')+' — verify interface and reflection contributions separately'}:{ind:'II',note:PROV.attenuationText(a,'transmission_1550nm')}; }},
     {cat:'Optical',     name:'RI vs temperature (dn/dT)',
      fn:(a,ctx)=>{ if(ctx.optical!=='yes') return {ind:'NCI',note:'Non-optical bond'}; return {ind:'AD',note:'dn/dT critical for athermalized designs or wide temp range; AD unless tight wavelength stability required'}; }},
     {cat:'Cure process',name:'Cure shrinkage measurement',
@@ -11221,7 +11216,7 @@ function generateDecisionReport(){
     ['Cure',           a=>a.cure_category||a.cure_method||'—'],
     ['Tg (°C)',        a=>a.tg_c||'Not reported'],
     ['RI',             a=>a.refractive_index||'Not reported'],
-    ['Transmission @1550 nm', a=>a.transmission_1550nm||'Not reported'],
+    ['Apparent attenuation @1550 nm', a=>PROV.attenuationText(a,'transmission_1550nm')],
     ['Shrinkage',      a=>a.linear_shrinkage||a.shrinkage_pct_max!=null?((a.linear_shrinkage||'')||a.shrinkage_pct_max+'%'):'Not reported'],
     ['Modulus',        a=>a.youngs_modulus_mpa||'Not reported'],
     ['Bond strength',  a=>a.bond_strength||'Not reported'],
@@ -11362,7 +11357,7 @@ function renderFindBestMatch(){
           <div class="fbm-tol"><input type="number" id="fbm_ri" step="0.001" placeholder="e.g. 1.50">
           <span>± </span><input type="number" id="fbm_ri_tol" step="0.001" value="0.02" style="width:60px"></div>
         </div>
-        <div class="fbm-row"><label>Min Transmission at 1550 nm (%)</label><input type="number" id="fbm_trans" step="0.1" placeholder="e.g. 95"></div>
+        <div class="fbm-row"><label>Max apparent attenuation at 1550 nm (dB/cm)</label><input type="number" id="fbm_att" min="0" step="0.01" placeholder="e.g. 1"></div>
         <div style="font-size:11px;color:var(--ink-faint);margin:-4px 0 4px">Optional — leave blank if the adhesive is outside the optical path. A value here applies to 1550 nm only.</div>
       </div>
       <div class="fbm-section">
@@ -11393,7 +11388,7 @@ function renderFindBestMatch(){
   <div id="fbm_saved_projects" style="display:none;margin-top:22px"></div>`;
   document.getElementById('fbm_runBtn').addEventListener('click', runFindBestMatch);
   document.getElementById('fbm_clrBtn').addEventListener('click',()=>{
-    ['fbm_app','fbm_ri','fbm_ri_tol','fbm_trans','fbm_tg','fbm_shr','fbm_mod','fbm_bs','fbm_visc','fbm_tml','fbm_cvcm','fbm_sub1','fbm_sub2'].forEach(id=>{
+    ['fbm_app','fbm_ri','fbm_ri_tol','fbm_att','fbm_tg','fbm_shr','fbm_mod','fbm_bs','fbm_visc','fbm_tml','fbm_cvcm','fbm_sub1','fbm_sub2'].forEach(id=>{
       const el2=document.getElementById(id); if(el2) el2.value=(id==='fbm_ri_tol'?'0.02':'');
     });
     var k1=document.getElementById('fbm_1k'); if(k1) k1.checked=false;
@@ -11615,7 +11610,7 @@ function runFindBestMatch(){
   const sys      = document.getElementById('fbm_sys').value;
   const riTarget = parseFloat(document.getElementById('fbm_ri').value);
   const riTol    = parseFloat(document.getElementById('fbm_ri_tol').value)||0.02;
-  const transMin = parseFloat(document.getElementById('fbm_trans').value);
+  const attMax = parseFloat(document.getElementById('fbm_att').value);
   const tgMin    = parseFloat(document.getElementById('fbm_tg').value);
   const shrMax   = parseFloat(document.getElementById('fbm_shr').value);
   const modMax   = parseFloat(document.getElementById('fbm_mod').value);
@@ -11631,7 +11626,7 @@ function runFindBestMatch(){
   // Build criteria list
   const criteria = [];
   if(!isNaN(riTarget))  criteria.push({label:'RI',           type:'range', numF:'refractive_index_num', textF:'refractive_index', lo:riTarget-riTol, hi:riTarget+riTol, w:20, fmt:v=>`${v.toFixed(3)}`});
-  if(!isNaN(transMin))  criteria.push({label:'Transmission @1550nm', type:'min',   numF:'transmission_1550nm_num',textF:'transmission_1550nm',target:transMin, w:15, fmt:v=>`${v}%`});
+  if(!isNaN(attMax)) criteria.push({label:'Apparent attenuation @1550 nm',type:'max',numF:'_attenuation_1550_db_cm',textF:'transmission_1550nm',target:attMax,w:15,fmt:v=>`${v.toFixed(2)} dB/cm`});
   if(!isNaN(tgMin))     criteria.push({label:'Tg',           type:'min',   numF:'tg_c_max',   textF:'tg_c',           target:tgMin,  w:15, fmt:v=>`${v}°C`});
   if(!isNaN(shrMax))    criteria.push({label:'Shrinkage',    type:'max',   numF:'shrinkage_pct_max', textF:'linear_shrinkage', target:shrMax, w:15, fmt:v=>`${v}%`});
   if(!isNaN(modMax))    criteria.push({label:'Modulus',      type:'max',   numF:'youngs_modulus_mpa_max',textF:'youngs_modulus_mpa',target:modMax, w:10, fmt:v=>`${v} MPa`});
@@ -11739,7 +11734,7 @@ function runFindBestMatch(){
     btn.addEventListener('click',()=>openDetail(parseInt(btn.dataset.id)));
   });
   // "Save as project" button
-  const savedCriteria = {app,cure,sys,riTarget,riTol,transMin,tgMin,shrMax,modMax,bsMin,sub1:sub1.trim(),sub2:sub2.trim()};
+  const savedCriteria = {app,cure,sys,riTarget,riTol,attMax,tgMin,shrMax,modMax,bsMin,sub1:sub1.trim(),sub2:sub2.trim()};
   const saveBar = document.createElement('div');
   saveBar.style.cssText = 'margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap';
   saveBar.innerHTML = `<button class="fbm-clr" id="fbm_saveProjectBtn"
@@ -11847,7 +11842,7 @@ function loadProject(proj){
   set('fbm_app', c.app||'');
   set('fbm_ri',  c.riTarget!=null ? c.riTarget : '');
   set('fbm_ri_tol', c.riTol!=null ? c.riTol : '0.02');
-  set('fbm_trans', c.transMin!=null ? c.transMin : '');
+  set('fbm_att', c.attMax!=null ? c.attMax : '');
   set('fbm_tg',  c.tgMin!=null ? c.tgMin : '');
   set('fbm_shr', c.shrMax!=null ? c.shrMax : '');
   set('fbm_mod', c.modMax!=null ? c.modMax : '');
@@ -12208,13 +12203,7 @@ function computeFiveDimScores(a, intentIds){
 function computeDerivedScores(a){
   function cl(v){return Math.max(0,Math.min(100,Math.round(v)));}
   var o=0,om=0,orr=[];
-  if(a.transmission_1550nm_num!=null){
-    om+=40;var t=a.transmission_1550nm_num;
-    if(t>=97){o+=40;orr.push('T@1550 '+t+'%');}
-    else if(t>=92){o+=32;orr.push('T@1550 '+t+'%');}
-    else if(t>=85){o+=20;orr.push('T@1550 '+t+'%');}
-    else{o+=6;}
-  }
+  if(a._attenuation_1550_db_cm!=null){om+=40;o+=40*_evalTrans(a).fit;orr.push(PROV.attenuationText(a,'transmission_1550nm'));}
   if(a.refractive_index_num!=null){om+=20;o+=20;orr.push('RI='+a.refractive_index_num);}
   if(a.shrinkage_pct_max!=null){
     om+=40;var sv=a.shrinkage_pct_max;
@@ -12578,8 +12567,7 @@ function buildConversationalOpening(candidates, query, intentIds, hardReqs, prop
   else if(top.shrinkage_pct_max!=null&&top.shrinkage_pct_max<=1.5)
     hl.push('low shrinkage ('+top.shrinkage_pct_max+'%)');
   if(top.tg_c_max!=null&&top.tg_c_max>=140) hl.push('Tg '+top.tg_c_max+'\u00b0C');
-  if(top.transmission_1550nm_num!=null&&top.transmission_1550nm_num>=93)
-    hl.push(top.transmission_1550nm_num+'% transmission');
+  if(top._attenuation_1550_db_cm!=null) hl.push(PROV.attenuationText(top,'transmission_1550nm'));
   if(top.bond_strength_mpa_min!=null&&top.bond_strength_mpa_min>=15)
     hl.push('bond strength \u2265'+top.bond_strength_mpa_min+'\u00a0MPa');
   if(top.refractive_index_num!=null&&(intentIds.indexOf('waveguide_bonding')>=0
@@ -12667,8 +12655,7 @@ function buildComparisonHtml(c1, c2, intentIds) {
       if(c.tg_c_max>=150) pros.push('High Tg ('+c.tg_c_max+'\u00b0C)');
       else if(c.tg_c_max<80) cons.push('Low Tg ('+c.tg_c_max+'\u00b0C)');
     }
-    if(c.transmission_1550nm_num!=null&&c.transmission_1550nm_num>=92)
-      pros.push('Transmission '+c.transmission_1550nm_num+'%');
+    if(c._attenuation_1550_db_cm!=null) pros.push(PROV.attenuationText(c,'transmission_1550nm'));
     if(c.bond_strength_mpa_min!=null&&c.bond_strength_mpa_min>=15)
       pros.push('Bond strength \u2265'+c.bond_strength_mpa_min+' MPa');
     if(!isMissing(c.reliability_85_85)||!isMissing(c.thermal_cycling))
@@ -13751,7 +13738,7 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
     return 'MISSING';
   }
   function _trans(a){
-    if(a.transmission_1550nm_num!=null || a.transmission_1310nm_num!=null) return 'QUANT';
+    if(PROV.attenuationValue(a,'transmission_1550nm')!=null || PROV.attenuationValue(a,'transmission_1310nm')!=null) return 'QUANT';
     var s1=_state(a,'transmission_1550nm',null), s2=_state(a,'transmission_1310nm',null);
     if(s1==='QUANT'||s2==='QUANT') return 'QUANT';
     if(s1==='QUAL'||s2==='QUAL') return 'QUAL';
@@ -13759,7 +13746,7 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
   }
   var OPT_RE = /optic|index[- ]?match|refractive|lens|prism|fiber|fibre|waveguide|transmission|coupling|photonic|\bpic\b|clear|transparent|\blight\b|collimat|\bbeam\b|cement/i;
   function _opticalApplicable(a){
-    if(a.refractive_index_num!=null || a.transmission_1550nm_num!=null || a.transmission_1310nm_num!=null) return true;
+    if(a.refractive_index_num!=null || PROV.attenuationValue(a,'transmission_1550nm')!=null || PROV.attenuationValue(a,'transmission_1310nm')!=null) return true;
     var blob=[a.application_type,a.primary_function,a.application_interfaces,a.role,a.chemistry,
               (a.linked_use_cases||[]).join(' ')].join(' ');
     return OPT_RE.test(blob);
@@ -14030,8 +14017,8 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
       ri_wavelength: /@\s*\d{3,4}\s*nm/i.test(riTxt),
       ri_vs_wavelength: riReported && riVsWavelength,
       ri_vs_temperature: riReported && riVsTemp,
-      transmission_1310: a.transmission_1310nm_num!=null,
-      transmission_1550: a.transmission_1550nm_num!=null,
+      transmission_1310: PROV.attenuationValue(a,'transmission_1310nm')!=null,
+      transmission_1550: PROV.attenuationValue(a,'transmission_1550nm')!=null,
       transmission_spectrum: transReported && transSpectrum,
       transmission_thickness: transReported && transThickness,
       cte: cteReported,
@@ -14265,7 +14252,7 @@ const PROC_VERIFIED = {"13": {"cure": {"value": "UV 320-365 nm, 30-60 s (optimum
     'linear_shrinkage','volumetric_shrinkage','bond_strength','reliability_85_85','thermal_cycling','haze_scattering',
     'operating_temp_range','water_absorption'];
   var EV_PROP_LABEL = {tg_c:'Tg',youngs_modulus_mpa:"Young's modulus",cte_ppm_k:'CTE',refractive_index:'Refractive index',
-    transmission_1550nm:'Transmission @1550',transmission_1310nm:'Transmission @1310',linear_shrinkage:'Linear shrinkage',
+    transmission_1550nm:'Apparent attenuation @1550',transmission_1310nm:'Apparent attenuation @1310',linear_shrinkage:'Linear shrinkage',
     volumetric_shrinkage:'Volumetric shrinkage',bond_strength:'Bond strength',reliability_85_85:'85/85 reliability',
     thermal_cycling:'Thermal cycling',haze_scattering:'Haze / scattering',operating_temp_range:'Operating temp',water_absorption:'Water absorption'};
 
@@ -14884,7 +14871,7 @@ body.on-record #dashOverview{ display:none !important; }
   }
   function transmissionCell(a, prop){
     var t=window.PROV&&PROV.transmission(a,prop), x=t&&t.attenuation;
-    if(!x) return '<span class="mx-missing">—</span>'+ind(a,prop);
+    if(!x) return '<span class="mx-missing" title="'+esct(t?t.note:'Cannot normalize to dB/cm')+'">Cannot normalize to dB/cm</span>'+ind(a,prop);
     var value=x.min_db_cm!==x.max_db_cm ? x.min_db_cm.toFixed(2)+'–'+x.max_db_cm.toFixed(2) : x.max_db_cm.toFixed(2);
     return '<span class="mx-num" title="Reported '+esct(x.original)+'">'+esct(x.operator)+' '+value+'</span>'+ind(a,prop);
   }
@@ -14955,7 +14942,7 @@ body.on-record #dashOverview{ display:none !important; }
     if(c) return '<span class="mxc-ev-mod score-tip" data-tip="'+EV_TIP+'">Moderate evidence confidence</span>';
     return '<span class="mxc-nr score-tip" data-tip="'+EV_TIP+'">Evidence —</span>';
   }
-  // Three fixed default card properties (broadly-populated, application-neutral): Tg · RI · Viscosity.
+  // Compact cards show the comparison-safe optical quantity alongside the core fields.
   function propRowC(label,html){ var nr=/mx-missing|mxc-nr/.test(html)||String(html).trim()==='—'; return '<div class="mxc-prop"><span class="mxc-plabel">'+label+'</span><span class="mxc-pval'+(nr?' mxc-nr':'')+'">'+html+'</span></div>'; }
   function pv(v,d,unit){ var f=fmt(v,d); return f==null?'—':(f+(unit?(' '+unit):'')); }
   // STEP 1 — compact card values carry an evidence indicator; a withdrawn value
@@ -14984,6 +14971,7 @@ body.on-record #dashOverview{ display:none !important; }
       +'<div class="mxc-props">'
         +propRowC('Tg', pvEv(a,'tg_c',a.tg_c_max,0,'°C'))
         +propRowC('Refractive index', pvEv(a,'refractive_index',a.refractive_index_num,3,''))
+        +propRowC('Apparent attenuation @1550 nm (dB/cm)', transmissionCell(a,'transmission_1550nm'))
         +propRowC('Viscosity', viscTextC(a))
       +'</div>'
       +'<div class="mxc-foot" title="'+esct(srcTip)+'">'+evPhrase(a)+' · '+esct(compl)
@@ -15188,7 +15176,7 @@ body.on-record #dashOverview{ display:none !important; }
       + kv('Viscosity', visc)
       + kvEv('CTE', cte, 'cte_ppm_k')
       + kvEv('Operating temperature', !miss(a.operating_temp_range)?_lk(a.operating_temp_range):null, 'operating_temp_range')
-      + kvEv('Transmission @1550 nm', lf(a.transmission_1550nm_num,1,'%'), 'transmission_1550nm');
+      + kvEv('Apparent attenuation @1550 nm', esct(PROV.attenuationText(a,'transmission_1550nm')), 'transmission_1550nm');
     var evc=a.confidence_level||'';
     var ephr = /High/.test(evc)?'<span class="s">High evidence confidence</span>':/Low/.test(evc)?'<span class="l">Limited evidence confidence</span>':evc?'<span class="m">Moderate evidence confidence</span>':'Evidence —';
     var compl=(dispCompleteness(a)!=null)?dispCompleteness(a)+'% complete':'completeness —';

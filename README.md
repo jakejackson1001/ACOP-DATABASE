@@ -115,13 +115,13 @@ silently reintroduces a class of error the database has already been cleaned of.
 Run in the browser console:
 
 ```js
-runRegressionTests()   // 126 checks
+runRegressionTests()   // 127 checks
 PROV.intakeReport()    // per-record errors/warnings
 PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 126 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+**Current: 127 pass, 0 fail, 0 partial.** Compare against that baseline; any new
 non-passing check is a regression.
 
 ### Intake codes
