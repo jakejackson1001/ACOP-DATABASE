@@ -1,7 +1,7 @@
-# ACOP Adhesive Database
+# ACOP Materials Database
 
-A decision-support database of adhesives for photonic packaging — optical, structural
-and gel materials, with field-level provenance for every value.
+A decision-support database of adhesives and explicitly classified photopolymers for
+photonic packaging, with field-level provenance for every value.
 
 The whole application is **one self-contained HTML file**:
 `index.html`. Open it in a browser. There is no build step, server-side runtime, or
@@ -28,7 +28,8 @@ One file, three regions:
 
 ### `DATA` keys
 
-- `DATA.adhesives[]` — one object per material. Property values live in flat text fields
+- `DATA.adhesives[]` — one object per material (the historical array name is retained for
+  compatibility). `material_class` separates adhesives from photopolymers. Property values live in flat text fields
   (`tg_c`, `refractive_index`, …) with optional numeric mirrors (`tg_c_min`, `tg_c_max`, …).
   Citations live in `a.provenance[propertyKey]`.
 - `DATA.evidence[]` — the source registry. `legacy_source_code` is the stable source id.
@@ -93,7 +94,11 @@ silently reintroduces a class of error the database has already been cleaned of.
    from the `supports` tier — this is what stopped a family-level chart from silently
    backing 63 product-level numbers.
 6. **Transmission needs a path length.** A transmission percentage with no stated
-   sample thickness is marked "Not normalized" and must not be used as a comparable number.
+   sample thickness is marked "Cannot normalize to dB/cm — path length not reported"
+   and must not be used as a comparable number. When wavelength, percentage, and path
+   length are all reported, the UI derives apparent attenuation as
+   `-10 log10(T/100) / thickness_cm`, preserves the source value, and reverses bounds.
+   It is not labelled bulk attenuation unless interface losses were removed.
 7. **Controlled-vocabulary fields must hold canon values** (`PROV.VOCAB`). These are not
    cosmetic: the AI advisor's safety rules match these strings exactly, and the card
    styling switches on them. Prose in a categorical field silently disables both.
@@ -110,13 +115,13 @@ silently reintroduces a class of error the database has already been cleaned of.
 Run in the browser console:
 
 ```js
-runRegressionTests()   // 121 checks
+runRegressionTests()   // 126 checks
 PROV.intakeReport()    // per-record errors/warnings
 PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 121 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+**Current: 126 pass, 0 fail, 0 partial.** Compare against that baseline; any new
 non-passing check is a regression.
 
 ### Intake codes
@@ -151,18 +156,18 @@ is withheld from ranking.
 
 | | |
 |---|---|
-| Materials | 112 |
-| Populated properties | 687 |
-| Traceable properties | 687 / 687 (100%) |
-| Fully resolved / partially resolved citations | 687 / 0 |
+| Materials | 115 (112 adhesives + 3 structural photopolymers) |
+| Populated properties | 713 |
+| Traceable properties | 713 / 713 (100%) |
+| Fully resolved / partially resolved citations | 713 / 0 |
 | Unresolved values | **0** |
-| Publicly checkable | 675 / 687 (98.3%) |
-| Source records | 151 (16 alias ids still resolving) |
-| Public reachability | 133 reachable URLs / 15 resolvable DOIs / 148 total |
-| Content verification | 8 document identities verified / 8 property-support scopes verified / 143 pending |
+| Publicly checkable | 701 / 713 (98.3%) |
+| Source records | 154 (16 alias ids still resolving) |
+| Public reachability | 135 reachable URLs / 16 resolvable DOIs / 151 total |
+| Content verification | 10 document identities verified / 11 property-support scopes verified / 143 pending |
 | Other source classifications | 3 manufacturer-portal / 0 local / 0 private / 0 placeholders / 0 unavailable |
-| Property access | 675 public / 12 exact-portal / 0 inaccessible-only |
-| Records clean / warnings only / provisional | 64 / 40 / 8 |
+| Property access | 701 public / 12 exact-portal / 0 inaccessible-only |
+| Records clean / warnings only / provisional | 67 / 40 / 8 |
 | Vocabulary violations | 0 |
 
 Six provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
@@ -191,6 +196,11 @@ grades, because matching on refractive index alone would be a fabricated identif
 5. **EPO-TEK 353ND transmission (≥95%, 1100–1600 nm) has no published path length** in
    any revision; it is marked not normalized and must not enter a loss budget until
    Meridian supplies the test geometry.
+6. **The first polymer set is intentionally small:** Nanoscribe IP-S, Nanoscribe IP-Dip2,
+   and UpNano UpPhoto are classified as structural photopolymers, not adhesives, and are
+   excluded from adhesive recommendations. Their published sources do not establish an
+   adhesive bond. No exact IBM materials dataset or formulation record was identifiable;
+   an IBM relationship requires the feedback provider's exact database name or URL.
 
 ---
 
