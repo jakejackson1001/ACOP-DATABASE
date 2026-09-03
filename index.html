@@ -1739,13 +1739,13 @@ main { padding-top: 24px; }
     </div>
     <div class="header-actions">
       <div class="appearance-wrap" id="appearanceWrap">
-        <button class="appearance-btn" id="appearanceBtn" aria-label="Appearance and theme settings" aria-haspopup="true" aria-expanded="false">&#9680; Appearance</button>
+        <button class="appearance-btn" id="appearanceBtn" aria-label="Appearance and theme settings" aria-haspopup="true" aria-expanded="false">Appearance</button>
         <div class="appearance-popover" id="appearancePopover" hidden>
           <div class="pop-section-lbl">Appearance</div>
           <div class="appearance-seg" role="group" aria-label="Appearance mode">
-            <button id="appLight"  aria-pressed="false">&#9788; Light</button>
+            <button id="appLight"  aria-pressed="false">Light</button>
             <button id="appSystem" aria-pressed="false">Auto</button>
-            <button id="appDark"   aria-pressed="false">&#9790; Dark</button>
+            <button id="appDark"   aria-pressed="false">Dark</button>
           </div>
           <div class="pop-section-lbl">Accent Color</div>
           <div class="palette-row" role="group" aria-label="Accent color theme">
@@ -1764,7 +1764,7 @@ main { padding-top: 24px; }
   <div class="search-row">
     <div class="search-bar-wrap">
       <input id="q" type="text" placeholder='Search adhesives in natural language&hellip;' autofocus aria-label="Search adhesives">
-      <button class="filters-btn" id="filtersBtn" aria-label="Open filters panel" aria-expanded="false" aria-controls="filterDrawer">&#9788; Filters</button>
+      <button class="filters-btn" id="filtersBtn" aria-label="Open filters panel" aria-expanded="false" aria-controls="filterDrawer">Filters</button>
     </div>
     <div id="acDropdown" class="ac-dropdown"></div>
     <div id="understoodRow" class="understood-row"></div>
@@ -1791,7 +1791,6 @@ main { padding-top: 24px; }
         <button class="more-item" data-tab="advisor" role="menuitem">Guided Screening (AI)</button>
         <button class="more-item" data-tab="missing" role="menuitem">Evidence &amp; Data Quality</button>
         <button class="more-item" data-tab="qualplan" role="menuitem">Qualification Planner</button>
-        <button class="more-item" data-tab="report" role="menuitem">Decision Report Builder</button>
         <button class="more-item" data-tab="feedback" role="menuitem">Feedback</button>
       </div>
     </div>
@@ -1810,7 +1809,7 @@ main { padding-top: 24px; }
   <div class="drawer-body">
     <div class="drawer-section trq-section">
       <div class="drawer-section-title">Transmission required
-        <span class="trq-help score-tip" tabindex="0" role="button" aria-label="What does transmission required mean?" data-tip="Required — adhesive lies in or materially affects the optical path. Not required — optical transmission is not a screening requirement.">&#9432;</span>
+        <span class="trq-help score-tip" tabindex="0" role="button" aria-label="What does transmission required mean?" data-tip="Required — adhesive lies in or materially affects the optical path. Not required — optical transmission is not a screening requirement."></span>
       </div>
       <div class="trq-seg" id="trqSeg" role="group" aria-label="Does this application require optical transmission through the adhesive?">
         <button type="button" class="trq-opt" data-trq="off" aria-pressed="true">Not required</button>
@@ -1827,7 +1826,7 @@ main { padding-top: 24px; }
     </div>
   </div>
   <div class="drawer-footer">
-    <button class="drawer-clear" id="clearFiltersBtn">&#10005; Clear filters</button>
+    <button class="drawer-clear" id="clearFiltersBtn">Clear filters</button>
     <button class="drawer-done" id="drawerDone">Done</button>
   </div>
 </aside>
@@ -1843,7 +1842,7 @@ main { padding-top: 24px; }
       <div class="rh-right">
         <button class="mode-toggle" id="modeToggle"
           title="Explore: show top screening candidates even with incomplete evidence. Strict: require usable evidence for all queried properties."
-          aria-label="Toggle between Explore and Strict search mode">&#128270; Explore mode</button>
+          aria-label="Toggle between Explore and Strict search mode">Explore mode</button>
         <select class="sort-select" id="sortBy" aria-label="Sort results">
           <option value="relevance">Sort: Relevance</option>
           <option value="name">Name A&ndash;Z</option>
@@ -1865,7 +1864,7 @@ main { padding-top: 24px; }
           <button class="overflow-btn" id="overflowBtn" aria-label="More actions" aria-haspopup="true" aria-expanded="false">&#8943;</button>
           <div class="overflow-menu" id="overflowMenu" role="menu">
             <button class="overflow-item" id="exportCsvBtn" role="menuitem">&#8659; Export results as CSV</button>
-            <button class="overflow-item" id="clearSearchBtn" role="menuitem">&#10005; Clear search</button>
+            <button class="overflow-item" id="clearSearchBtn" role="menuitem">Clear search</button>
           </div>
         </div>
       </div>
@@ -1878,12 +1877,11 @@ main { padding-top: 24px; }
   <div id="usecasesView" style="display:none"></div>
   <div id="missingView" style="display:none"></div>
   <div id="qualplanView" style="display:none"></div>
-  <div id="reportView" style="display:none"></div>
   <div id="feedbackView" style="display:none"></div>
   <div id="advisorView" style="display:none">
     <div class="adv-header">
       <div>
-        <div class="adv-title">&#129302; AI Photonics Packaging Advisor</div>
+        <div class="adv-title">AI Photonics Packaging Advisor</div>
         <div class="adv-subtitle">Organizes database evidence to surface candidates worth further engineering evaluation &mdash; unknowns and evidence limits stay explicit</div>
         <div class="adv-status-row">
           <div class="adv-status-dot" id="advStatusDot"></div>
@@ -1891,7 +1889,7 @@ main { padding-top: 24px; }
           <div class="adv-mode-chip" id="advModeChip">Rule-based</div>
         </div>
       </div>
-      <button class="adv-api-btn" id="advApiBtn">&#9881; Configure AI</button>
+      <button class="adv-api-btn" id="advApiBtn">Configure AI</button>
     </div>
     <div class="adv-chips-row">
       <span class="adv-qchip" data-q="passive fiber alignment low shrinkage">Passive fiber alignment</span>
@@ -1913,14 +1911,14 @@ main { padding-top: 24px; }
 
 <div id="apikModal" class="apik-overlay" style="display:none">
   <div class="apik-box">
-    <h3>&#128273; Anthropic API Key</h3>
+    <h3>Anthropic API Key</h3>
     <p>Enter your Anthropic API key to enable Claude AI responses. Your key is stored only in this browser (localStorage) and never sent anywhere except directly to api.anthropic.com.</p>
     <input type="password" id="apikInput" placeholder="sk-ant-api03-...">
     <div class="apik-btns">
       <button class="apik-cancel" id="apikCancel">Cancel</button>
       <button class="apik-save" id="apikSave">Save key</button>
     </div>
-    <p class="apik-note">&#128274; Stored in browser localStorage only. Leave blank to remove the key and return to rule-based mode.</p>
+    <p class="apik-note">Stored in browser localStorage only. Leave blank to remove the key and return to rule-based mode.</p>
   </div>
 </div>
 
@@ -2249,7 +2247,7 @@ main { padding-top: 24px; }
     try{ if(typeof PROP_GOAL_FIELDS!=='undefined'&&PROP_GOAL_FIELDS[k])return PROP_GOAL_FIELDS[k].label; }catch(e){} return k; }
   function line(cls,ic,txt){ return '<div class="v9-line '+cls+'"><span class="v9-ic">'+ic+'</span><span>'+txt+'</span></div>'; }
 
-  // PART 2 — "Why this ranked here" (✓ strengths / △ limits / ✗ weaknesses)
+  // PART 2 — "Why this ranked here" (strengths / limits / weaknesses)
   // Phase 17C — the good/warn/bad derivation is factored into v9WhyData so the
   // Advisor can present Strengths / Limitations as separate labelled groups from
   // the SAME logic. v9WhyHtml is a byte-identical wrapper (existing callers —
@@ -2295,9 +2293,9 @@ main { padding-top: 24px; }
   };
   window.v9WhyHtml=function(a,reqKeys){
     var d=window.v9WhyData(a,reqKeys);
-    var out=d.good.slice(0,4).map(function(t){return line('v9-good','&#10003;',t);})
+    var out=d.good.slice(0,4).map(function(t){return line('v9-good','',t);})
       .concat(d.warn.slice(0,2).map(function(t){return line('v9-warn','&#9651;',t);}))
-      .concat(d.bad.slice(0,2).map(function(t){return line('v9-bad','&#10007;',t);})).join('');
+      .concat(d.bad.slice(0,2).map(function(t){return line('v9-bad','',t);})).join('');
     if(!out) return '';
     return '<div class="v9-why"><div class="v9-why-h">Why this ranked here</div>'+out+'</div>';
   };
@@ -2554,7 +2552,7 @@ main { padding-top: 24px; }
     var label=lvl==='critical'?'CRITICAL':lvl==='preferred'?'PREFERRED':'NOT REQUIRED';
     var wl=model.transmissionWavelength?(' at '+esct(model.transmissionWavelength)):'';
     var review=model.transmissionReview
-      ? ' <span class="trel-review">⚑ Optical-path role is design-dependent — engineering confirmation recommended.</span>' : '';
+      ? ' <span class="trel-review">Optical-path role is design-dependent — engineering confirmation recommended.</span>' : '';
     return '<div class="trel-panel trel-p-'+lvl+'">'
       +'<b>Transmission relevance'+wl+':</b> <span class="trel-badge trel-'+lvl+'">'+label+'</span> &nbsp; '
       +esct(model.transmissionNote||'')+review+'</div>';
@@ -2607,18 +2605,18 @@ main { padding-top: 24px; }
     unknown:'Unknown — not reported for this product. This is a data gap, not poor performance; obtain data or test before relying on it.'
   };
   var META={
-    peer   :{cls:'v12-peer',   icon:'★ ', short:'Peer-reviewed', ev:'Peer-reviewed validation', cons:['Independent evidence','v12-c-strong']},
-    multi  :{cls:'v12-multi',  icon:'✓ ',  short:'Corroborated',  ev:'Independent replication', cons:['Strong agreement','v12-c-strong']},
+    peer   :{cls:'v12-peer',   icon:'', short:'Peer-reviewed', ev:'Peer-reviewed validation', cons:['Independent evidence','v12-c-strong']},
+    multi  :{cls:'v12-multi',  icon:'',  short:'Corroborated',  ev:'Independent replication', cons:['Strong agreement','v12-c-strong']},
     indep  :{cls:'v12-indep',  icon:'',         short:'Independent lab',ev:'Independent laboratory',  cons:['Independent source','v12-c-single']},
     tds    :{cls:'v12-tds',    icon:'',         short:'Mfr TDS',       ev:'Manufacturer datasheet',  cons:['Single source','v12-c-single']},
     mfr    :{cls:'v12-mfr',    icon:'',         short:'Mfr data',      ev:'Manufacturer only',       cons:['Single source','v12-c-single']},
     est    :{cls:'v12-est',    icon:'~',        short:'Estimated',     ev:'Class-level estimate',    cons:['Moderate variation','v12-c-mod']},
     derived:{cls:'v12-derived',icon:'',         short:'Secondary',     ev:'Secondary source',        cons:['Unverified','v12-c-mod']},
-    conflict:{cls:'v12-conflict',icon:'⚠ ',short:'Conflicting',   ev:'Conflicting measurements',cons:['Conflicting','v12-c-conflict']},
+    conflict:{cls:'v12-conflict',icon:'',short:'Conflicting',   ev:'Conflicting measurements',cons:['Conflicting','v12-c-conflict']},
     unknown:{cls:'v12-unknown',icon:'',         short:'Unknown',       ev:'Not characterized',       cons:['Unknown','v12-c-unknown']},
     /* STEP 1: a value whose supporting source cannot be resolved is never shown
        as manufacturer/TDS-backed evidence. */
-    unverified:{cls:'v12-conflict',icon:'⚠ ',short:'Unverified', ev:'No resolvable source', cons:['Unverified','v12-c-conflict']}
+    unverified:{cls:'v12-conflict',icon:'',short:'Unverified', ev:'No resolvable source', cons:['Unverified','v12-c-conflict']}
   };
   TIP.unverified='Unverified — a value is recorded but no supporting source could be resolved. Do not use for engineering decisions until verified.';
 
@@ -2683,7 +2681,7 @@ main { padding-top: 24px; }
     var m=META[bestT.type];
     var chip='<span class="v12-chip '+m.cls+' score-tip" data-tip="Strongest evidence on record for this product: '+esct(m.ev)+'. Individual properties may differ — see the Properties tab.">'+m.icon+m.ev+'</span>';
     if(conflict && bestT.type!=='conflict')
-      chip+=' <span class="v12-chip v12-conflict score-tip" data-tip="At least one property has conflicting measurements between sources.">⚠ Conflict on 1+ property</span>';
+      chip+=' <span class="v12-chip v12-conflict score-tip" data-tip="At least one property has conflicting measurements between sources.">Conflict on 1+ property</span>';
     return chip;
   };
 
@@ -3055,7 +3053,7 @@ main { padding-top: 24px; }
     try{
       var id='rpt'+(pairing.id||Math.random().toString(36).slice(2));
       window.__v13[id]=window.v13ReportHtml(pairing, scored, reqKeys, model);
-      return '<button class="v13-btn" onclick="v13ShowReport(\''+id+'\')">&#128196; Generate Engineering Decision Report</button>';
+      return '<button class="v13-btn" onclick="v13ShowReport(\''+id+'\')">Generate Engineering Decision Report</button>';
     }catch(e){ return ''; }
   };
   function ensureOverlay(){
@@ -3063,7 +3061,7 @@ main { padding-top: 24px; }
     if(ov) return ov;
     ov=document.createElement('div'); ov.id='v13Overlay'; ov.className='v13-overlay';
     ov.innerHTML='<div class="v13-sheet"><div class="v13-toolbar">'
-      +'<button class="v13-print" onclick="v13PrintReport()">&#128424; Print / Save PDF</button>'
+      +'<button class="v13-print" onclick="v13PrintReport()">Print / Save PDF</button>'
       +'<button onclick="v13CloseReport()">Close</button></div>'
       +'<div id="v13Body"></div></div>';
     document.body.appendChild(ov);
@@ -3115,7 +3113,7 @@ main { padding-top: 24px; }
    +'<div class="v14-hero-sub">Engineering problem&nbsp; →&nbsp; analysis&nbsp; →&nbsp; scientific validation&nbsp; →&nbsp; decision</div></div>'
    +'<div class="v14-cards">'
    // Card 1 — Engineering Advisor
-   +'<div class="v14-card"><div class="v14-ic">&#127919;</div>'
+   +'<div class="v14-card"><div class="v14-ic"></div>'
      +'<div class="v14-title">Engineering Advisor</div>'
      +'<div class="v14-subtitle">Recommend the best adhesive for a specific photonic packaging application.</div>'
      +'<div class="v14-desc">For engineers who know the application they are designing and want help selecting the most appropriate adhesive.</div>'
@@ -3125,7 +3123,7 @@ main { padding-top: 24px; }
      +'<div class="v14-spacer"></div>'
      +'<button class="v14-btn" onclick="switchTab(\'usecases\')">Start Engineering Advisor &rarr;</button></div>'
    // Card 2 — Requirements Finder
-   +'<div class="v14-card"><div class="v14-ic">&#9881;&#65039;</div>'
+   +'<div class="v14-card"><div class="v14-ic"></div>'
      +'<div class="v14-title">Requirements Finder</div>'
      +'<div class="v14-subtitle">Find adhesives that satisfy specific engineering requirements.</div>'
      +'<div class="v14-desc">For engineers who already know the material properties they require. Define engineering constraints and receive matching materials.</div>'
@@ -3135,7 +3133,7 @@ main { padding-top: 24px; }
      +'<div class="v14-spacer"></div>'
      +'<button class="v14-btn" onclick="switchTab(\'findmatch\')">Define Requirements &rarr;</button></div>'
    // Card 3 — Materials Explorer
-   +'<div class="v14-card"><div class="v14-ic">&#128300;</div>'
+   +'<div class="v14-card"><div class="v14-ic"></div>'
      +'<div class="v14-title">Materials Explorer</div>'
      +'<div class="v14-subtitle">Browse, compare, and analyze the complete optical adhesive database.</div>'
      +'<div class="v14-desc">For researchers and engineers exploring available materials rather than solving one specific design problem.</div>'
@@ -3157,7 +3155,7 @@ main { padding-top: 24px; }
     var acts=document.querySelector('.header-actions');
     if(acts && !document.getElementById('homeBtn')){
       var hb=document.createElement('button'); hb.id='homeBtn'; hb.className='appearance-btn';
-      hb.setAttribute('aria-label','Home'); hb.innerHTML='&#8962; Home';hb.title='ACOP Adhesive Database home';
+      hb.setAttribute('aria-label','Home'); hb.innerHTML='Home';hb.title='ACOP Adhesive Database home';
       hb.addEventListener('click',function(){ if(typeof switchTab==='function') switchTab('search'); });
       acts.insertBefore(hb, acts.firstChild);
     }
@@ -3507,12 +3505,12 @@ body.on-home .site-header{ padding-bottom:12px; }
     +'<div class="v155-wf-h">Engineering Workflows <span>&mdash; advanced decision-support tools built on this database</span></div>'
     +'<div class="v155-wf-cards">'
     +'<div class="v155-wf-card" role="button" tabindex="0" data-tab="usecases" aria-label="Start Engineering Advisor">'
-      +'<div class="v155-wf-top"><span class="v155-wf-ic">&#127919;</span><span class="v155-wf-title">Engineering Advisor</span></div>'
+      +'<div class="v155-wf-top"><span class="v155-wf-ic"></span><span class="v155-wf-title">Engineering Advisor</span></div>'
       +'<div class="v155-wf-desc">Recommend the best adhesive for a specific photonic packaging application.</div>'
       +'<div class="v155-wf-eg"><b>Examples:</b> Fiber-to-Chip Coupling &middot; Passive Alignment &middot; Lens Bonding</div>'
       +'<button class="v155-wf-btn" type="button">Start Engineering Advisor &rarr;</button></div>'
     +'<div class="v155-wf-card" role="button" tabindex="0" data-tab="findmatch" aria-label="Start Requirements Finder">'
-      +'<div class="v155-wf-top"><span class="v155-wf-ic">&#9881;&#65039;</span><span class="v155-wf-title">Requirements Finder</span></div>'
+      +'<div class="v155-wf-top"><span class="v155-wf-ic"></span><span class="v155-wf-title">Requirements Finder</span></div>'
       +'<div class="v155-wf-desc">Find adhesives that satisfy specific engineering requirements.</div>'
       +'<div class="v155-wf-eg"><b>Examples:</b> Tg &middot; Refractive Index &middot; Cure Method &middot; CTE</div>'
       +'<button class="v155-wf-btn" type="button">Start Requirements Finder &rarr;</button></div>'
@@ -4122,12 +4120,12 @@ let missingSort = { col: 'completeness', asc: true };
   // ── 7. Value-status classification ─────────────────────────────────────────
   //  Canonical evidence-status vocabulary required by the spec.
   var STATUS_META = {
-    reported:     {label:'Reported',     cls:'pv-reported',  icon:'✓', tip:'Explicitly stated by a traceable source.'},
+    reported:     {label:'Reported',     cls:'pv-reported',  icon:'', tip:'Explicitly stated by a traceable source.'},
     calculated:   {label:'Calculated',   cls:'pv-calc',      icon:'ƒ', tip:'Derived from traceable source data.'},
     estimated:    {label:'Estimated',    cls:'pv-est',       icon:'~',      tip:'Inferred rather than directly measured.'},
     shared_class: {label:'Shared-class', cls:'pv-shared',    icon:'○', tip:'Applies to a family or product class — not confirmed for this exact product.'},
-    conflicting:  {label:'Conflicting',  cls:'pv-conflict',  icon:'⚠', tip:'Credible sources disagree. Do not rely on a single figure.'},
-    unverified:   {label:'Unverified',   cls:'pv-unver',     icon:'⚠', tip:'A value exists but its supporting source cannot be resolved.'},
+    conflicting:  {label:'Conflicting',  cls:'pv-conflict',  icon:'', tip:'Credible sources disagree. Do not rely on a single figure.'},
+    unverified:   {label:'Unverified',   cls:'pv-unver',     icon:'', tip:'A value exists but its supporting source cannot be resolved.'},
     not_reported: {label:'Not reported', cls:'pv-none',      icon:'—', tip:'No value is available for this product.'},
     removed:      {label:'Not reported', cls:'pv-none',      icon:'—', tip:'A previously stored value was removed as unsupported and is not displayed.'}
   };
@@ -4636,18 +4634,18 @@ let missingSort = { col: 'completeness', asc: true };
       cls='pv-ind-none'; glyph='—';
       aria = r.label+': not reported'+(st==='removed'?' (previous value removed as unsupported)':'');
     } else if(st==='unverified'){
-      cls='pv-ind-warn'; glyph='⚠';
+      cls='pv-ind-warn'; glyph='';
       aria = r.label+': unverified — supporting source could not be resolved. Do not use for engineering decisions until verified.';
     } else if(st==='conflicting'){
-      cls='pv-ind-warn'; glyph='⚠';
+      cls='pv-ind-warn'; glyph='';
       aria = r.label+': credible sources disagree.';
     } else if(st==='shared_class' || st==='estimated'){
       cls='pv-ind-soft'; glyph = st==='estimated' ? '~' : '○';
       aria = r.label+': '+m.label+' — '+m.tip+' Source: '+(r.sources[0]?r.sources[0].src.title:'not resolved');
     } else {
-      // Distinct glyphs, not colour alone: ✓ fully resolved, ◐ partially resolved.
+      // Text remains available to assistive technology and in the tooltip.
       cls = r.status==='resolved' ? 'pv-ind-ok' : 'pv-ind-part';
-      glyph = r.status==='resolved' ? '✓' : '◐';
+      glyph = '';
       var titles = r.sources.map(function(e){ return e.src.title || e.src.source_id; });
       aria = r.label+': '+m.label+(r.status==='partially_resolved'?' (partially resolved)':'')
            + ' — ' + (titles.length ? titles.join('; ') : 'source not resolved');
@@ -4689,7 +4687,7 @@ let missingSort = { col: 'completeness', asc: true };
         ? 'Cited source '+E(r.missingRefs.join(', '))+' is not present in the source registry.'
         : 'No source citation is recorded for this value.';
       return '<div class="pv-block pv-block-warn" role="note">'
-           + '<span class="pv-badge pv-unver">⚠ Unverified — source link missing</span>'
+           + '<span class="pv-badge pv-unver">Unverified — source link missing</span>'
            + '<div class="pv-warn-txt">Do not use for engineering decisions until verified.</div>'
            + '<div class="pv-note">'+why+(r.rawConfidence?' Stored confidence ("'+E(r.rawConfidence)+'") is withheld because no source resolves.':'')+'</div>'
            + '</div>';
@@ -5004,7 +5002,7 @@ let missingSort = { col: 'completeness', asc: true };
     var tip = 'Provisional — this record fails '+v.errorCount+' intake check'+(v.errorCount===1?'':'s')
             + ' and is held out of ranked recommendations and comparison highlighting. '+why;
     return '<span class="pv-provisional'+(opts.compact?' pv-provisional-sm':'')+'" tabindex="0" role="img"'
-         + ' aria-label="'+E(tip)+'" title="'+E(tip)+'">⚑ Provisional</span>';
+         + ' aria-label="'+E(tip)+'" title="'+E(tip)+'">Provisional</span>';
   };
 
   // ── 16. PROVENANCE AUDIT (read-only) ───────────────────────────────────────
@@ -6155,7 +6153,7 @@ function propGoalScore(a, propGoal){
   } else {
     // Text value present but no clean numeric — Tier 3: OK
     s = 18;
-    hitLabel = pf.label+': \u2713';
+    hitLabel = pf.label;
   }
 
   var isPoor = (s < 0);
@@ -6396,7 +6394,7 @@ function updateUnderstoodRow(understood) {
   var el = document.getElementById('understoodRow');
   if(!el) return;
   if(!understood||!understood.length){ el.innerHTML=''; return; }
-  var icons = {intent:'\uD83C\uDFAF',concept:'\uD83D\uDCA1',constraint:'\uD83D\uDD22',sort:'\u21D5',similar:'\uD83D\uDD0D',propgoal:'\uD83D\uDCCA'};
+  var icons = {intent:'',concept:'',constraint:'',sort:'',similar:'',propgoal:''};
   el.innerHTML = understood.map(function(u){
     var cls='nl-'+(u.type==='propgoal'?'constraint':u.type); var ico=icons[u.type]||'\u2022';
     return '<span class="nl-chip '+esc(cls)+'">'+ico+' '+esc(u.label)+'</span>';
@@ -6407,26 +6405,26 @@ function updateUnderstoodRow(understood) {
 //  AUTOCOMPLETE ENGINE
 // ════════════════════════════════════════════════════════════
 const AC_NL_SUGGESTIONS = [
-  {text:'UV adhesive for fiber coupling',    ico:'\uD83D\uDD2C'},
-  {text:'high Tg low shrinkage',             ico:'\uD83C\uDFAF'},
-  {text:'optically clear epoxy',             ico:'\uD83D\uDCA1'},
-  {text:'highest Tg',                        ico:'\uD83C\uDF21'},
-  {text:'lowest modulus optical adhesive',   ico:'\uD83E\uDDEA'},
-  {text:'highest transmission',              ico:'\uD83D\uDCE1'},
-  {text:'low shrinkage waveguide bonding',   ico:'\u223C'},
-  {text:'85/85 qualified adhesive',          ico:'\u2705'},
-  {text:'thermal cycling resistant',         ico:'\uD83D\uDD04'},
-  {text:'cryogenic compatible adhesive',     ico:'\u2744'},
-  {text:'VCSEL die attach',                  ico:'\uD83D\uDCAB'},
-  {text:'fiber V-groove attach',             ico:'\uD83D\uDD29'},
-  {text:'PIC assembly optical bonding',      ico:'\uD83D\uDDA5'},
-  {text:'shrinkage <1%',                     ico:'\uD83D\uDCCF'},
-  {text:'Tg >150',                           ico:'\uD83C\uDF21'},
-  {text:'RI 1.49-1.51',                      ico:'\uD83D\uDD2C'},
-  {text:'transmission >97',                  ico:'\uD83D\uDCA1'},
-  {text:'similar to NOA 61',                 ico:'\uD83D\uDD0D'},
-  {text:'similar to DELO OB6268',            ico:'\uD83D\uDD0D'},
-  {text:'alternative to EPO-TEK 353ND',      ico:'\uD83D\uDD0D'},
+  {text:'UV adhesive for fiber coupling',    ico:''},
+  {text:'high Tg low shrinkage',             ico:''},
+  {text:'optically clear epoxy',             ico:''},
+  {text:'highest Tg',                        ico:''},
+  {text:'lowest modulus optical adhesive',   ico:''},
+  {text:'highest transmission',              ico:''},
+  {text:'low shrinkage waveguide bonding',   ico:''},
+  {text:'85/85 qualified adhesive',          ico:''},
+  {text:'thermal cycling resistant',         ico:''},
+  {text:'cryogenic compatible adhesive',     ico:''},
+  {text:'VCSEL die attach',                  ico:''},
+  {text:'fiber V-groove attach',             ico:''},
+  {text:'PIC assembly optical bonding',      ico:''},
+  {text:'shrinkage <1%',                     ico:''},
+  {text:'Tg >150',                           ico:''},
+  {text:'RI 1.49-1.51',                      ico:''},
+  {text:'transmission >97',                  ico:''},
+  {text:'similar to NOA 61',                 ico:''},
+  {text:'similar to DELO OB6268',            ico:''},
+  {text:'alternative to EPO-TEK 353ND',      ico:''},
 ];
 var acSelectedIndex = -1;
 
@@ -6440,13 +6438,13 @@ function getAcSuggestions(q) {
   if(nlMatches.length) groups.push({section:'Suggested searches', items:nlMatches});
   var nameMatches = adhesives.filter(function(a){
     return a.adhesive_name.toLowerCase().startsWith(ql)||a.adhesive_name.toLowerCase().includes(ql);
-  }).slice(0,5).map(function(a){return {text:a.adhesive_name,sub:a.manufacturer,ico:'\uD83E\uDDF2'};});
+  }).slice(0,5).map(function(a){return {text:a.adhesive_name,sub:a.manufacturer,ico:''};});
   if(nameMatches.length) groups.push({section:'Adhesives', items:nameMatches});
   var mfrSeen={};
   var mfrMatches=[];
   adhesives.forEach(function(a){
     if(a.manufacturer&&!mfrSeen[a.manufacturer]&&a.manufacturer.toLowerCase().includes(ql)){
-      mfrSeen[a.manufacturer]=1; mfrMatches.push({text:a.manufacturer,sub:'Manufacturer',ico:'\uD83C\uDFED'});
+      mfrSeen[a.manufacturer]=1; mfrMatches.push({text:a.manufacturer,sub:'Manufacturer',ico:''});
     }
   });
   if(mfrMatches.length) groups.push({section:'Manufacturers', items:mfrMatches.slice(0,3)});
@@ -6968,16 +6966,16 @@ var strictModeOn = false;
 //  DASHBOARD OVERVIEW  (shown when no search query is active)
 // ════════════════════════════════════════════════════════════
 const EXPLORE_GOALS = [
-  {icon:'&#128295;',title:'Low shrinkage',     desc:'Minimal dimensional change on cure — critical for passive alignment.',        q:'low shrinkage passive alignment'},
-  {icon:'&#128065;',title:'High transmission',  desc:'Maximum optical transparency at 1310 nm and 1550 nm.',                       q:'high optical transmission clear'},
-  {icon:'&#128293;',title:'High-temp / high Tg',desc:'Stable performance above 150 °C; suitable for harsh environments.',          q:'high Tg heat resistant thermal stability'},
-  {icon:'&#129521;',title:'Low stress / compliant',desc:'Low modulus for thermally forgiving joints; reduces CTE-mismatch fatigue.',q:'low modulus flexible compliant low stress'},
-  {icon:'&#128257;',title:'Passive fiber alignment',desc:'Sub-micron stability post-cure; shrinkage dominates accuracy budget.',   q:'passive fiber alignment low shrinkage'},
-  {icon:'&#9889;',  title:'Active alignment / UV fixation',desc:'Fast UV snap-cure to lock optimal coupling during active alignment.',q:'UV cure active alignment fast fixation'},
-  {icon:'&#127882;',title:'RI matching',         desc:'Refractive index matched to waveguide or fiber for minimal insertion loss.',  q:'refractive index matching waveguide bonding'},
-  {icon:'&#128268;',title:'Telecom reliability',  desc:'85 °C / 85% RH and thermal cycling data for Telecordia GR-468.',          q:'85/85 qualified telecom reliability'},
-  {icon:'&#10052;', title:'Cryogenic bonding',   desc:'Flexible at 4 K–77 K; low modulus and low CTE essential.',                 q:'cryogenic low modulus flexible'},
-  {icon:'&#11088;', title:'Strongest evidence',  desc:'Highest evidence coverage — peer-reviewed or multiple independent sources.', q:'most complete data best evidence'},
+  {icon:'',title:'Low shrinkage',     desc:'Minimal dimensional change on cure — critical for passive alignment.',        q:'low shrinkage passive alignment'},
+  {icon:'',title:'High transmission',  desc:'Maximum optical transparency at 1310 nm and 1550 nm.',                       q:'high optical transmission clear'},
+  {icon:'',title:'High-temp / high Tg',desc:'Stable performance above 150 °C; suitable for harsh environments.',          q:'high Tg heat resistant thermal stability'},
+  {icon:'',title:'Low stress / compliant',desc:'Low modulus for thermally forgiving joints; reduces CTE-mismatch fatigue.',q:'low modulus flexible compliant low stress'},
+  {icon:'',title:'Passive fiber alignment',desc:'Sub-micron stability post-cure; shrinkage dominates accuracy budget.',   q:'passive fiber alignment low shrinkage'},
+  {icon:'',  title:'Active alignment / UV fixation',desc:'Fast UV snap-cure to lock optimal coupling during active alignment.',q:'UV cure active alignment fast fixation'},
+  {icon:'',title:'RI matching',         desc:'Refractive index matched to waveguide or fiber for minimal insertion loss.',  q:'refractive index matching waveguide bonding'},
+  {icon:'',title:'Telecom reliability',  desc:'85 °C / 85% RH and thermal cycling data for Telecordia GR-468.',          q:'85/85 qualified telecom reliability'},
+  {icon:'', title:'Cryogenic bonding',   desc:'Flexible at 4 K–77 K; low modulus and low CTE essential.',                 q:'cryogenic low modulus flexible'},
+  {icon:'', title:'Strongest evidence',  desc:'Highest evidence coverage — peer-reviewed or multiple independent sources.', q:'most complete data best evidence'},
 ];
 
 function renderDashboard(active){
@@ -7068,9 +7066,9 @@ function renderActiveChips(){
     var n = chips.length;
     fb.classList.toggle('has-filters', n > 0);
     if(n > 0){
-      fb.innerHTML = '&#9788; Filters <span class="filter-count-badge" aria-label="'+n+' active filters">'+n+'</span>';
+      fb.innerHTML = 'Filters <span class="filter-count-badge" aria-label="'+n+' active filters">'+n+'</span>';
     } else {
-      fb.innerHTML = '&#9788; Filters';
+      fb.innerHTML = 'Filters';
     }
     fb.setAttribute('aria-label', n > 0 ? 'Open filters ('+n+' active)' : 'Open filters panel');
   }
@@ -7122,7 +7120,7 @@ function render(){
   // Update mode toggle button appearance
   var mtBtn = document.getElementById('modeToggle');
   if(mtBtn){
-    mtBtn.textContent = strictModeOn ? '\uD83D\uDD12 Strict mode' : '\uD83D\uDD13 Explore mode';
+    mtBtn.textContent = strictModeOn ? 'Strict mode' : 'Explore mode';
     mtBtn.classList.toggle('strict', strictModeOn);
   }
 
@@ -7189,7 +7187,7 @@ function render(){
   }
 
   var strictNotice = (strictModeOn && propGoals.length && !list.length)
-    ? '<div class=”partial-notice”>\u26A0 Strict mode: no adhesives have all requested property values reported. '
+    ? '<div class=”partial-notice”>Strict mode: no adhesives have all requested property values reported. '
       +'<a href=”#” onclick=”strictModeOn=false;render();return false;” style=”color:inherit;font-weight:700”>Switch to Explore mode</a> to see closest matches.</div>'
     : '';
 
@@ -7221,10 +7219,10 @@ function render(){
       var lbl=(s.sd.dLabel||s.sd.label).replace(/^Min /,'').replace(/ \(source-extracted\)/,'');
       return n>0 ? (n+' with no reported '+lbl) : null;
     }).filter(Boolean);
-    if(parts.length) sliderExclNote='<div style="font-size:11.5px;color:var(--ink-soft);background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:0 7px 7px 0;padding:7px 11px;margin-bottom:10px;line-height:1.5">&#9432; A numeric filter is active. Materials with <b>no reported value</b> are shown as excluded because the property is <b>not reported</b> — not because they failed the requirement: '+esc(parts.join('; '))+'.</div>';
+    if(parts.length) sliderExclNote='<div style="font-size:11.5px;color:var(--ink-soft);background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:0 7px 7px 0;padding:7px 11px;margin-bottom:10px;line-height:1.5">A numeric filter is active. Materials with <b>no reported value</b> are shown as excluded because the property is <b>not reported</b> — not because they failed the requirement: '+esc(parts.join('; '))+'.</div>';
   }
   var noticeHtml = sliderExclNote + (strictNotice || (isPartialMatch
-    ? '<div class=”partial-notice”>&#9888; '+esc(partialMsg)+'</div>' : ''));
+    ? '<div class=”partial-notice”>'+esc(partialMsg)+'</div>' : ''));
 
   // Phase 17A — table-first Explorer. Card renderer retained (cardHtml) but the
   // Explorer now renders a compact, sortable, scannable table. Filtering/sorting
@@ -7277,7 +7275,7 @@ function dotHtml(a, textField, numField, label, unitStr){
   const dotCls  = !hasText ? 'dot-miss' : hasNum ? threshCls(numField, a[numField]) : 'dot-warn';
   const dispVal = hasNum
     ? `<span class="num">${a[numField]}</span><span class="num-unit">${unitStr||''}</span>`
-    : (hasText ? '&#10003;' : '&mdash;');
+    : (hasText ? '' : '&mdash;');
   const ind = R ? PROV.indicatorHtml(a, textField, {focusable:false}) : '';
   return `<span class="ind-item"><span class="dot ${dotCls}" aria-hidden="true"></span><span class="ind-label">${label}</span> <span class="ind-val">${dispVal}</span>${ind}</span>`;
 }
@@ -7308,11 +7306,11 @@ function cardHtml(a, explain){
   // Match explanation row — items from genExplanations
   let meRow = '';
   if(explain && explain.items && explain.items.length){
-    const ICO = {'me-hit':'&#10003;','me-ok':'&#10003;','me-warn':'&#9888;','me-miss':'&mdash;'};
+    const ICO = {'me-hit':'','me-ok':'','me-warn':'','me-miss':'&mdash;'};
     // Regex: detect "Label: value" to bold the value part
     const valRe = /^(.+?):\s*(.+)$/;
     const itemHtml = explain.items.map(function(item){
-      var ico = ICO[item.cls]||'&#10003;';
+      var ico = ICO[item.cls]||'';
       if(item.raw){
         // item.text may contain an evidence badge HTML suffix — split on first '<'
         var ltIdx = item.text.indexOf('<');
@@ -7366,7 +7364,7 @@ function cardHtml(a, explain){
         if(!window.PROV) return `<span style="font-size:11.5px;color:var(--ink-faint)">${(a.linked_sources||[]).length} sources</span>`;
         const C = PROV.sourceCounts(a);
         const tip = `${C.material} source${C.material===1?'':'s'} attached to this material · ${C.propertyLinked} actually cited by a property record · ${C.independentProperty} independent of the manufacturer · ${C.literature} application/reliability paper${C.literature===1?'':'s'}${C.unresolvedCitations?` · ${C.unresolvedCitations} propert${C.unresolvedCitations===1?'y':'ies'} with an unresolved citation`:''}`;
-        return `<span style="font-size:11.5px;color:var(--ink-faint)" tabindex="0" title="${esc(tip)}" aria-label="${esc(tip)}">${C.propertyLinked} source${C.propertyLinked===1?'':'s'} cited by a property${C.unresolvedCitations?` <span class="pv-ind pv-ind-warn" role="img" aria-label="${esc(C.unresolvedCitations+' properties have an unresolved citation')}">⚠</span>`:''}</span>`;
+        return `<span style="font-size:11.5px;color:var(--ink-faint)" tabindex="0" title="${esc(tip)}" aria-label="${esc(tip)}">${C.propertyLinked} source${C.propertyLinked===1?'':'s'} cited by a property${C.unresolvedCitations?` <span class="pv-ind pv-ind-warn" role="img" aria-label="${esc(C.unresolvedCitations+' properties have an unresolved citation')}"></span>`:''}</span>`;
       })()}
     </div>
   </div>`;
@@ -8449,7 +8447,7 @@ function advSelectorHtml(){
       +'<span class="eadv-sel-obj">'+esc(obj)+'</span></button>';
   }).join('');
   return '<div class="eadv-sec"><div class="eadv-sec-h">Step 1 &middot; Engineering application</div>'
-    +'<div class="eadv-sel-search"><span class="eadv-sel-ic">&#128269;</span>'
+    +'<div class="eadv-sel-search"><span class="eadv-sel-ic"></span>'
     +'<input id="advSelSearch" type="text" autocomplete="off" placeholder="Search applications — e.g. fiber coupling, lens bonding, structural…" aria-label="Search engineering applications"></div>'
     +'<div class="eadv-sel-grid" id="advSelGrid" role="listbox" aria-label="Engineering applications">'+items+'</div>'
     +'<div class="eadv-sel-none" id="advSelNone" style="display:none">No applications match your search.</div></div>';
@@ -8591,9 +8589,9 @@ function advWhyHtml(a,req){
   var d=window.v9WhyData(a,req);
   var strengths=d.good.slice(0,4);
   var lim=d.warn.slice(0,3).map(function(t){return {t:t,cls:'w',ic:'&#9651;'};})
-         .concat(d.bad.slice(0,2).map(function(t){return {t:t,cls:'b',ic:'&#10007;'};}));
+         .concat(d.bad.slice(0,2).map(function(t){return {t:t,cls:'b',ic:''};}));
   if(!strengths.length&&!lim.length) return '';
-  var sc=strengths.length?('<div class="eadv-why-col"><div class="eadv-why-h good">Strengths</div>'+_advWhyLines(strengths,'g','&#10003;')+'</div>'):'';
+  var sc=strengths.length?('<div class="eadv-why-col"><div class="eadv-why-h good">Strengths</div>'+_advWhyLines(strengths,'g','')+'</div>'):'';
   var lc=lim.length?('<div class="eadv-why-col"><div class="eadv-why-h lim">Limitations &amp; uncertainties</div>'
     +lim.map(function(o){return '<div class="eadv-why-line '+o.cls+'"><span class="eadv-why-ic">'+o.ic+'</span><span>'+o.t+'</span></div>';}).join('')+'</div>'):'';
   return '<div class="eadv-why"><div class="eadv-why-cols">'+sc+lc+'</div></div>';
@@ -8601,9 +8599,9 @@ function advWhyHtml(a,req){
 function advWhyInline(a,req){
   if(!window.v9WhyData) return '';
   var d=window.v9WhyData(a,req);
-  return '<div class="eadv-why">'+_advWhyLines(d.good.slice(0,3),'g','&#10003;')
+  return '<div class="eadv-why">'+_advWhyLines(d.good.slice(0,3),'g','')
     +_advWhyLines(d.warn.slice(0,2),'w','&#9651;')
-    +_advWhyLines(d.bad.slice(0,2),'b','&#10007;')+'</div>';
+    +_advWhyLines(d.bad.slice(0,2),'b','')+'</div>';
 }
 
 function advExpander(id,title,sub,bodyHtml){
@@ -10497,7 +10495,7 @@ function provenanceAuditHtml(){
   }).join('');
 
   return '<div class="pa-panel">'
-    + '<div class="pa-title">&#128269; Provenance Audit'
+    + '<div class="pa-title">Provenance Audit'
     + '<button class="pa-btn" type="button" id="paExportBtn">&#8659; Export audit JSON</button></div>'
     + '<div class="pa-sub">Read-only field-level source-integrity report across '+c.materials+' materials and '
     + c.canonicalSources+' canonical source records. Nothing here modifies the database.</div>'
@@ -10529,7 +10527,7 @@ function paRenderRows(){
       + '<td><span class="pa-sev pa-sev-'+esc(r.severity)+'">'+esc(r.severity)+'</span> '+esc(r.problem)+'</td>'
       + '<td>'+esc(r.correction)+'</td>'
       + '</tr>';
-  }).join('') : '<tr><td colspan="7" style="color:var(--good)">&#10003; No findings in this category.</td></tr>';
+  }).join('') : '<tr><td colspan="7" style="color:var(--good)">No findings in this category.</td></tr>';
   if(more) more.textContent = rows.length>PA_LIMIT
     ? ('Showing the first '+PA_LIMIT+' of '+rows.length+' findings — export the audit JSON for the complete list.')
     : (rows.length+' finding'+(rows.length===1?'':'s'));
@@ -10569,7 +10567,7 @@ function intakeReportHtml(){
               ['clean','Passing cleanly ('+R.clean+')'],
               ['all','All records ('+R.total+')']];
   return '<div class="pa-panel">'
-    + '<div class="pa-title">&#9873; Record Intake Check</div>'
+    + '<div class="pa-title">Record Intake Check</div>'
     + '<div class="pa-sub">Runs before the evidence layer: catches the entry mistakes that create untraceable data. '
     + '<b>Errors</b> mark a record <b>Provisional</b> — still searchable and readable, badged, and held out of ranked '
     + 'recommendations and comparison highlighting. <b>Warnings</b> are the stricter standard new records should meet; '
@@ -10596,13 +10594,13 @@ function ikRenderRows(){
     if(IK_FILTER==='clean')       return r.pass;
     return true;
   });
-  if(!rows.length){ el.innerHTML='<p style="color:var(--good);font-size:13px">&#10003; Nothing in this category.</p>'; return; }
+  if(!rows.length){ el.innerHTML='<p style="color:var(--good);font-size:13px">Nothing in this category.</p>'; return; }
   el.innerHTML = rows.slice(0,150).map(function(r){
     var body = r.errors.map(function(x){ return '<div class="ik-err"><span class="ik-code">'+esc(x.id)+'</span>'+esc(x.message)+(x.detail?' <span class="rec-prov-d">'+esc(x.detail)+'</span>':'')+'</div>'; }).join('')
              + r.warnings.map(function(x){ return '<div class="ik-warn"><span class="ik-code">'+esc(x.id)+'</span>'+esc(x.message)+(x.detail?' <span class="rec-prov-d">'+esc(x.detail)+'</span>':'')+'</div>'; }).join('');
-    if(!body) body = '<div style="color:var(--good);font-size:11.5px">&#10003; No findings</div>';
+    if(!body) body = '<div style="color:var(--good);font-size:11.5px">No findings</div>';
     return '<div class="ik-row"><div><span class="ik-mat" role="button" tabindex="0" data-ikid="'+r.id+'">'+esc(r.material)+'</span>'
-         + (r.provisional?' <span class="pv-provisional pv-provisional-sm">&#9873; Provisional</span>':'')
+         + (r.provisional?' <span class="pv-provisional pv-provisional-sm">Provisional</span>':'')
          + '<div style="font-size:11px;color:var(--ink-faint);margin-top:2px">'+r.populated+' populated propert'+(r.populated===1?'y':'ies')+'</div></div>'
          + '<div>'+body+'</div></div>';
   }).join('') + (rows.length>150 ? '<div class="pa-more">Showing the first 150 of '+rows.length+' — export the intake JSON for the full list.</div>' : '');
@@ -10663,7 +10661,7 @@ function renderMissing(){
   var nWarn = auditIssues.filter(function(x){return x.severity==='Warning';}).length;
   var nRev  = auditIssues.filter(function(x){return x.severity==='Review';}).length;
   var auditHtml = '<div class="dq-panel">'
-    +'<div class="dq-title">&#128202; Data Quality Audit'
+    +'<div class="dq-title">Data Quality Audit'
     +'<span class="dq-toggle" id="dqToggleBtn"> show details</span></div>'
     +'<div class="dq-kpis">'
     +'<div class="dq-kpi"><div class="dq-kpi-num dq-kpi-'+(nCrit>0?'crit':'ok')+'">'+nCrit+'</div><div class="dq-kpi-lbl">Critical</div></div>'
@@ -10673,7 +10671,7 @@ function renderMissing(){
     +'</div>'
     +'<div id="dqDetails" style="display:none">';
   if(auditIssues.length===0){
-    auditHtml+='<p style="color:var(--good);font-size:13px">&#10003; No provenance inconsistencies detected.</p>';
+    auditHtml+='<p style="color:var(--good);font-size:13px">No provenance inconsistencies detected.</p>';
   } else {
     auditIssues.forEach(function(issue){
       var sevCls = issue.severity==='Critical'?'dq-sev-crit':issue.severity==='Warning'?'dq-sev-warn':'dq-sev-info';
@@ -10698,11 +10696,11 @@ function renderMissing(){
     });
   });
   var conflictHtml = '<div class="dq-panel" style="margin-top:12px">'
-    +'<div class="dq-title">&#9888; Source Conflict View'
+    +'<div class="dq-title">Source Conflict View'
     +'<span class="dq-toggle" id="conflictToggleBtn"> show ('+conflictItems.length+')</span></div>'
     +'<div id="conflictDetails" style="display:none">';
   if(!conflictItems.length){
-    conflictHtml+='<p style="color:var(--good);font-size:13px">&#10003; No conflicting-source properties found in provenance.</p>';
+    conflictHtml+='<p style="color:var(--good);font-size:13px">No conflicting-source properties found in provenance.</p>';
   } else {
     conflictHtml+='<p style="font-size:12px;color:var(--ink-faint);margin-bottom:8px">'
       +'Properties where multiple sources report different values. These are flagged for engineering review — '
@@ -10728,7 +10726,7 @@ function renderMissing(){
 
   // ── Regression Test Panel ──
   var regHtml = '<div class="reg-panel">'
-    +'<div class="reg-title">&#9881; Engineering Validation Suite'
+    +'<div class="reg-title">Engineering Validation Suite'
     +'<button class="reg-run-btn" id="regRunBtn">Run validation suite</button></div>'
     +'<div id="regResults" style="color:var(--ink-faint);font-size:12px">Click "Run validation suite" to execute the engineering + provenance regression tests.</div>'
     +'</div>';
@@ -10774,7 +10772,7 @@ function renderMissing(){
     var html='';
     res.forEach(function(t){
       var cls = t.status==='pass'?'reg-pass':t.status==='partial'?'reg-partial':'reg-fail';
-      var ico = t.status==='pass'?'&#10003;':t.status==='partial'?'&#9711;':'&#10007;';
+      var ico = t.status==='pass'?'':t.status==='partial'?'&#9711;':'';
       if(t.status==='pass') pass++; else if(t.status==='partial') partial++; else fail++;
       html+='<div class="reg-result"><span class="'+cls+'">'+ico+'</span><span>'+esc(t.name)+' — '+esc(t.detail)+'</span></div>';
     });
@@ -10864,7 +10862,7 @@ function renderQualPlanner(){
   const candOpts = ['Select adhesive...', ...adhesives.map(a=>a.adhesive_name)].map((n,i)=>
     `<option value="${i===0?'':esc(n)}">${esc(n)}</option>`).join('');
   el.innerHTML = `<div class="qp-wrap">
-    <h2 style="color:var(--accent);margin-bottom:6px">&#9000; Qualification Planner</h2>
+    <h2 style="color:var(--accent);margin-bottom:6px">Qualification Planner</h2>
     <div class="qp-intro">
       Select up to 4 adhesive candidates and describe your application context. The planner generates a
       qualification test matrix indicating which tests are <em>Strongly indicated</em>, <em>Application-dependent</em>,
@@ -10986,7 +10984,7 @@ function renderDecisionReport(){
   const candOpts = ['Select adhesive (optional)...', ...adhesives.map(a=>a.adhesive_name)].map((n,i)=>
     `<option value="${i===0?'':esc(n)}">${esc(n)}</option>`).join('');
   el.innerHTML = `<div class="report-wrap">
-    <h2 style="color:var(--accent);margin-bottom:6px">&#128196; Engineering Screening Report</h2>
+    <h2 style="color:var(--accent);margin-bottom:6px">Engineering Screening Report</h2>
     <div class="report-intro">
       Generate a printable engineering report summarising your adhesive selection analysis.
       Populate the fields below, select up to 3 candidates from the database, then Generate and Print to PDF.
@@ -11007,7 +11005,7 @@ function renderDecisionReport(){
       <div class="rpt-row"><label>Next steps</label><textarea id="rpt_next" placeholder="e.g. bond strength test on borosilicate glass substrates, RI measurement at 1310 nm…"></textarea></div>
       <div class="rpt-actions">
         <button class="rpt-gen" id="rpt_genBtn">Generate Report</button>
-        <button class="rpt-print" id="rpt_printBtn" style="display:none">&#128438; Print / Save as PDF</button>
+        <button class="rpt-print" id="rpt_printBtn" style="display:none">Print / Save as PDF</button>
       </div>
     </div>
     <div id="rpt_doc"></div>
@@ -11122,7 +11120,7 @@ function renderFeedbackView(){
   el.innerHTML = `<div class="fb-top-row">
     <button id="fbExpJson">&#8659; Export JSON</button>
     <button id="fbExpCsv">&#8659; Export CSV</button>
-    <button id="fbEmailAll">&#9993; Email all to DB owner</button>
+    <button id="fbEmailAll">Email all to DB owner</button>
   </div>` + (all.length===0
     ? '<div class="empty">No feedback saved on this device yet. Open any adhesive to leave a note.</div>'
     : all.map(e=>`<div class="fb-global-card">
@@ -11397,13 +11395,13 @@ function buildScreeningFunnel(criteria, appWeight, totalWeight, app){
     <div class="funnel-buckets">
       <div class="funnel-bucket fb-strong">
         <div class="funnel-count">${strong.length}</div>
-        <div class="funnel-bucket-hdr">&#10003; Strong screening candidates</div>
+        <div class="funnel-bucket-hdr">Strong screening candidates</div>
         <div style="font-size:11.5px;color:var(--ink-soft)">≥75% of criteria met on reported data</div>
         ${strong.length?`<div class="funnel-names">${esc(names(strong))}</div>`:''}
       </div>
       <div class="funnel-bucket fb-partial">
         <div class="funnel-count">${partial.length}</div>
-        <div class="funnel-bucket-hdr">&#9888; Partial / possible</div>
+        <div class="funnel-bucket-hdr">Partial / possible</div>
         <div style="font-size:11.5px;color:var(--ink-soft)">Some criteria met; no confirmed conflicts</div>
         ${partial.length?`<div class="funnel-names">${esc(names(partial))}</div>`:''}
       </div>
@@ -11415,7 +11413,7 @@ function buildScreeningFunnel(criteria, appWeight, totalWeight, app){
       </div>
       <div class="funnel-bucket fb-conflict">
         <div class="funnel-count">${conflict.length}</div>
-        <div class="funnel-bucket-hdr">&#10007; Confirmed conflict</div>
+        <div class="funnel-bucket-hdr">Confirmed conflict</div>
         <div style="font-size:11.5px;color:var(--ink-soft)">Reported value fails at least one hard requirement</div>
         ${conflict.length?`<div class="funnel-names">${esc(names(conflict))}</div>`:''}
       </div>
@@ -11541,8 +11539,8 @@ function runFindBestMatch(){
           </div>
         </div>
         <div style="margin-top:8px">
-          ${r.hits.map(h=>`<div style="font-size:12.5px;color:var(--good)">&#10003; ${esc(h)}</div>`).join('')}
-          ${r.warns.map(w=>`<div style="font-size:12.5px;color:var(--warn)">&#9888; ${esc(w)}</div>`).join('')}
+          ${r.hits.map(h=>`<div style="font-size:12.5px;color:var(--good)">${esc(h)}</div>`).join('')}
+          ${r.warns.map(w=>`<div style="font-size:12.5px;color:var(--warn)">${esc(w)}</div>`).join('')}
         </div>
         <div style="margin-top:8px">${complBadge(dispCompleteness(r.a))}</div>
         ${ievH}
@@ -11559,7 +11557,7 @@ function runFindBestMatch(){
   saveBar.style.cssText = 'margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap';
   saveBar.innerHTML = `<button class="fbm-clr" id="fbm_saveProjectBtn"
     style="background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent)"
-    title="Save this search session as a named project">&#128190; Save as project</button>
+    title="Save this search session as a named project">Save as project</button>
     <span style="font-size:11.5px;color:var(--ink-faint)">(Saved locally in this browser)</span>`;
   el.appendChild(saveBar);
   document.getElementById('fbm_saveProjectBtn').addEventListener('click', function(){
@@ -11606,7 +11604,7 @@ function renderSavedSearches(){
     `<span style="font-size:11.5px;color:var(--ink-faint)">Saved:</span>` +
     list.map((s,i)=>`<span class="chip" style="font-size:11px;display:inline-flex;align-items:center;gap:4px">
       <span class="sav-load" data-i="${i}" style="cursor:pointer">${esc(s.name)}</span>
-      <span class="sav-del" data-i="${i}" style="cursor:pointer;color:var(--bad);font-size:10px;line-height:1">✕</span>
+      <span class="sav-del" data-i="${i}" style="cursor:pointer;color:var(--bad);font-size:10px;line-height:1">Remove</span>
     </span>`).join('') +
     `<button id="saveBtn" style="font-size:11.5px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 10px;cursor:pointer;color:var(--ink-soft)">+ Save current</button>`;
   el.querySelectorAll('.sav-load').forEach(b=>b.addEventListener('click',()=>loadSavedSearch(list[parseInt(b.dataset.i)])));
@@ -11689,7 +11687,7 @@ function renderSavedProjects(){
           ${p.topResults&&p.topResults.length?` · Top match: ${esc(p.topResults[0].name)} (${p.topResults[0].pct}%)`:''}
         </div>
       </div>
-      <button style="border:none;background:none;color:var(--bad);cursor:pointer;font-size:12px;padding:0;flex-shrink:0" onclick="deleteProject(${p.id})">✕ Delete</button>
+      <button style="border:none;background:none;color:var(--bad);cursor:pointer;font-size:12px;padding:0;flex-shrink:0" onclick="deleteProject(${p.id})">Delete</button>
     </div>`).join('');
 }
 
@@ -12112,7 +12110,7 @@ function starsHtml(pct){
   var full=Math.max(0,Math.min(5,Math.round(pct/20)));
   var s='';
   for(var i=0;i<5;i++){
-    s+='<span style="color:'+(i<full?'var(--warn)':'var(--line)')+'">&#9733;</span>';
+    s+='<span style="color:'+(i<full?'var(--warn)':'var(--line)')+'"></span>';
   }
   return s;
 }
@@ -12507,10 +12505,10 @@ function buildComparisonHtml(c1, c2, intentIds) {
   [[c1,l1,true],[c2,l2,false]].forEach(function(x){
     var c=x[0],l=x[1],isTop=x[2];
     html+='<div class="cmp-col"><div class="cmp-header">'+esc(c.adhesive_name)+(window.v12CardChip?'<div style="margin-top:3px">'+v12CardChip(c)+'</div>':'');
-    if(isTop) html+=' <span class="cmp-top-badge">&#9733; Rank 1</span>';
+    if(isTop) html+=' <span class="cmp-top-badge">Rank 1</span>';
     html+='</div><div class="cmp-mfr">'+esc(c.manufacturer||'')+'</div>';
-    l.pros.forEach(function(p){ html+='<div class="cmp-row cmp-pro">&#10003; '+esc(p)+'</div>'; });
-    l.cons.forEach(function(p){ html+='<div class="cmp-row cmp-con">&#10007; '+esc(p)+'</div>'; });
+    l.pros.forEach(function(p){ html+='<div class="cmp-row cmp-pro">'+esc(p)+'</div>'; });
+    l.cons.forEach(function(p){ html+='<div class="cmp-row cmp-con">'+esc(p)+'</div>'; });
     html+='</div>';
   });
   return html+'</div></div>';
@@ -12567,10 +12565,10 @@ function buildAdvisorResponse(candidates, allScored, query, intentIds, hardReqs,
   if(hardReqs.length){
     var hrTop=checkHardReqs(top,hardReqs);
     if(hrTop.allMet){
-      html+='<div class="hr-block hr-ok">&#10003; Meets all hard requirements: '
+      html+='<div class="hr-block hr-ok">Meets all hard requirements: '
         +hardReqs.map(function(h){return esc(h.label);}).join(' &bull; ')+'</div>';
     } else {
-      html+='<div class="hr-block hr-warn"><strong>&#9888; Note:</strong> Top result satisfies '
+      html+='<div class="hr-block hr-warn"><strong>Note:</strong> Top result satisfies '
         +hrTop.met.length+'/'+hardReqs.length+' requirement'+(hardReqs.length!==1?'s':'')+' ('
         +hrTop.failed.map(function(h){return esc(h.label);}).join(', ')+' not met).</div>';
     }
@@ -12579,7 +12577,7 @@ function buildAdvisorResponse(candidates, allScored, query, intentIds, hardReqs,
   html+=buildConversationalOpening(candidates,query,intentIds,hardReqs,propGoals);
   // Primary screening candidate card
   html+='<div class="adv-rec-block"><div class="adv-rec-header">'
-    +'<span class="adv-rec-badge">&#128204; Strong Screening Candidate</span>'
+    +'<span class="adv-rec-badge">Strong Screening Candidate</span>'
     +'<strong>'+esc(top.adhesive_name)+'</strong>'
     +'<span class="adv-rec-mfr">'+esc(top.manufacturer||'')+'</span>'
     +'</div>';
@@ -12589,7 +12587,7 @@ function buildAdvisorResponse(candidates, allScored, query, intentIds, hardReqs,
   // Tradeoffs
   var tradeoffs=getEngineeringTradeoffs(top,intentIds);
   if(tradeoffs.length){
-    html+='<div class="tf-block"><div class="tf-title">&#128161; Engineering tradeoffs to understand</div>';
+    html+='<div class="tf-block"><div class="tf-title">Engineering tradeoffs to understand</div>';
     tradeoffs.forEach(function(t){ html+='<div class="tf-item">'+esc(t)+'</div>'; });
     html+='</div>';
   }
@@ -12614,7 +12612,7 @@ function buildAdvisorResponse(candidates, allScored, query, intentIds, hardReqs,
     });
   }
   if(unknowns.length)
-    html+='<div class="adv-caveat"><strong>&#9888; Not in database for '+esc(top.adhesive_name)+':</strong> '
+    html+='<div class="adv-caveat"><strong>Not in database for '+esc(top.adhesive_name)+':</strong> '
       +unknowns.map(esc).join(', ')+'. '
       +'These are listed as <em>unknown</em>, not poor \u2014 the adhesive may still be suitable. '
       +'Confirm directly with '+esc(top.manufacturer||'the manufacturer')+'.</div>';
@@ -12634,13 +12632,13 @@ function updateApiBtn(){
   var chip=document.getElementById('advModeChip');
   if(!btn) return;
   if(advisorApiKey){
-    btn.textContent='\u2713 AI: Claude-enhanced';
+    btn.textContent='AI: Claude-enhanced';
     btn.classList.add('active');
     if(dot)  dot.style.background='var(--accent)';
     if(lbl)  lbl.textContent='Claude-enhanced mode active';
     if(chip) { chip.textContent='Claude-enhanced'; chip.style.background='var(--accent)'; chip.style.color='#fff'; chip.style.borderColor='var(--accent)'; }
   } else {
-    btn.textContent='\u2699 Configure AI';
+    btn.textContent='Configure AI';
     btn.classList.remove('active');
     if(dot)  dot.style.background='var(--good)';
     if(lbl)  lbl.textContent='Rule-based scoring active';
@@ -12750,7 +12748,7 @@ function renderAdvisorCandidates(candidates,intentIds,hardReqs,propGoals){
                   tp.confidence==='Moderate'?'adv-conf-mod':
                   tp.confidence==='Low'?'adv-conf-low':'adv-conf-insuff';
     html+='<div class="adv-cand'+(isTop?' top-pick':'')+'" onclick="openDetail('+a.id+')">';
-    if(isTop) html+='<div class="adv-top-badge">&#9733; Top screening match</div>';
+    if(isTop) html+='<div class="adv-top-badge">Top screening match</div>';
     html+='<div class="adv-cand-name">'+esc(a.adhesive_name)+'</div>'
       +'<div class="adv-cand-mfr">'+esc(a.manufacturer_canonical||a.manufacturer||'')
       +(a.chemistry&&a.chemistry!=='Unknown'?' · '+esc(a.chemistry):'')+'</div>';
@@ -12815,7 +12813,7 @@ function appendAdvisorMsg(html,role){
   if(role==='user'){
     el.innerHTML+='<div class="adv-msg-user">'+esc(html)+'</div>';
   } else {
-    el.innerHTML+='<div class="adv-msg-ai"><div class="adv-msg-head">&#129302; AI Analysis</div>'
+    el.innerHTML+='<div class="adv-msg-ai"><div class="adv-msg-head">AI Analysis</div>'
       +'<div class="adv-prose">'+html+'</div></div>';
   }
   el.scrollTop=el.scrollHeight;
@@ -12888,7 +12886,7 @@ async function advisorSearch(question){
     try{apiText=await callClaudeAPI(topCandList,question,intentIds);}catch(e){}
     if(apiText){
       responseHtml='<p style="font-size:11px;color:var(--good);margin-bottom:8px">'
-        +'&#127916; Generated by Claude haiku \u2014 grounded in the database below</p><p>'
+        +'Generated by Claude haiku \u2014 grounded in the database below</p><p>'
         +apiText
           .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
           .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
@@ -12965,7 +12963,7 @@ function advisorSend(){
 // ════════════════════════════════════════════════════════════
 //  TABS + MORE MENU
 // ════════════════════════════════════════════════════════════
-const MORE_TABS = ['evidence','advisor','missing','feedback','qualplan','report'];
+const MORE_TABS = ['evidence','advisor','missing','feedback','qualplan'];
 let tabState = 'search';
 function switchTab(tab){
   tabState = tab;
@@ -12973,7 +12971,7 @@ function switchTab(tab){
   document.querySelectorAll('.main-tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
   document.querySelectorAll('.more-item').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
   document.getElementById('moreBtn').classList.toggle('active', MORE_TABS.includes(tab));
-  ['home','search','findmatch','usecases','missing','feedback','advisor','qualplan','report','evidence'].forEach(t=>{
+  ['home','search','findmatch','usecases','missing','feedback','advisor','qualplan','evidence'].forEach(t=>{
     const el=document.getElementById(t==='search'?'searchView':t+'View');
     if(el) el.style.display = t===tab?'block':'none';
   });
@@ -12989,7 +12987,6 @@ function switchTab(tab){
   if(tab==='missing') renderMissing();
   if(tab==='feedback') renderFeedbackView();
   if(tab==='qualplan') renderQualPlanner();
-  if(tab==='report') renderDecisionReport();
 }
 document.querySelectorAll('.main-tab').forEach(btn=>{
   btn.addEventListener('click',()=>switchTab(btn.dataset.tab));
@@ -14392,7 +14389,7 @@ const NASA_DATA = {"4": {"match_status": "EXACT_MATCH", "identity_confidence": "
   }
   window.renderNasaSection=function(a){
     var d=window.getNasaData(a); var sl=statusLabel(d.match_status);
-    var html='<div class="nasa-sec"><div class="nasa-h">🛰 Outgassing / NASA Data '
+    var html='<div class="nasa-sec"><div class="nasa-h">Outgassing / NASA Data '
       +'<span class="nasa-status '+sl[1]+'">'+esct(sl[0])+'</span></div>';
     if(d.records && d.records.length){
       html+='<div class="nasa-note" style="margin-top:0"><b>NASA material:</b> '+esct(d.nasa_material||'')
@@ -14796,7 +14793,7 @@ body.on-record #dashOverview{ display:none !important; }
         +propRowC('Viscosity', viscTextC(a))
       +'</div>'
       +'<div class="mxc-foot" title="'+esct(srcTip)+'">'+evPhrase(a)+' · '+esct(compl)
-        +(_C?(' · '+_C.propertyLinked+' src cited'+(_C.unresolvedCitations?' <span class="pv-ind pv-ind-warn" role="img" aria-label="'+esct(_C.unresolvedCitations+' properties have an unresolved citation')+'">⚠</span>':'')):'')
+        +(_C?(' · '+_C.propertyLinked+' src cited'+(_C.unresolvedCitations?' <span class="pv-ind pv-ind-warn" role="img" aria-label="'+esct(_C.unresolvedCitations+' properties have an unresolved citation')+'"></span>':'')):'')
         +'</div>'
       +'</div>';
   }
@@ -14897,7 +14894,6 @@ body.on-record #dashOverview{ display:none !important; }
     {grp:'Tools & More', items:[
       {tab:'advisor',label:'Guided Screening (AI)',ico:I.ai},
       {tab:'missing',label:'Evidence & Data Quality',ico:I.quality},
-      {tab:'report',label:'Decision Report Builder',ico:I.report},
       {tab:'feedback',label:'Feedback',ico:I.feedback}
     ]}
   ];
@@ -14969,7 +14965,7 @@ body.on-record #dashOverview{ display:none !important; }
     var v = window.PROV.recordStatus(a);
     if(!v || !v.provisional) return '';
     return '<div class="rec-provisional" role="note">'
-      + '<div class="rec-provisional-h">⚑ Provisional record — fails '+v.errorCount+' intake check'+(v.errorCount===1?'':'s')+'</div>'
+      + '<div class="rec-provisional-h">Provisional record — fails '+v.errorCount+' intake check'+(v.errorCount===1?'':'s')+'</div>'
       + '<ul class="rec-provisional-l">'
       + v.errors.map(function(x){ return '<li>'+esct(x.message)+(x.detail?' <span class="rec-prov-d">'+esct(x.detail)+'</span>':'')+'</li>'; }).join('')
       + '</ul>'
