@@ -65,9 +65,13 @@ A citation resolves through one of four tiers, recorded as `via`:
 Source tiers: `independent`, `manufacturer`, `manufacturer_affiliated`, `aggregator`,
 `secondary`. **Datasheet aggregators republish manufacturer data and are not independent.**
 
-Link access is classified `public` / `restricted` / `local` / `none`. Only `public`
-counts toward "publicly checkable"; a Google Drive or SharePoint share is `restricted`
-and is never presented as something a reader can go and verify.
+Every canonical source also carries a dated link audit. Access is classified separately
+as reachable public URL, resolvable DOI, exact manufacturer portal document, valid local
+document, restricted/private evidence, intentionally non-documentary placeholder, or unavailable/broken. Two further
+fields record whether document identity and cited-property support were verified from
+content or remain pending. Reachability may count toward "publicly checkable", but it is
+not content verification. Private evidence remains a valid citation but is never
+presented as public or content-verified.
 
 ---
 
@@ -107,13 +111,13 @@ silently reintroduces a class of error the database has already been cleaned of.
 Run in the browser console:
 
 ```js
-runRegressionTests()   // 119 checks
+runRegressionTests()   // 121 checks
 PROV.intakeReport()    // per-record errors/warnings
 PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 119 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+**Current: 121 pass, 0 fail, 0 partial.** Compare against that baseline; any new
 non-passing check is a regression.
 
 ### Intake codes
@@ -149,13 +153,18 @@ is withheld from ranking.
 | | |
 |---|---|
 | Materials | 112 |
-| Populated properties | 748 |
-| Traceable properties | 748 / 748 (100%) |
-| Fully resolved / partially resolved citations | 652 / 96 |
+| Populated properties | 691 |
+| Traceable properties | 691 / 691 (100%) |
+| Fully resolved / partially resolved citations | 691 / 0 |
 | Unresolved values | **0** |
-| Publicly checkable | 708 / 748 (95%) |
-| Source records | 196 (27 retired, 23 alias ids still resolving) |
-| Records clean / warnings only / provisional | 37 / 69 / 6 |
+| Publicly checkable | 675 / 691 (97.7%) |
+| Source records | 196 (28 retired, 24 alias ids still resolving) |
+| Public reachability | 127 reachable URLs / 15 resolvable DOIs / 142 total |
+| Content verification | 8 document identities verified / 8 property-support scopes verified / 137 pending |
+| Other source classifications | 3 manufacturer-portal / 0 valid local / 7 private / 5 placeholders / 39 unavailable |
+| Property access | 675 public / 12 exact-portal / 0 local-only / 4 private-only / 0 unavailable-only |
+| Unavailable-source occurrences on otherwise supported properties | 18 |
+| Records clean / warnings only / provisional | 65 / 41 / 6 |
 | Vocabulary violations | 0 |
 
 All 6 provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
@@ -168,16 +177,25 @@ grades, because matching on refractive index alone would be a fabricated identif
 
 1. **37 stub records** (≤2 populated properties): Luvantix 9, DELO 8, Master Bond 6,
    Dymax 4, Henkel 3, Norland 1, plus the 6 Nye records that are correctly held back.
-2. **10 source links remain flagged `link_unverified`** after all 16 candidates were
-   checked on 2026-09-02. Six live links were promoted to public URLs. The remaining
-   links returned HTTP 404 and have no verified replacement yet: S06-A, S06-B, S06-C,
-   S10-A, S15-C, S16-A, S16-B, S14-B, S14-C and S15-B.
+2. **39 source records are unavailable or broken** in the 2026-09-03 normal-GET audit.
+   This includes 404 responses, automated-access blocks/timeouts, missing local files,
+   and records whose exact document was never captured. They remain visibly unavailable
+   instead of being counted as public. S16-A/S16-B were repointed to Dymax's live archived
+   optics guide; no generic manufacturer or family page was substituted for an exact
+   source that it does not contain.
+   No populated property depends only on one of these sources: 57 unsupported values
+   were withdrawn, six claims were retained after exact public documents were verified,
+   and 12 claims are retained from three exact DELO TDS files whose identities and values
+   were checked but whose current retrieval path requires registration and a product-code
+   search in DELO's manufacturer portal. Eighteen historical unavailable-source references remain alongside a
+   public supporting source and are counted separately as property-source occurrences.
 3. **NTT-AT revision discrepancy** — the operator's own copy of the waveguide brochure
    is print code `202201B`; the public link cited is `201802A`. Stored values came from
    the newer copy, so the public link is a different revision. A companion fiber-array
    brochure (E2, 202201B) is not yet in the registry.
-4. **90 sources have no `retrieved_date`**, so nothing flags link rot. Panacol's entire
-   URL scheme and Henkel's `en_US` paths both died between builds — rot here is measured
+4. `retrieved_date` remains historical acquisition metadata; the separate `link_audit`
+   object now records the 2026-09-03 check outcome and final redirect target for every
+   source. Panacol's URL scheme and Henkel's `en_US` paths have both changed between builds — rot here is measured
    in months.
 5. **EPO-TEK 353ND transmission (≥95%, 1100–1600 nm) has no published path length** in
    any revision; it is marked not normalized and must not enter a loss budget until
