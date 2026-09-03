@@ -66,12 +66,11 @@ Source tiers: `independent`, `manufacturer`, `manufacturer_affiliated`, `aggrega
 `secondary`. **Datasheet aggregators republish manufacturer data and are not independent.**
 
 Every canonical source also carries a dated link audit. Access is classified separately
-as reachable public URL, resolvable DOI, exact manufacturer portal document, valid local
-document, restricted/private evidence, intentionally non-documentary placeholder, or unavailable/broken. Two further
+as reachable public URL, resolvable DOI, or an exact manufacturer portal document. Source
+records that cannot be retrieved by a database user are not retained. Two further
 fields record whether document identity and cited-property support were verified from
 content or remain pending. Reachability may count toward "publicly checkable", but it is
-not content verification. Private evidence remains a valid citation but is never
-presented as public or content-verified.
+not content verification.
 
 ---
 
@@ -153,21 +152,20 @@ is withheld from ranking.
 | | |
 |---|---|
 | Materials | 112 |
-| Populated properties | 691 |
-| Traceable properties | 691 / 691 (100%) |
-| Fully resolved / partially resolved citations | 691 / 0 |
+| Populated properties | 687 |
+| Traceable properties | 687 / 687 (100%) |
+| Fully resolved / partially resolved citations | 687 / 0 |
 | Unresolved values | **0** |
-| Publicly checkable | 675 / 691 (97.7%) |
-| Source records | 196 (28 retired, 24 alias ids still resolving) |
-| Public reachability | 127 reachable URLs / 15 resolvable DOIs / 142 total |
-| Content verification | 8 document identities verified / 8 property-support scopes verified / 137 pending |
-| Other source classifications | 3 manufacturer-portal / 0 valid local / 7 private / 5 placeholders / 39 unavailable |
-| Property access | 675 public / 12 exact-portal / 0 local-only / 4 private-only / 0 unavailable-only |
-| Unavailable-source occurrences on otherwise supported properties | 18 |
-| Records clean / warnings only / provisional | 65 / 41 / 6 |
+| Publicly checkable | 675 / 687 (98.3%) |
+| Source records | 151 (16 alias ids still resolving) |
+| Public reachability | 133 reachable URLs / 15 resolvable DOIs / 148 total |
+| Content verification | 8 document identities verified / 8 property-support scopes verified / 143 pending |
+| Other source classifications | 3 manufacturer-portal / 0 local / 0 private / 0 placeholders / 0 unavailable |
+| Property access | 675 public / 12 exact-portal / 0 inaccessible-only |
+| Records clean / warnings only / provisional | 64 / 40 / 8 |
 | Vocabulary violations | 0 |
 
-All 6 provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
+Six provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
 none of those grade names exists in Nye's catalogue. They were **not** renamed to real
 grades, because matching on refractive index alone would be a fabricated identification.
 
@@ -177,18 +175,11 @@ grades, because matching on refractive index alone would be a fabricated identif
 
 1. **37 stub records** (≤2 populated properties): Luvantix 9, DELO 8, Master Bond 6,
    Dymax 4, Henkel 3, Norland 1, plus the 6 Nye records that are correctly held back.
-2. **39 source records are unavailable or broken** in the 2026-09-03 normal-GET audit.
-   This includes 404 responses, automated-access blocks/timeouts, missing local files,
-   and records whose exact document was never captured. They remain visibly unavailable
-   instead of being counted as public. S16-A/S16-B were repointed to Dymax's live archived
-   optics guide; no generic manufacturer or family page was substituted for an exact
-   source that it does not contain.
-   No populated property depends only on one of these sources: 57 unsupported values
-   were withdrawn, six claims were retained after exact public documents were verified,
-   and 12 claims are retained from three exact DELO TDS files whose identities and values
-   were checked but whose current retrieval path requires registration and a product-code
-   search in DELO's manufacturer portal. Eighteen historical unavailable-source references remain alongside a
-   public supporting source and are counted separately as property-source occurrences.
+2. **Inaccessible source records are not retained.** Private, broken, unavailable, and
+   placeholder records were removed. Values that depended solely on them were withdrawn;
+   12 claims remain supported by three exact DELO TDS files whose identities and values
+   were checked and whose current retrieval path requires registration and a product-code
+   search in DELO's manufacturer portal.
 3. **NTT-AT revision discrepancy** — the operator's own copy of the waveguide brochure
    is print code `202201B`; the public link cited is `201802A`. Stored values came from
    the newer copy, so the public link is a different revision. A companion fiber-array
