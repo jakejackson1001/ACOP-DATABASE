@@ -156,18 +156,18 @@ is withheld from ranking.
 
 | | |
 |---|---|
-| Materials | 115 (112 adhesives + 3 structural photopolymers) |
-| Populated properties | 713 |
-| Traceable properties | 713 / 713 (100%) |
-| Fully resolved / partially resolved citations | 713 / 0 |
+| Materials | 121 (112 adhesives + 9 structural photopolymers) |
+| Populated properties | 764 |
+| Traceable properties | 764 / 764 (100%) |
+| Fully resolved / partially resolved citations | 764 / 0 |
 | Unresolved values | **0** |
-| Publicly checkable | 701 / 713 (98.3%) |
-| Source records | 154 (16 alias ids still resolving) |
-| Public reachability | 135 reachable URLs / 16 resolvable DOIs / 151 total |
-| Content verification | 10 document identities verified / 11 property-support scopes verified / 143 pending |
+| Publicly checkable | 752 / 764 (98.4%) |
+| Source records | 163 (16 alias ids still resolving) |
+| Public reachability | 144 reachable URLs / 16 resolvable DOIs / 160 total |
+| Content verification | 19 document identities verified / 20 property-support scopes verified / 143 pending |
 | Other source classifications | 3 manufacturer-portal / 0 local / 0 private / 0 placeholders / 0 unavailable |
-| Property access | 701 public / 12 exact-portal / 0 inaccessible-only |
-| Records clean / warnings only / provisional | 67 / 40 / 8 |
+| Property access | 752 public / 12 exact-portal / 0 inaccessible-only |
+| Records clean / warnings only / provisional | 73 / 40 / 8 |
 | Vocabulary violations | 0 |
 
 Six provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
@@ -196,11 +196,13 @@ grades, because matching on refractive index alone would be a fabricated identif
 5. **EPO-TEK 353ND transmission (≥95%, 1100–1600 nm) has no published path length** in
    any revision; it is marked not normalized and must not enter a loss budget until
    Meridian supplies the test geometry.
-6. **The first polymer set is intentionally small:** Nanoscribe IP-S, Nanoscribe IP-Dip2,
-   and UpNano UpPhoto are classified as structural photopolymers, not adhesives, and are
-   excluded from adhesive recommendations. Their published sources do not establish an
-   adhesive bond. No exact IBM materials dataset or formulation record was identifiable;
-   an IBM relationship requires the feedback provider's exact database name or URL.
+6. **The polymer branch remains evidence-bounded:** the three baseline records plus
+   Nanoscribe IP-n162, Nanoscribe IPX-Clear, UpNano UpOpto, UpNano UpSol, UpNano UpBrix 2,
+   and micro resist technology OrmoComp are classified as structural photopolymers, not
+   adhesives, and are excluded from adhesive recommendations. Their published sources do
+   not establish an adhesive bond. No exact IBM materials dataset or formulation record
+   was identifiable; an IBM relationship requires the feedback provider's exact database
+   name or URL.
 
 ---
 

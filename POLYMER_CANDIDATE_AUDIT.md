@@ -1,6 +1,6 @@
 # ACOP Polymer Candidate Audit
 
-Research-only audit completed 2026-09-03. This report does not alter ACOP's existing three-polymer baseline or recommend treating predicted properties as measurements.
+Research audit completed 2026-09-03. Phase 2 subsequently inserted only the six approved recommendations while preserving the original three-polymer baseline; no predicted property was imported as measured evidence.
 
 ## 1. Executive conclusion
 
