@@ -115,13 +115,13 @@ silently reintroduces a class of error the database has already been cleaned of.
 Run in the browser console:
 
 ```js
-runRegressionTests()   // 129 checks
+runRegressionTests()   // 130 checks
 PROV.intakeReport()    // per-record errors/warnings
 PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 129 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+**Current: 130 pass, 0 fail, 0 partial.** Compare against that baseline; any new
 non-passing check is a regression.
 
 ### Intake codes
@@ -157,11 +157,11 @@ is withheld from ranking.
 | | |
 |---|---|
 | Materials | 121 (112 adhesives + 9 structural photopolymers) |
-| Populated properties | 764 |
-| Traceable properties | 764 / 764 (100%) |
-| Fully resolved / partially resolved citations | 764 / 0 |
+| Populated properties | 765 |
+| Traceable properties | 765 / 765 (100%) |
+| Fully resolved / partially resolved citations | 765 / 0 |
 | Unresolved values | **0** |
-| Publicly checkable | 752 / 764 (98.4%) |
+| Publicly checkable | 753 / 765 (98.4%) |
 | Source records | 169 (16 alias ids still resolving) |
 | Public reachability | 150 reachable URLs / 16 resolvable DOIs / 166 total |
 | Content verification | 25 document identities verified / 20 property-support scopes verified / 143 pending |
