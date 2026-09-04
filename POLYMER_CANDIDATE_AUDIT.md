@@ -110,6 +110,10 @@ These resources are not interchangeable. PI1M is an externally created generated
 
 **IBM conclusion:** none of the reviewed IBM-related resources is an exact-commercial-grade experimental source suitable for direct insertion into ACOP. The only defensible future role is a separate Computational candidate workflow that stores model/version, input representation, output uncertainty, and predicted status, never blended with measured evidence.
 
+### External research-resource policy
+
+ACOP now indexes six discovery resources without treating them as materials or property evidence: [IBM Materials Discovery projects](https://research.ibm.com/projects?tag=materials-discovery), [IBM Materials Discovery topic](https://research.ibm.com/topics/materials-discovery), [IBM PatCID](https://research.ibm.com/blog/patcid-tool-for-accelerating-materials-discovery), [MIT polymer-property guide](https://libguides.mit.edu/properties-bymaterial/poly), [NIMS PoLyInfo](https://polymer.nims.go.jp/), and [Chicago 3PDB](https://pppdb.uchicago.edu/). PoLyInfo may support a claim only with the exact sample, value, units, conditions and underlying publication retained; registration is required and scraping or mass downloading is prohibited. 3PDB literature-linked measurements require the underlying DOI, while calculators and models remain computational. MIT and IBM index pages are discovery-only. PatCID's 81 million structure images and 14 million unique chemical structures are patent-search leads, not experimentally validated polymer products; claims require the originating patent. SPG-TED289M's one million serialized-polymer-graph pretraining samples are not one million commercial, experimentally characterized polymers, and generated candidates require synthesis and qualification.
+
 ## 8. Proposed minimal field additions
 
 **Schema conclusion: no new field is justified by the shortlisted evidence.** Every reviewed value can be preserved accurately with ACOP's existing schema ([current ACOP implementation](index.html)):

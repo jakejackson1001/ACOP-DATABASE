@@ -115,13 +115,13 @@ silently reintroduces a class of error the database has already been cleaned of.
 Run in the browser console:
 
 ```js
-runRegressionTests()   // 127 checks
+runRegressionTests()   // 129 checks
 PROV.intakeReport()    // per-record errors/warnings
 PROV.audit()           // field-level integrity report
 PROV.auditJSON()       // same, exportable
 ```
 
-**Current: 127 pass, 0 fail, 0 partial.** Compare against that baseline; any new
+**Current: 129 pass, 0 fail, 0 partial.** Compare against that baseline; any new
 non-passing check is a regression.
 
 ### Intake codes
@@ -162,13 +162,32 @@ is withheld from ranking.
 | Fully resolved / partially resolved citations | 764 / 0 |
 | Unresolved values | **0** |
 | Publicly checkable | 752 / 764 (98.4%) |
-| Source records | 163 (16 alias ids still resolving) |
-| Public reachability | 144 reachable URLs / 16 resolvable DOIs / 160 total |
-| Content verification | 19 document identities verified / 20 property-support scopes verified / 143 pending |
+| Source records | 169 (16 alias ids still resolving) |
+| Public reachability | 150 reachable URLs / 16 resolvable DOIs / 166 total |
+| Content verification | 25 document identities verified / 20 property-support scopes verified / 143 pending |
 | Other source classifications | 3 manufacturer-portal / 0 local / 0 private / 0 placeholders / 0 unavailable |
 | Property access | 752 public / 12 exact-portal / 0 inaccessible-only |
 | Records clean / warnings only / provisional | 73 / 40 / 8 |
 | Vocabulary violations | 0 |
+
+### External polymer research source-use policy
+
+Six discovery resources are listed in the Evidence Repository without adding material
+records or property evidence: [IBM Materials Discovery projects](https://research.ibm.com/projects?tag=materials-discovery),
+[IBM Materials Discovery topic](https://research.ibm.com/topics/materials-discovery),
+[IBM PatCID](https://research.ibm.com/blog/patcid-tool-for-accelerating-materials-discovery),
+[MIT polymer-property guide](https://libguides.mit.edu/properties-bymaterial/poly),
+[NIMS PoLyInfo](https://polymer.nims.go.jp/), and
+[Chicago 3PDB](https://pppdb.uchicago.edu/).
+
+Discovery/index pages never support a property by themselves. PoLyInfo evidence requires
+the exact sample, value, units, conditions and underlying publication; registration is
+required and scraping or mass downloading is prohibited. 3PDB literature values require
+their underlying DOI, while calculator/model output remains computational. PatCID results
+are patent-search leads, not validated polymer products; cite the originating patent.
+IBM generative outputs remain predicted candidates and cannot raise experimental confidence.
+SPG-TED289M's one million pretraining samples are serialized polymer graphs, not one
+million commercially available, experimentally characterized polymers.
 
 Six provisional records are the Nye SmartGel `OCK-*` grades, flagged E7 deliberately:
 none of those grade names exists in Nye's catalogue. They were **not** renamed to real
