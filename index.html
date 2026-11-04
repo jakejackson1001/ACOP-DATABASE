@@ -10670,7 +10670,8 @@ function runRegressionTests() {
       &&b.transmission_1310nm_num==null&&b.transmission_1550nm_num==null
       &&/3×/.test(b.thermal_cycling)&&/1,000 h/.test(b.reliability_85_85)
       &&/Room-temperature/.test(suggestedUseLabel(noa))
-      &&/not a tested or validated application claim/.test(cardHtml(noa));
+      &&/not a tested or validated application claim/.test(cardHtml(noa))
+      &&window.renderExplorerCards&&/Suggested use · Room-temperature optical bonding/.test(window.renderExplorerCards([noa]));
     r.status=ok?'pass':'fail';
     r.detail=ok?'OM6116/OM6611 telecom values remain unranked; OM6611 reliability is explicit; card suggestions remain visibly non-validated':'OM evidence boundary or suggested-use disclaimer failed';
   });
@@ -14975,6 +14976,7 @@ h1 .acop-wordmark{ font-size:19px; }
 .mxc-cb input{ cursor:pointer; width:15px; height:15px; }
 .mxc-name{ font-size:15px; font-weight:800; color:var(--accent); letter-spacing:-.01em; line-height:1.2; padding-right:22px; }
 .mxc-meta{ font-size:11.5px; color:var(--ink-soft); margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.mxc-use{ display:inline-block; max-width:100%; margin-top:7px; padding:3px 7px; border:1px dashed var(--accent-border); border-radius:6px; background:var(--accent-soft); color:var(--accent); font-size:10.5px; line-height:1.25; }
 .mxc-props{ margin:11px 0 10px; display:flex; flex-direction:column; gap:4px; }
 .mxc-prop{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:12.5px; }
 .mxc-plabel{ color:var(--ink-faint); }
@@ -15231,6 +15233,7 @@ body.on-record #dashOverview{ display:none !important; }
       +'<span class="mxc-cb" onclick="event.stopPropagation()"><input type="checkbox" class="cmp-cb" id="cmp_'+a.id+'" aria-label="Select '+esct(a.adhesive_name)+' to compare"></span>'
       +'<div class="mxc-name">'+esct(a.adhesive_name)+classBadge(a)+(window.PROV?window.PROV.provisionalBadgeHtml(a,{compact:true}):'')+'</div>'
       +'<div class="mxc-meta">'+meta.join(' · ')+'</div>'
+      +'<div class="mxc-use" title="Exploratory browsing suggestion only — not a tested or validated application claim">Suggested use · '+esct(suggestedUseLabel(a))+'</div>'
       +'<div class="mxc-props">'
         +propRowC('Tg', pvEv(a,'tg_c',a.tg_c_max,0,'°C'))
         +propRowC('Refractive index', pvEv(a,'refractive_index',a.refractive_index_num,3,''))
