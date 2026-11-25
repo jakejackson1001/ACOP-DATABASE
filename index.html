@@ -3685,6 +3685,97 @@ DATA.evidence.push(
   {id:221,legacy_source_code:'SUSS-DELO-OM6611-PFAS-2026',legacy_adhesive_name:'KATIOBOND OM6611',title:'PFAS-Free UV Imprint Lithography for Microlens Fabrication',url:'https://www.suss.com/en/content/download/3183/46451?version=4',link_file:'https://www.suss.com/en/content/download/3183/46451?version=4',manufacturer:'SUSS MicroTec / DELO Industrial Adhesives',source_type:'Joint manufacturer whitepaper',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'OM6611 PFAS-free claim and retained structural/optical properties through reflow to 260 °C',retrieved_date:'2026-11-04',link_checked_date:'2026-11-04',link_audit:{classification:'registration_or_session_barrier',check_date:'2026-11-04',requested_url:'https://www.suss.com/en/content/download/3183/46451?version=4',final_url:'https://www.suss.com/en/login',outcome:'Document indexed publicly; direct request redirects to login',document_identity_status:'verified_from_indexed_document_content',property_support_status:'verified_from_document_content'}},
   {id:222,legacy_source_code:'INSETO-OM-SELECTOR-2026',legacy_adhesive_name:'KATIOBOND OM6116; KATIOBOND OM6611',title:'DELO KATIOBOND UV and Light-Curing Optical Materials Selector',url:'https://www.inseto.com/adhesives/uv-cured-and-light-activated-epoxies-delo-katiobond/',link_file:'https://www.inseto.com/adhesives/uv-cured-and-light-activated-epoxies-delo-katiobond/',manufacturer:'Inseto / DELO distributor',source_type:'Authorized distributor product selector',primary_source:'No',direct_indirect:'Direct product listing',key_data_supported:'Exact-product availability, color, viscosity and refractive-index ranges',retrieved_date:'2026-11-04',link_checked_date:'2026-11-04',link_audit:{classification:'reachable_public_url',check_date:'2026-11-04',requested_url:'https://www.inseto.com/adhesives/uv-cured-and-light-activated-epoxies-delo-katiobond/',final_url:'https://www.inseto.com/adhesives/uv-cured-and-light-activated-epoxies-delo-katiobond/',outcome:'HTTP reachable',document_identity_status:'verified_from_document_content',property_support_status:'verified_from_document_content'}}
 );
+// EPO-TEK optical-adhesive expansion — manufacturer TDS values only.
+// Transmission claims remain narrative because the datasheets do not state path length.
+DATA.adhesives.push(
+  {
+    adhesive_name:'EPO-TEK HYB-353ND-LV', id:127, manufacturer:'EPO-TEK', manufacturer_canonical:'Epoxy Technology Inc. (EPO-TEK)',
+    chemistry:'Single-component UV-hybrid epoxy', material_class:'Adhesive', component_count:'1K', system_type:'1K', type:'Optical',
+    cure_category:'Dual Cure', cure_mechanism:'UV tack followed by thermal cure',
+    cure_method:'Initial tack: 100 mW/cm² at 240–365 nm for 10 s; recommended thermal cure 150 °C/30 min. Alternatives after tack: 100 °C/30 min or 80 °C/1 h.', cure_time:'10 s UV tack + 30 min at 150 °C recommended',
+    primary_function:'Active optical alignment and fiber bonding', role:'Optical alignment adhesive',
+    application_type:'Active alignment, fiber bonding, optical subassemblies, lenses, laser diodes, piezo and LiDAR/IR assemblies', application_interfaces:'Optical component–substrate; Fiber–optical assembly; Glass–Glass',
+    suggested_use:'UV-tacked high-temperature fiber and optoelectronic alignment', confidence_level:'High',
+    commercial_status:'Current — recent manufacturer evidence', commercial_status_checked_date:'2026-11-25', commercial_status_source:'EPOTEK-HYB353NDLV-PRODUCT', commercial_status_source_type:'Manufacturer product page',
+    approx_price:'Quote Required', pricing_confidence:'Low', pricing_source:'Manufacturer quote', pricing_updated:'November 2026', cost_tier:'$$$$', cost_tier_label:'Premium / Specialty',
+    tg_c:'≥80 °C', tg_c_min:80, tg_c_max:null, cte_ppm_k:'46 ppm/°C below Tg; 137 ppm/°C above Tg',
+    youngs_modulus_mpa:'Not reported', youngs_modulus_mpa_min:null, youngs_modulus_mpa_max:null,
+    volumetric_shrinkage:'Not reported', volumetric_shrinkage_pct_min:null, volumetric_shrinkage_pct_max:null, linear_shrinkage:null, linear_shrinkage_pct_min:null, linear_shrinkage_pct_max:null,
+    bond_strength:'Die shear ≥15 kg / 5,334 psi (manufacturer test; bonded area not stated)', bond_strength_mpa_min:null, bond_strength_mpa_max:null,
+    refractive_index:'1.5215 uncured at 589 nm', refractive_index_num:1.5215,
+    transmission_1310nm:'≥95% from 1100–1600 nm; specimen thickness/path length not reported', transmission_1310nm_num:null,
+    transmission_1550nm:'≥95% from 1100–1600 nm; specimen thickness/path length not reported', transmission_1550nm_num:null,
+    haze_scattering:'Not reported', water_absorption:'Not reported', water_absorption_pct:null,
+    reliability_85_85:'Not reported', thermal_cycling:'Not reported', operating_temp_range:'Suggested <350 °C intermittent; not a continuous-use rating', max_bondline_thickness:'Not reported', coupling_loss_db:'System-dependent',
+    outgassing_status:'Not reported', outgassing_notes:'No numerical outgassing result in reviewed sources', outgassing_test_method:null, outgassing_test_standard:null, outgassing_tml_pct:null, outgassing_cvcm_pct:null, outgassing_wvr_pct:null,
+    pfas_status:'Not reported', pfas_intentionally_added:'Unknown', pfas_fluorine_content_reported:null, pfas_last_checked_date:'2026-11-25', pfas_notes:'No product-specific PFAS statement in reviewed sources.',
+    process_notes:'Light-yellow pourable material; viscosity 800–2,000 cPs at 23 °C and 100 rpm; specific gravity 1.15; Shore D 83; pot life <20 h; frozen-syringe shelf life six months at -40 °C. TDS reports degradation at 400 °C and weight loss of 0.08% at 200 °C, 0.58% at 250 °C and 1.61% at 300 °C.',
+    missing_data_notes:'Missing: transmission specimen thickness, telecom attenuation in dB/cm, 85/85, thermal cycling, continuous operating-temperature limit, outgassing and post-aging bond strength.',
+    linked_use_cases:[], linked_literature:[],
+    linked_sources:[
+      {title:'EPO-TEK HYB-353ND-LV — Technical Data Sheet (Rev IV, April 2026)',link_file:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',source_type:'Manufacturer TDS',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Chemistry, UV/thermal cure, viscosity, Tg, CTE, hardness, die shear, thermal degradation, optical transmission and refractive index'},
+      {title:'EPO-TEK HYB-353ND-LV product page',link_file:'https://meridianadhesives.com/products/epo-tek-hyb-353nd-lv/',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity and stated applications'}
+    ],
+    provenance:{
+      tg_c:{confidence:'High',method:'TDS reported',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-HYB353NDLV-TDS',source_refs:['EPOTEK-HYB353NDLV-TDS'],value_status:'Quantitatively Reported (Lower Bound)'},
+      transmission_1310nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-HYB353NDLV-TDS',source_refs:['EPOTEK-HYB353NDLV-TDS'],value_status:'Narrative Only — Path Length Missing'},
+      transmission_1550nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-HYB353NDLV-TDS',source_refs:['EPOTEK-HYB353NDLV-TDS'],value_status:'Narrative Only — Path Length Missing'},
+      reliability_85_85:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}, thermal_cycling:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}
+    }
+  },
+  {
+    adhesive_name:'EPO-TEK OG142-87', id:128, manufacturer:'EPO-TEK', manufacturer_canonical:'Epoxy Technology Inc. (EPO-TEK)',
+    chemistry:'Single-component UV-cure optical epoxy', material_class:'Adhesive', component_count:'1K', system_type:'1K', type:'Optical',
+    cure_category:'UV', cure_mechanism:'UV cure', cure_method:'Iron-doped mercury flood lamp: >30 s at 100 mW/cm², 240–365 nm. Alternatives: spot cure >90 s, 365 nm LED >90 s, or pulsed mercury >60 s. Cure completes after 24 h; thermal post-cure may improve properties.', cure_time:'>30 s recommended UV exposure; full cure after 24 h',
+    primary_function:'Optical bonding and fiber-array assembly', role:'Optical adhesive', application_type:'V-grooves, fiber arrays, glass covers, lens bonding, splicing/coupling, beam splitters and prisms', application_interfaces:'Glass–Glass; Fiber–V-groove; Lens–Optical Assembly',
+    suggested_use:'UV optical bonding, V-grooves, prisms and beam-path assemblies', confidence_level:'High', commercial_status:'Current — recent manufacturer evidence', commercial_status_checked_date:'2026-11-25', commercial_status_source:'EPOTEK-OG14287-PRODUCT', commercial_status_source_type:'Manufacturer product page',
+    approx_price:'Quote Required', pricing_confidence:'Low', pricing_source:'Manufacturer quote', pricing_updated:'November 2026', cost_tier:'$$$$', cost_tier_label:'Premium / Specialty',
+    tg_c:'≥100 °C', tg_c_min:100, tg_c_max:null, cte_ppm_k:'50 ppm/°C below Tg; 162 ppm/°C above Tg', youngs_modulus_mpa:'Not reported; TDS storage modulus is 520,650 psi and is not treated as Young’s modulus', youngs_modulus_mpa_min:null, youngs_modulus_mpa_max:null,
+    volumetric_shrinkage:'Not reported', volumetric_shrinkage_pct_min:null, volumetric_shrinkage_pct_max:null, linear_shrinkage:null, linear_shrinkage_pct_min:null, linear_shrinkage_pct_max:null,
+    bond_strength:'Die shear ≥25 kg / 8,890 psi after UV; 25.1 kg / 8,925.6 psi after UV + 23 °C/24 h or UV + 80 °C/1 h (bonded area not stated)', bond_strength_mpa_min:null, bond_strength_mpa_max:null,
+    refractive_index:'1.4925 uncured; 1.5058 cured at 589 nm', refractive_index_num:1.5058,
+    transmission_1310nm:'≥97% from 580–1660 nm; specimen thickness/path length not reported', transmission_1310nm_num:null, transmission_1550nm:'≥97% from 580–1660 nm; specimen thickness/path length not reported', transmission_1550nm_num:null,
+    haze_scattering:'Not reported', water_absorption:'Not reported', water_absorption_pct:null, reliability_85_85:'Not reported', thermal_cycling:'Not reported', operating_temp_range:'Suggested <300 °C intermittent; not a continuous-use rating', max_bondline_thickness:'Not reported', coupling_loss_db:'System-dependent',
+    outgassing_status:'Not reported', outgassing_notes:'No numerical outgassing result in reviewed sources', outgassing_test_method:null, outgassing_test_standard:null, outgassing_tml_pct:null, outgassing_cvcm_pct:null, outgassing_wvr_pct:null,
+    pfas_status:'Not reported', pfas_intentionally_added:'Unknown', pfas_fluorine_content_reported:null, pfas_last_checked_date:'2026-11-25', pfas_notes:'No product-specific PFAS statement in reviewed sources.',
+    process_notes:'Clear/colorless pourable material; viscosity 250–600 cPs at 23 °C and 100 rpm; specific gravity 1.17; Shore D 82; one-year refrigerated shelf life. TDS reports degradation at 384 °C and weight loss of 0.32% at 200 °C, 0.64% at 250 °C and 1.58% at 300 °C.',
+    missing_data_notes:'Missing: transmission specimen thickness, telecom attenuation in dB/cm, 85/85, thermal cycling, continuous operating-temperature limit, outgassing and post-aging bond strength.', linked_use_cases:[], linked_literature:[],
+    linked_sources:[
+      {title:'EPO-TEK OG142-87 — Technical Data Sheet (Rev XII, August 2022)',link_file:'https://products.meridianadhesives.com/storage/downloads/uj2ugm4ojuhic1r2by8khup5pu1kvlbp/og142-87.pdf',source_type:'Manufacturer TDS',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'UV cure, viscosity, Tg, CTE, hardness, die shear, thermal degradation, optical transmission and refractive index'},
+      {title:'EPO-TEK OG142-87 product page',link_file:'https://meridianadhesives.com/products/epo-tek-og142-87/',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity and stated applications'}
+    ],
+    provenance:{tg_c:{confidence:'High',method:'TDS reported',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG14287-TDS',source_refs:['EPOTEK-OG14287-TDS'],value_status:'Quantitatively Reported (Lower Bound)'}, transmission_1310nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG14287-TDS',source_refs:['EPOTEK-OG14287-TDS'],value_status:'Narrative Only — Path Length Missing'}, transmission_1550nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG14287-TDS',source_refs:['EPOTEK-OG14287-TDS'],value_status:'Narrative Only — Path Length Missing'}, reliability_85_85:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}, thermal_cycling:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}}
+  }
+);
+var og198Record=DATA.adhesives.find(function(a){return a.adhesive_name==='OG198-54'||a.adhesive_name==='EPO-TEK OG198-54';});
+if(og198Record) Object.assign(og198Record,{
+  adhesive_name:'EPO-TEK OG198-54',
+  chemistry:'Single-component shadow-curable UV epoxy', component_count:'1K', system_type:'1K', cure_category:'UV', cure_mechanism:'UV cure with shadow-curing capability',
+  cure_method:'Mercury flood lamp: >30 s at 100 mW/cm², 240–365 nm. Alternatives: spot cure, 365 nm LED, or pulsed mercury, each >30 s. Cure completes after 24 h.', cure_time:'>30 s UV exposure; full cure after 24 h',
+  primary_function:'Shadow-curable active optical alignment and fiber attachment', role:'Optical adhesive', application_type:'Active alignment, V-groove fiber attachment, pigtails, optoelectronic hybrids, semiconductor assembly and microlens molding', application_interfaces:'Fiber–V-groove; Fiber–Optoelectronic Package; Microlens–Assembly',
+  suggested_use:'Shadow-curable active optical alignment and fiber attachment', confidence_level:'High', commercial_status:'Current — recent manufacturer evidence', commercial_status_checked_date:'2026-11-25', commercial_status_source:'EPOTEK-OG19854-PRODUCT', commercial_status_source_type:'Manufacturer product page',
+  tg_c:'≥115 °C', tg_c_min:115, tg_c_max:null, cte_ppm_k:'74 ppm/°C below Tg; 145 ppm/°C above Tg', youngs_modulus_mpa:'Not reported; TDS storage modulus is 449,431 psi and is not treated as Young’s modulus', youngs_modulus_mpa_min:null, youngs_modulus_mpa_max:null,
+  bond_strength:'Die shear ≥10 kg / 3,556 psi after UV; 20.8 kg / 7,396.5 psi after UV + 23 °C/24 h; 22.2 kg / 7,894.3 psi after UV + 80 °C/1 h (bonded area not stated)', bond_strength_mpa_min:null, bond_strength_mpa_max:null,
+  refractive_index:'1.5046 uncured; 1.5256 cured at 589 nm', refractive_index_num:1.5256,
+  transmission_1310nm:'≥97% from 460–1680 nm; specimen thickness/path length not reported', transmission_1310nm_num:null, transmission_1550nm:'≥97% from 460–1680 nm; specimen thickness/path length not reported', transmission_1550nm_num:null,
+  reliability_85_85:'Not reported', thermal_cycling:'Not reported', operating_temp_range:'Suggested <300 °C intermittent; not a continuous-use rating', max_bondline_thickness:'Not reported', coupling_loss_db:'System-dependent',
+  process_notes:'Clear/colorless pourable material; viscosity 200–450 cPs at 23 °C and 100 rpm; specific gravity 1.12; Shore D 86; six-month refrigerated shelf life. TDS reports degradation at 369 °C and weight loss of 0.24% at 200 °C, 0.62% at 250 °C and 1.8% at 300 °C.',
+  missing_data_notes:'Missing: transmission specimen thickness, telecom attenuation in dB/cm, 85/85, thermal cycling, continuous operating-temperature limit, outgassing and post-aging optical performance.',
+  source_text:'EPO-TEK OG198-54 manufacturer TDS (Rev XVIII, September 2023) and manufacturer product page; linked literature retained.',
+  linked_sources:[
+    {title:'EPO-TEK OG198-54 — Technical Data Sheet (Rev XVIII, September 2023)',link_file:'https://products.meridianadhesives.com/storage/downloads/x3anijdazmhjg90vn12hwexeinblfznj/og198-54.pdf',source_type:'Manufacturer TDS',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'UV cure, viscosity, Tg, CTE, hardness, die shear, thermal degradation, optical transmission and refractive index'},
+    {title:'EPO-TEK OG198-54 product page',link_file:'https://meridianadhesives.com/products/epo-tek-og198-54/',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity, shadow-cure positioning and stated applications'}
+  ],
+  provenance:Object.assign({},og198Record.provenance||{}, {tg_c:{confidence:'High',method:'TDS reported',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG19854-TDS',source_refs:['EPOTEK-OG19854-TDS'],value_status:'Quantitatively Reported (Lower Bound)'}, transmission_1310nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG19854-TDS',source_refs:['EPOTEK-OG19854-TDS'],value_status:'Narrative Only — Path Length Missing'}, transmission_1550nm:{confidence:'Medium',method:'Method/path length not stated',provenance_type:'Manufacturer TDS (Product-Specific)',source_ref:'EPOTEK-OG19854-TDS',source_refs:['EPOTEK-OG19854-TDS'],value_status:'Narrative Only — Path Length Missing'}, reliability_85_85:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}, thermal_cycling:{confidence:'Insufficient Evidence',provenance_type:null,source_ref:null,source_refs:[],value_status:'Not Reported'}})
+});
+DATA.evidence.push(
+  {id:223,legacy_source_code:'EPOTEK-HYB353NDLV-TDS',legacy_adhesive_name:'EPO-TEK HYB-353ND-LV',title:'EPO-TEK HYB-353ND-LV — Technical Data Sheet (Rev IV, April 2026)',url:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',link_file:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',manufacturer:'Epoxy Technology Inc. (EPO-TEK)',source_type:'Manufacturer TDS',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Chemistry, cure, viscosity, Tg, CTE, hardness, die shear, thermal degradation, optical transmission and refractive index',retrieved_date:'2026-11-25',link_checked_date:'2026-11-25'},
+  {id:224,legacy_source_code:'EPOTEK-HYB353NDLV-PRODUCT',legacy_adhesive_name:'EPO-TEK HYB-353ND-LV',title:'EPO-TEK HYB-353ND-LV product page',url:'https://meridianadhesives.com/products/epo-tek-hyb-353nd-lv/',link_file:'https://meridianadhesives.com/products/epo-tek-hyb-353nd-lv/',manufacturer:'Epoxy Technology Inc. (EPO-TEK)',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity and applications',retrieved_date:'2026-11-25',link_checked_date:'2026-11-25'},
+  {id:225,legacy_source_code:'EPOTEK-OG14287-TDS',legacy_adhesive_name:'EPO-TEK OG142-87',title:'EPO-TEK OG142-87 — Technical Data Sheet (Rev XII, August 2022)',url:'https://products.meridianadhesives.com/storage/downloads/uj2ugm4ojuhic1r2by8khup5pu1kvlbp/og142-87.pdf',link_file:'https://products.meridianadhesives.com/storage/downloads/uj2ugm4ojuhic1r2by8khup5pu1kvlbp/og142-87.pdf',manufacturer:'Epoxy Technology Inc. (EPO-TEK)',source_type:'Manufacturer TDS',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Cure, viscosity, Tg, CTE, hardness, die shear, thermal degradation, optical transmission and refractive index',retrieved_date:'2026-11-25',link_checked_date:'2026-11-25'},
+  {id:226,legacy_source_code:'EPOTEK-OG14287-PRODUCT',legacy_adhesive_name:'EPO-TEK OG142-87',title:'EPO-TEK OG142-87 product page',url:'https://meridianadhesives.com/products/epo-tek-og142-87/',link_file:'https://meridianadhesives.com/products/epo-tek-og142-87/',manufacturer:'Epoxy Technology Inc. (EPO-TEK)',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity and applications',retrieved_date:'2026-11-25',link_checked_date:'2026-11-25'},
+  {id:227,legacy_source_code:'EPOTEK-OG19854-PRODUCT',legacy_adhesive_name:'EPO-TEK OG198-54',title:'EPO-TEK OG198-54 product page',url:'https://meridianadhesives.com/products/epo-tek-og198-54/',link_file:'https://meridianadhesives.com/products/epo-tek-og198-54/',manufacturer:'Epoxy Technology Inc. (EPO-TEK)',source_type:'Manufacturer product page',primary_source:'Yes',direct_indirect:'Direct',key_data_supported:'Current product identity, shadow-cure positioning and applications',retrieved_date:'2026-11-25',link_checked_date:'2026-11-25'}
+);
+DATA.unique_source_count += 5;
 DATA.unique_source_count += 6;
 var noa61Record=DATA.adhesives.find(function(a){return a.adhesive_name==='Norland Optical Adhesive NOA 61';});
 if(noa61Record) noa61Record.suggested_use='Room-temperature optical bonding and rapid UV alignment';
@@ -10612,7 +10703,7 @@ function runRegressionTests() {
 
   check('T124 Polymer classes, provenance and recommendation boundary', function(r){
     var poly=adhesives.filter(function(a){return a.material_class!=='Adhesive';}), bad=[];
-    if(adhesives.filter(function(a){return a.material_class==='Adhesive';}).length!==115) bad.push('adhesive backfill count');
+    if(adhesives.filter(function(a){return a.material_class==='Adhesive';}).length!==117) bad.push('adhesive backfill count');
     if(poly.length!==9) bad.push('polymer count');
     poly.forEach(function(a){
       if(window.isAdhesiveRecommendationEligible(a)) bad.push(a.adhesive_name+' recommendation eligible');
@@ -10621,7 +10712,7 @@ function runRegressionTests() {
       });
     });
     r.status=bad.length?'fail':'pass';
-    r.detail=bad.length?bad.join('; '):'115 Adhesive + 9 Structural photopolymer records; every populated polymer property explicitly cited; all nine excluded from adhesive recommendations';
+    r.detail=bad.length?bad.join('; '):'117 Adhesive + 9 Structural photopolymer records; every populated polymer property explicitly cited; all nine excluded from adhesive recommendations';
   });
 
   check('T125 OB6268 and OB6235 evidence stays product-specific', function(r){
@@ -10643,7 +10734,7 @@ function runRegressionTests() {
       &&new Set(names).size===adhesives.length&&poly.length===9
       &&poly.every(function(a){return adhesives.find(function(x){return x.id===a.id;})===a&&cards.indexOf('id="card_'+a.id+'"')>=0;});
     r.status=ok?'pass':'fail';
-    r.detail=ok?'124 materials have unique IDs and names; all nine polymer IDs route to their own cards and records':'missing/duplicate identity or polymer routing collision';
+    r.detail=ok?'126 materials have unique IDs and names; all nine polymer IDs route to their own cards and records':'missing/duplicate identity or polymer routing collision';
   });
 
   check('T127 Attenuation UI, ordering and adhesive boundary', function(r){
@@ -10656,7 +10747,7 @@ function runRegressionTests() {
     var poly=adhesives.filter(function(a){return a.material_class!=='Adhesive';});
     var ok=sorted[0]===low&&sorted[1]===high&&sorted[2]===raw&&sd&&sd.unit==='dB/cm'
       &&!matchesSliders(raw,[{sd:sd,lo:'0',hi:'10'}])&&_evalTrans(raw).missing
-      &&original===low.transmission_1550nm&&!/%/.test(labels)&&document.getElementById('headerSub').textContent.indexOf('124 materials')>=0
+      &&original===low.transmission_1550nm&&!/%/.test(labels)&&document.getElementById('headerSub').textContent.indexOf('126 materials')>=0
       &&poly.length===9&&poly.every(function(a){return !isAdhesiveRecommendationEligible(a);});
     r.status=ok?'pass':'fail';
     r.detail=ok?'dB/cm controls sort low-first; unnormalized values are unfiltered/unscored; source wording and adhesive-only boundary preserved':'attenuation UI or material terminology invariant failed';
@@ -10674,6 +10765,21 @@ function runRegressionTests() {
       &&window.renderExplorerCards&&/Suggested use · Room-temperature optical bonding/.test(window.renderExplorerCards([noa]));
     r.status=ok?'pass':'fail';
     r.detail=ok?'OM6116/OM6611 telecom values remain unranked; OM6611 reliability is explicit; card suggestions remain visibly non-validated':'OM evidence boundary or suggested-use disclaimer failed';
+  });
+
+  check('T132 EPO-TEK optical expansion remains source-bounded', function(r){
+    var h=adhesives.find(function(x){return x.adhesive_name==='EPO-TEK HYB-353ND-LV';});
+    var o=adhesives.find(function(x){return x.adhesive_name==='EPO-TEK OG142-87';});
+    var g=adhesives.find(function(x){return x.adhesive_name==='EPO-TEK OG198-54';});
+    var codes=new Set(DATA.evidence.map(function(e){return e.legacy_source_code;}));
+    var ok=h&&o&&g&&h.id===127&&o.id===128&&g.id===6
+      &&h.transmission_1310nm_num==null&&h.transmission_1550nm_num==null
+      &&o.transmission_1310nm_num==null&&o.transmission_1550nm_num==null
+      &&g.transmission_1310nm_num==null&&g.transmission_1550nm_num==null
+      &&g.tg_c_min===115&&/Shadow-curable/.test(suggestedUseLabel(g))
+      &&['EPOTEK-HYB353NDLV-TDS','EPOTEK-HYB353NDLV-PRODUCT','EPOTEK-OG14287-TDS','EPOTEK-OG14287-PRODUCT','EPOTEK-OG19854-TDS','EPOTEK-OG19854-PRODUCT'].every(function(c){return codes.has(c);});
+    r.status=ok?'pass':'fail';
+    r.detail=ok?'three exact products resolve to unique records and official sources; path-length-free transmission remains unranked':'EPO-TEK expansion identity or evidence boundary failed';
   });
 
   check('T128 Phase 2 polymer insertion boundaries', function(r){
@@ -13680,6 +13786,19 @@ const PROC_VERIFIED = {"4":{"mix_ratio":{"value":"10:1 by weight","status":"VERI
   function isMissingLike(v){ return (typeof isMissing==='function')?isMissing(v):(v==null||v===''); }
   window.PROC_OBS = (typeof PROC_OBS!=='undefined')?PROC_OBS:{};
   window.PROC_VERIFIED = (typeof PROC_VERIFIED!=='undefined')?PROC_VERIFIED:{};
+  PROC_VERIFIED['6']={
+    cure:{value:'Mercury flood lamp: >30 s at 100 mW/cm², 240–365 nm; spot cure, 365 nm LED, or pulsed mercury each >30 s; cure completes after 24 h',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK OG198-54 TDS (Rev XVIII, September 2023)',link:'https://products.meridianadhesives.com/storage/downloads/x3anijdazmhjg90vn12hwexeinblfznj/og198-54.pdf',location:'Recommended Cure / Notes',date:'2023-09',source_class:'manufacturer'},note:'Current TDS replaces the older 2013 cure schedule.'},
+    storage:{value:'Six months refrigerated (bulk or syringe)',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK OG198-54 TDS (Rev XVIII, September 2023)',link:'https://products.meridianadhesives.com/storage/downloads/x3anijdazmhjg90vn12hwexeinblfznj/og198-54.pdf',location:'Shelf Life',date:'2023-09',source_class:'manufacturer'},note:''}
+  };
+  PROC_VERIFIED['127']={
+    pot_life:{value:'<20 hours',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK HYB-353ND-LV TDS (Rev IV, April 2026)',link:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',location:'Header specifications',date:'2026-04',source_class:'manufacturer'},note:''},
+    cure:{value:'Initial tack 100 mW/cm² at 240–365 nm for 10 s; recommended 150 °C/30 min; alternatives after tack 100 °C/30 min or 80 °C/1 h',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK HYB-353ND-LV TDS (Rev IV, April 2026)',link:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',location:'Recommended Cure / Minimum Alternative Cure',date:'2026-04',source_class:'manufacturer'},note:''},
+    storage:{value:'Frozen syringe: six months at -40 °C',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK HYB-353ND-LV TDS (Rev IV, April 2026)',link:'https://products.meridianadhesives.com/storage/downloads/ynp3mzllyjmwh8n0yhokjdzlyigkywlh/hyb-353nd-lv.pdf',location:'Shelf Life',date:'2026-04',source_class:'manufacturer'},note:''}
+  };
+  PROC_VERIFIED['128']={
+    cure:{value:'Iron-doped mercury flood lamp >30 s at 100 mW/cm², 240–365 nm; spot or 365 nm LED >90 s; pulsed mercury >60 s; cure completes after 24 h',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK OG142-87 TDS (Rev XII, August 2022)',link:'https://products.meridianadhesives.com/storage/downloads/uj2ugm4ojuhic1r2by8khup5pu1kvlbp/og142-87.pdf',location:'Recommended Cure / Notes',date:'2022-08',source_class:'manufacturer'},note:'Thermal post-cure is described as beneficial but no single mandatory schedule is specified.'},
+    storage:{value:'One year refrigerated',status:'VERIFIED_PRIMARY',source:{title:'EPO-TEK OG142-87 TDS (Rev XII, August 2022)',link:'https://products.meridianadhesives.com/storage/downloads/uj2ugm4ojuhic1r2by8khup5pu1kvlbp/og142-87.pdf',location:'Shelf Life',date:'2022-08',source_class:'manufacturer'},note:''}
+  };
 
   function fmtV(n){ return (n==null)?'':Number(n).toLocaleString('en-US',{maximumFractionDigits:2}); }
   function rangeStr(o){ return (o.value_min==null)?'—':(o.value_max!=null && o.value_max!==o.value_min ? fmtV(o.value_min)+'–'+fmtV(o.value_max) : fmtV(o.value_min)); }
